@@ -10,7 +10,7 @@
             <el-input placeholder="请输入密码" v-model="form.checkPass" show-password class="entry"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">注册</el-button>
+            <el-button type="primary" @click="onSubmit('form')">注册</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -20,7 +20,6 @@
         name: "Register",
         data() {
             var validatePass = (rule, value, callback) => {
-                console.log("validate");
                 var pattern1 = /[0-9]/;
                 var pattern2 = /[A-Za-z]/;
                 if (value === '') {
@@ -35,7 +34,6 @@
                 }
             };
             var validatePass2 = (rule, value, callback) => {
-                console.log(value, this.form.password);
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
                 } else if (value !== this.form.password) {
@@ -61,8 +59,16 @@
             }
         },
         methods: {
-            onSubmit() {
-                console.log('submit!');
+            onSubmit(form) {
+                this.$refs[form].validate((valid) => {
+                    if (valid) {
+                        console.log("valid");
+                        this.$store.commit('login', this.form.username, false);
+                        this.$router.push('/');
+                    } else {
+                        return false;
+                    }
+                });
             }
         }
     }
