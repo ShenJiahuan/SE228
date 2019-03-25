@@ -1,6 +1,6 @@
 export default {
     state: {
-        username: "沈嘉欢",
+        username: null,
         admin: false,
     },
     mutations: {
