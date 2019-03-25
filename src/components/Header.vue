@@ -36,7 +36,7 @@
             <template slot="title">{{this.username == null ? "我的" : this.username}}</template>
             <el-menu-item index="/login" v-if="this.username == null">登录</el-menu-item>
             <el-menu-item index="/register" v-if="this.username == null">注册</el-menu-item>
-            <el-menu-item index="/logout" v-if="this.username != null">退出登录</el-menu-item>
+            <el-menu-item index="" v-if="this.username != null" v-on:click="logout">退出登录</el-menu-item>
         </el-submenu>
     </el-menu>
 </template>
@@ -47,20 +47,20 @@
 
     export default {
         name: "Header",
-        props: [
-            "username",
-            "isAdmin",
-            'updateUsername',
-            'updateIsAdmin',
-        ],
         data() {
             return {
                 nav_list: nav_list,
                 activeIndex: this.getActiveIndex(),
             }
         },
+        computed: {
+            username () {
+                return this.$store.state.user.username;
+            }
+        },
         methods: {
             display: function (nav) {
+                console.log("vuex", this.$store.state);
                 switch (nav.name) {
                     case "图书列表":
                         return this.$route.path.split('/')[1] === "list";
@@ -89,6 +89,9 @@
                         return nav_list[nav].url;
                     }
                 }
+            },
+            logout: function() {
+                this.$store.commit('logout');
             }
         },
         updated() {

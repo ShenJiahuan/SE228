@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-header>
-      <Header :username="username" :update-username="updateUsername" :isAdmin="isAdmin" :update-is-admin="updateIsAdmin"></Header>
+      <Header></Header>
     </el-header>
     <el-main id="main">
       <router-view/>
@@ -22,20 +22,6 @@ export default {
     Footer,
     Header,
   },
-  methods: {
-    updateUsername(username) {
-      this.username = username;
-    },
-    updateIsAdmin(isAdmin) {
-      this.isAdmin = isAdmin;
-    }
-  },
-  data() {
-    return {
-      username: "沈嘉欢",
-      isAdmin: false,
-    }
-  }
 }
 </script>
 

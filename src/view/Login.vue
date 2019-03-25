@@ -25,7 +25,8 @@
         },
         methods: {
             onSubmit() {
-                console.log('submit!');
+                this.$store.commit('login', this.form.username, false);
+                this.$router.push('/');
             }
         }
     }
