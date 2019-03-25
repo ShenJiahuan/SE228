@@ -1,0 +1,58 @@
+[
+  {
+    "id": "0",
+    "name": "首页",
+    "sub_name": "Index",
+    "require": [],
+    "url": "/index"
+  },
+  {
+    "id": "1",
+    "name": "图书列表",
+    "sub_name": "List",
+    "require": ["list"],
+    "url": "/list"
+  },
+  {
+    "id": "2",
+    "name": "图书详情",
+    "sub_name": "Information",
+    "require": "detail",
+    "url": "/info"
+  },
+  {
+    "id": "3",
+    "name": "购物车",
+    "sub_name": "Shopping Cart",
+    "require": ["login"],
+    "url": "/cart"
+  },
+  {
+    "id": "4",
+    "name": "已购",
+    "sub_name": "Purchased",
+    "require": ["login"],
+    "url": "/purchased"
+  },
+  {
+    "id": "5",
+    "name": "系统管理",
+    "sub_name": "Management",
+    "require": ["login", "admin"],
+    "url": "/manage"
+  },
+  {
+    "id": "6",
+    "name": "注册",
+    "sub_name": "Register",
+    "require": [],
+    "url": "/register"
+  },
+  {
+    "id": "7",
+    "name": "登录",
+    "sub_name": "login",
+    "require": [],
+    "url": "/login"
+  }
+]

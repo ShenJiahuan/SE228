@@ -1,0 +1,81 @@
+<template>
+    <el-form ref="form" :model="form" label-width="80px" class="form" :rules="rules">
+        <el-form-item label="昵称">
+            <el-input placeholder="请输入昵称" v-model="form.username" class="entry"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" show-password prop="password">
+            <el-input placeholder="请输入密码" v-model="form.password" show-password class="entry"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" show-password prop="checkPass">
+            <el-input placeholder="请输入密码" v-model="form.checkPass" show-password class="entry"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">注册</el-button>
+        </el-form-item>
+    </el-form>
+</template>
+
+<script>
+    export default {
+        name: "Register",
+        data() {
+            var validatePass = (rule, value, callback) => {
+                console.log("validate");
+                var pattern1 = /[0-9]/;
+                var pattern2 = /[A-Za-z]/;
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else if (value.length < 8 || !pattern1.test(value) || !pattern2.test(value)) {
+                    callback(new Error('密码过于简单'));
+                } else {
+                    if (this.form.checkPass !== '') {
+                        this.$refs.form.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
+            var validatePass2 = (rule, value, callback) => {
+                console.log(value, this.form.password);
+                if (value === '') {
+                    callback(new Error('请再次输入密码'));
+                } else if (value !== this.form.password) {
+                    callback(new Error('两次输入密码不一致!'));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                form: {
+                    username: '',
+                    password: '',
+                    checkPass: '',
+                },
+                rules: {
+                    password: [
+                        { validator: validatePass, trigger: 'blur' }
+                    ],
+                    checkPass: [
+                        { validator: validatePass2, trigger: 'blur' }
+                    ],
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                console.log('submit!');
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .form {
+        width: 400px;
+        margin: 20px auto;
+        text-align: left;
+    }
+
+    .entry {
+        width: 300px;
+    }
+</style>
