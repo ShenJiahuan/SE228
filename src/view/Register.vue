@@ -3,11 +3,14 @@
         <el-form-item label="昵称">
             <el-input placeholder="请输入昵称" v-model="form.username" class="entry"></el-input>
         </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+            <el-input placeholder="请输入邮箱" v-model="form.email" class="entry"></el-input>
+        </el-form-item>
         <el-form-item label="密码" show-password prop="password">
             <el-input placeholder="请输入密码" v-model="form.password" show-password class="entry"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" show-password prop="checkPass">
-            <el-input placeholder="请输入密码" v-model="form.checkPass" show-password class="entry"></el-input>
+            <el-input placeholder="请确认密码" v-model="form.checkPass" show-password class="entry"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit('form')">注册</el-button>
@@ -45,10 +48,15 @@
             return {
                 form: {
                     username: '',
+                    email: '',
                     password: '',
                     checkPass: '',
                 },
                 rules: {
+                    email: [
+                        { message: '请输入邮箱地址', trigger: 'blur' },
+                        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+                    ],
                     password: [
                         { validator: validatePass, trigger: 'blur' }
                     ],
@@ -63,7 +71,7 @@
                 this.$refs[form].validate((valid) => {
                     if (valid) {
                         console.log("valid");
-                        this.$store.commit('login', this.form.username, false);
+                        this.$store.commit('login', this.form.username, this.form.email, false);
                         this.$router.push('/');
                     } else {
                         return false;
