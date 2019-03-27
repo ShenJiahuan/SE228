@@ -24,6 +24,20 @@
                 </div>
             </el-col>
             <el-col :span="8">
+                <div class="score">
+                    <h3>评分</h3>
+                    <div>
+                        <el-rate
+                                v-model="(book.score / 2).toFixed(1)"
+                                class="rate"
+                                disabled
+                                show-score
+                                text-color="#ff9900"
+                                score-template="{value}">
+                        </el-rate>
+                    </div>
+                    <br>
+                </div>
                 <div class="book-order">
                     <el-form :inline="true" class="input-box">
                         <el-form-item label="数量">
@@ -142,5 +156,10 @@
     .price {
         color: #ff0036;
         font-size: 20px;
+    }
+
+    .score {
+        text-align: left;
+        padding-left: 40px;
     }
 </style>
