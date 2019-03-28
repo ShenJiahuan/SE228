@@ -1,7 +1,8 @@
 <template>
-    <el-menu :default-active="activeIndex" mode="horizontal" router="router" active-text-color="#409EFF">
-        <el-menu-item class="header-item">
-            <svg version="1.1" id="logo-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+    <div class="header">
+        <div class="header-left">
+            <div class="header-item">
+                <svg version="1.1" id="logo-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                      y="0px" viewBox="0 0 476 96" xml:space="preserve">
     <path d="M90.6,36.3l-5.2-1.9V23.5l5.2-2.2l-35.2-13l-42.8,15c-4.1,2-4.2,7.5-4.2,12c0,1.5,0.2,3,0.5,4.4C5.5,41.9,5.4,47,5.4,51.3
         c0,3.5,0.8,6.7,3,8.7c-0.5,1.7-0.2,3.8-0.2,6.3c0,4.5,1.2,8.6,5.2,10l27.8,11.5l49.2-20.4l-5.2-1.9v-11l5.2-2.2l-8-3v-9.6L90.6,36.3
@@ -28,39 +29,46 @@
             c0,2.1-1.8,3.9-4,3.9h-23.4V50.6h7.9V36.3H457.6z M457.3,53.8h-7.7v10.1h6.5c0.7,0,1.2-0.5,1.2-1.2V53.8z"/>
     </g>
     </svg>
-        </el-menu-item>
-        <el-menu-item  v-for="nav in nav_list" :index="nav.url" v-if="display(nav)" class="header-item">
-            {{nav.name}}
-        </el-menu-item>
-        <el-submenu index="mine" class="header-item">
-            <template slot="title">{{this.username == null ? "我的" : this.username}}</template>
-            <el-menu-item index="/login" v-if="this.username == null">登录</el-menu-item>
-            <el-menu-item index="/register" v-if="this.username == null">注册</el-menu-item>
-            <el-menu-item index="" v-if="this.username != null" v-on:click="logout">退出登录</el-menu-item>
-        </el-submenu>
-    </el-menu>
+            </div>
+            <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
+                <el-menu-item  v-for="nav in navList" :index="nav.url" v-if="display(nav)" class="header-item"  v-bind:class="{'nav-selected': selected(nav.url)}">
+                    {{nav.name}}
+                </el-menu-item>
+            </el-menu>
+        </div>
+        <div class="header-right">
+            <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
+                <el-submenu index="2" v-bind:class="{'nav-selected': selected('right')}">
+                    <template slot="title">{{this.username == null ? "我的" : this.username}}</template>
+                    <el-menu-item index="/login" v-if="this.username == null">登录</el-menu-item>
+                    <el-menu-item index="/register" v-if="this.username == null">注册</el-menu-item>
+                    <el-menu-item index="" v-if="this.username != null" v-on:click="logout">退出登录</el-menu-item>
+                </el-submenu>
+            </el-menu>
+        </div>
+    </div>
 </template>
 
 <script>
-    import nav_list from '../data/nav_list.json';
-    import * as Nav from './Nav.js';
+    import navList from '../data/nav_list.json';
 
     export default {
         name: "Header",
         data() {
             return {
-                nav_list: nav_list,
-                activeIndex: this.getActiveIndex(),
+                navList: navList,
             }
         },
         computed: {
             username () {
                 return this.$store.state.user.username;
+            },
+            path () {
+                return this.$route.path;
             }
         },
         methods: {
             display: function (nav) {
-                console.log("vuex", this.$store.state);
                 switch (nav.name) {
                     case "图书列表":
                         return this.$route.path.split('/')[1] === "list";
@@ -83,31 +91,62 @@
                 return this.$route.path.indexOf(nav.url) !== -1;
             },
             getActiveIndex: function() {
-                for (let nav in nav_list) {
-                    if (this.selected(nav_list[nav])) {
+                for (let nav in navList) {
+                    if (this.selected(navList[nav])) {
                         console.log(nav);
-                        return nav_list[nav].url;
+                        return navList[nav].url;
                     }
                 }
             },
             logout: function() {
                 this.$store.commit('logout');
-            }
-        },
-        updated() {
-            console.log('111');
-            this.activeIndex = this.getActiveIndex();
+            },
+            selected: function(url) {
+                if (url === 'right') {
+                    return this.$route.path === '/login' || this.$route.path === '/register';
+                }
+                return this.$route.path.indexOf(url) !== -1;
+            },
         }
     }
 </script>
 
 <style scoped>
-    a {
-        text-decoration: none;
+    .header {
+        display: flex;
+        justify-content: space-between;
     }
 
+    .header-left {
+        display: flex;
+    }
+    .header-item {
+        margin-top: 15px;
+    }
     #logo-svg {
         height: 30px;
         fill: #409EFF;
+    }
+</style>
+
+<style>
+    .nav-selected {
+        border-bottom: 2px solid #409EFF !important;
+    }
+
+    .el-menu-item, .el-submenu__title, .el-submenu__title i {
+        color: #3c89f2 !important;
+    }
+
+    .el-menu.el-menu--horizontal:not(.nav-selected) {
+        border-bottom: none !important;
+    }
+
+    .el-menu--horizontal>.el-submenu .el-submenu__title {
+        border-bottom: none !important;
+    }
+
+    .el-menu--horizontal>.el-menu-item:not(.nav-selected) {
+        border-bottom: none !important;
     }
 </style>
