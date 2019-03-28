@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="header-left">
-            <div class="header-item">
+            <div class="logo">
                 <svg version="1.1" id="logo-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                      y="0px" viewBox="0 0 476 96" xml:space="preserve">
     <path d="M90.6,36.3l-5.2-1.9V23.5l5.2-2.2l-35.2-13l-42.8,15c-4.1,2-4.2,7.5-4.2,12c0,1.5,0.2,3,0.5,4.4C5.5,41.9,5.4,47,5.4,51.3
@@ -120,7 +120,7 @@
     .header-left {
         display: flex;
     }
-    .header-item {
+    .logo {
         margin-top: 15px;
     }
     #logo-svg {
