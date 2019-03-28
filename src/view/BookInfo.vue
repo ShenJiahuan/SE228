@@ -120,7 +120,7 @@
 
     .book-info {
         text-align: left;
-        padding-top: 20px;
+        line-height: 1.5;
     }
 
     .book-order {
@@ -151,6 +151,7 @@
     .book-desc {
         text-align: left;
         padding: 40px;
+        line-height: 1.5 !important;
     }
 
     .price {
