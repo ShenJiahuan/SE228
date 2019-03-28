@@ -28,7 +28,7 @@
                     <h3>评分</h3>
                     <div>
                         <el-rate
-                                v-model="(book.score / 2).toFixed(1)"
+                                v-model="this.score(book)"
                                 class="rate"
                                 disabled
                                 show-score
@@ -92,6 +92,9 @@
                     message: '加入购物车成功',
                     type: 'success'
                 });
+            },
+            score(book) {
+                return parseFloat((book.score / 2).toFixed(1));
             }
         },
         updated() {
