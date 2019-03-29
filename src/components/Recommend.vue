@@ -61,7 +61,7 @@
                         book.rank = cnt;
                         cnt++;
                         return book;
-                    })
+                    });
                 }
                 return data;
             }
