@@ -30,24 +30,24 @@
 </template>
 
 <script>
-    import book_list from "../data/book_list.json";
+    import bookList from "../data/book_list.json";
     export default {
         name: "Recommend",
         data() {
             return {
                 active: "first",
-                book_list: book_list,
+                bookList: bookList,
             }
         },
         computed: {
             tableData() {
                 var data = [];
-                for (let book in book_list) {
+                for (let book in bookList) {
                     var item = {
-                        rank: book_list[book].id,
-                        title: book_list[book].title,
-                        img: require("@/static/" + book_list[book].img),
-                        id: book_list[book].id,
+                        rank: bookList[book].id,
+                        title: bookList[book].title,
+                        img: require("@/static/" + bookList[book].img),
+                        id: bookList[book].id,
                     };
                     data.push(item);
                     if (data.length >= 10) {
