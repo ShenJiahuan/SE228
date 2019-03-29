@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from "vue";
+import Router from "vue-router";
 import Index from "@/view/Index";
 import BookList from "@/view/BookList";
 import BookInfo from "@/view/BookInfo";
@@ -13,79 +13,79 @@ Vue.use(Router);
 var router = new Router({
   routes: [
     {
-      path: '/',
-      redirect: '/index/recommend',
+      path: "/",
+      redirect: "/index/recommend",
     },
     {
-      path: '/index',
-      redirect: '/index/recommend',
+      path: "/index",
+      redirect: "/index/recommend",
     },
     {
-      path: '/index/:choice',
-      name: 'index',
+      path: "/index/:choice",
+      name: "index",
       component: Index,
       meta: {
         title: "e-Book 在线书店 - 首页"
       }
     },
     {
-      path: '/list/:keyword',
-      name: 'booklist',
+      path: "/list/:keyword",
+      name: "booklist",
       component: BookList,
       meta: {
         title: "e-Book 在线书店 - 图书列表"
       }
     },
     {
-      path: '/info/:id',
-      name: 'bookinfo',
+      path: "/info/:id",
+      name: "bookinfo",
       component: BookInfo,
       meta: {
         title: "e-Book 在线书店 - 图书详情"
       }
     },
     {
-      path: '/register',
-      name: 'register',
+      path: "/register",
+      name: "register",
       component: Register,
       meta: {
         title: "e-Book 在线书店 - 用户注册"
       }
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: Login,
       meta: {
         title: "e-Book 在线书店 - 用户登录"
       }
     },
     {
-      path: '/cart',
-      name: 'Cart',
+      path: "/cart",
+      name: "Cart",
       component: Cart,
       meta: {
         title: "e-Book 在线书店 - 购物车"
       }
     },
     {
-      path: '/404',
-      name: '404',
+      path: "/404",
+      name: "404",
       component: NotFound,
       meta: {
         title: "e-Book 在线书店 - 找不到页面"
       }
     },
     {
-      path: '*',
-      redirect: '/404'
+      path: "*",
+      redirect: "/404"
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title;
   }
   next()
 });
