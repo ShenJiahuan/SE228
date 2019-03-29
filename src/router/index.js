@@ -7,6 +7,7 @@ import NotFound from "@/view/NotFound";
 import Register from "@/view/Register";
 import Login from "@/view/Login";
 import Cart from "@/view/Cart";
+import Purchased from "@/view/Purchased";
 
 Vue.use(Router);
 
@@ -66,6 +67,14 @@ var router = new Router({
       component: Cart,
       meta: {
         title: "e-Book 在线书店 - 购物车"
+      }
+    },
+    {
+      path: "/purchased",
+      name: "Purchased",
+      component: Purchased,
+      meta: {
+        title: "e-Book 在线书店 - 已购"
       }
     },
     {
