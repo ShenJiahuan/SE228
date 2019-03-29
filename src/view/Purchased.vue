@@ -101,10 +101,10 @@
             },
             tableData() {
                 return this.initialData.filter(book => {
-                    let orderTime = new Date(book.time);
-                    orderTime.setHours(0);
-                    orderTime.setMinutes(0);
-                    orderTime.setSeconds(0);
+                    let year = parseInt(book.time.substr(0, 4));
+                    let month = parseInt(book.time.substr(5, 6)) - 1;
+                    let day = parseInt(book.time.substr(8, 9));
+                    let orderTime = new Date(year, month, day);
                     if (this.time.minDate === null || this.time.maxDate === null) {
                         return false;
                     }
