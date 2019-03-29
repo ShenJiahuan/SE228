@@ -29,7 +29,7 @@
     export default {
         name: "ListItem",
         props: [
-            'book',
+            "book",
         ]
     }
 </script>

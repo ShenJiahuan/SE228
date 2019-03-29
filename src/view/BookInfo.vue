@@ -81,16 +81,16 @@
             },
             order() {
                 this.$notify({
-                    title: '成功',
-                    message: '购买成功',
-                    type: 'success'
+                    title: "成功",
+                    message: "购买成功",
+                    type: "success"
                 });
             },
             addCart() {
                 this.$notify({
-                    title: '成功',
-                    message: '加入购物车成功',
-                    type: 'success'
+                    title: "成功",
+                    message: "加入购物车成功",
+                    type: "success"
                 });
             },
             score(book) {

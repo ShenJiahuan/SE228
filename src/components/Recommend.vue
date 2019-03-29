@@ -54,7 +54,7 @@
                         break;
                     }
                 }
-                if (this.active === 'second') {
+                if (this.active === "second") {
                     data = data.sort((book1, book2) => book1.title < book2.title ? -1 : 1);
                     let cnt = 1;
                     data = data.map(book => {
