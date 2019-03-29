@@ -36,7 +36,7 @@
             }
         },
         computed: {
-            path: function() {
+            path() {
                 return this.$route.path;
             }
         },
@@ -68,7 +68,7 @@
             this.bookList = this.getBookList();
         },
         watch: {
-            path: function() {
+            path() {
                 this.bookList = this.getBookList();
             }
         }

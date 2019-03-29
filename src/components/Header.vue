@@ -68,7 +68,7 @@
             }
         },
         methods: {
-            display: function (nav) {
+            display(nav) {
                 switch (nav.name) {
                     case "图书列表":
                         return this.$route.path.split('/')[1] === "list";
@@ -86,11 +86,11 @@
                         return true;
                 }
             },
-            selected: function (nav) {
+            selected(nav) {
                 console.log(nav.url);
                 return this.$route.path.indexOf(nav.url) !== -1;
             },
-            getActiveIndex: function() {
+            getActiveIndex() {
                 for (let nav in navList) {
                     if (this.selected(navList[nav])) {
                         console.log(nav);
@@ -98,10 +98,10 @@
                     }
                 }
             },
-            logout: function() {
+            logout() {
                 this.$store.commit('logout');
             },
-            selected: function(url) {
+            selected(url) {
                 if (url === 'right') {
                     return this.$route.path === '/login' || this.$route.path === '/register';
                 }
