@@ -6,9 +6,9 @@
   export default {
     name: "OrderCountBox",
     props: [
-      'num',
-      'update',
-      'id',
+      "num",
+      "update",
+      "id",
     ],
     data() {
       return {
@@ -19,7 +19,6 @@
     methods: {
       change(event) {
         this.$nextTick(() => {
-          console.log(event);
           let val = event;
           if (/^[1-9]\d*$|^$/.test(val) && val < 1000) {
             this.oldNum = val;
@@ -28,21 +27,20 @@
             this.inputNum = 999;
             this.oldNum = 999;
             this.$notify.error({
-              title: '错误',
-              message: '超过数量上限'
+              title: "错误",
+              message: "超过数量上限"
             });
           } else {
             this.inputNum = this.oldNum;
           }
-          this.$emit('update:num', this.inputNum);
+          this.$emit("update:num", this.inputNum);
         });
       },
       setNonNull(event) {
         let val = event.target.value.trim();
-        console.log(val);
         if (val === "") {
           event.target.value = 1;
-          this.$emit('update:num', 1);
+          this.$emit("update:num", 1);
         }
         if (this.update) {
           this.update(this.id);

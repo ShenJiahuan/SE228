@@ -16,4 +16,4 @@ export default {
             state.admin = admin;
         }
     }
-}
+};

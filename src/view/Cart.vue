@@ -112,9 +112,7 @@
         methods: {
             remove(book) {
                 for (let i = 0; i < this.tableData.length; ++i) {
-                    console.log(this.tableData[i].id, book.id);
                     if (this.tableData[i].id === book.id) {
-                        console.log("11111");
                         this.tableData.splice(i, 1);
                         break;
                     }
@@ -141,10 +139,10 @@
         created() {
             if (this.$store.state.user.username == null) {
                 this.$notify.error({
-                    title: '错误',
-                    message: '请先登录'
+                    title: "错误",
+                    message: "请先登录"
                 });
-                this.$router.push('/login');
+                this.$router.push("/login");
             }
         }
     }

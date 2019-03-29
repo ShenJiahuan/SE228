@@ -50,7 +50,7 @@
 </template>
 
 <script>
-    import navList from '../data/nav_list.json';
+    import navList from "../data/nav_list.json";
 
     export default {
         name: "Header",
@@ -71,9 +71,9 @@
             display(nav) {
                 switch (nav.name) {
                     case "图书列表":
-                        return this.$route.path.split('/')[1] === "list";
+                        return this.$route.path.split("/")[1] === "list";
                     case "图书详情":
-                        return this.$route.path.split('/')[1] === "info";
+                        return this.$route.path.split("/")[1] === "info";
                     case "购物车":
                     case "已购":
                         return this.username != null;
@@ -87,13 +87,13 @@
                 }
             },
             selected(url) {
-                if (url === 'right') {
-                    return this.$route.path === '/login' || this.$route.path === '/register';
+                if (url === "right") {
+                    return this.$route.path === "/login" || this.$route.path === "/register";
                 }
                 return this.$route.path.indexOf(url) !== -1;
             },
             logout() {
-                this.$store.commit('logout');
+                this.$store.commit("logout");
             }
         }
     }

@@ -17,16 +17,15 @@
                 keyword: "",
             }
         },
-        mounted: function() {
+        mounted() {
             this.keyword = this.$route.params.keyword;
         },
         methods: {
-            search: function() {
+            search() {
                 if (this.keyword === undefined || this.keyword === "") {
-                    this.keyword = '';
-                    console.log("ban");
+                    this.keyword = "";
                 } else {
-                    this.$router.push('/list/' + this.keyword);
+                    this.$router.push("/list/" + this.keyword);
                 }
             }
         }

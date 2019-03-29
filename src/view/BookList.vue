@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import book_list from "../data/book_list.json";
+    import bookList from "../data/book_list.json";
     import ListItem from "@/components/ListItem";
     import SearchBar from "@/components/SearchBar";
     export default {
@@ -42,7 +42,7 @@
         },
         methods: {
             getBookList() {
-                return book_list.filter(
+                return bookList.filter(
                     book => {
                         return book.title.indexOf(this.$route.params.keyword) !== -1;
                     }

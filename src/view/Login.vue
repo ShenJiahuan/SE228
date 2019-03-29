@@ -18,13 +18,13 @@
         data() {
             return {
                 form: {
-                    email: '',
-                    password: ''
+                    email: "",
+                    password: ""
                 },
                 rules: {
                     email: [
-                        { message: '请输入邮箱地址', trigger: 'blur' },
-                        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+                        { message: "请输入邮箱地址", trigger: "blur" },
+                        { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" }
                     ]
                 }
             }
@@ -33,8 +33,8 @@
             onSubmit(form) {
                 this.$refs[form].validate((valid) => {
                     if (valid) {
-                        this.$store.commit('login', '未知用户', this.form.email, false);
-                        this.$router.push('/');
+                        this.$store.commit("login", "未知用户", this.form.email, false);
+                        this.$router.push("/");
                     } else {
                         return false;
                     }

@@ -58,7 +58,7 @@
 </template>
 
 <script>
-    import book_list from "../data/book_list.json";
+    import bookList from "../data/book_list.json";
     import OrderCountBox from "@/components/OrderCountBox";
     export default {
         name: "BookInfo",
@@ -66,31 +66,31 @@
         data() {
             return {
                 input: 1,
-                book_list: book_list,
+                bookList: bookList,
                 book: this.getBook(),
             }
         },
         methods: {
             getBook() {
                 let id = parseInt(this.$route.params.id);
-                for (let book in book_list) {
-                    if (book_list[book].id === id) {
-                        return book_list[book];
+                for (let book in bookList) {
+                    if (bookList[book].id === id) {
+                        return bookList[book];
                     }
                 }
             },
             order() {
                 this.$notify({
-                    title: '成功',
-                    message: '购买成功',
-                    type: 'success'
+                    title: "成功",
+                    message: "购买成功",
+                    type: "success"
                 });
             },
             addCart() {
                 this.$notify({
-                    title: '成功',
-                    message: '加入购物车成功',
-                    type: 'success'
+                    title: "成功",
+                    message: "加入购物车成功",
+                    type: "success"
                 });
             },
             score(book) {
