@@ -92,14 +92,6 @@
                 }
                 return this.$route.path.indexOf(url) !== -1;
             },
-            getActiveIndex() {
-                for (let nav in navList) {
-                    if (this.selected(navList[nav])) {
-                        console.log(nav);
-                        return navList[nav].url;
-                    }
-                }
-            },
             logout() {
                 this.$store.commit('logout');
             }
