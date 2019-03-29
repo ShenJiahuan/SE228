@@ -86,9 +86,11 @@
                         return true;
                 }
             },
-            selected(nav) {
-                console.log(nav.url);
-                return this.$route.path.indexOf(nav.url) !== -1;
+            selected(url) {
+                if (url === 'right') {
+                    return this.$route.path === '/login' || this.$route.path === '/register';
+                }
+                return this.$route.path.indexOf(url) !== -1;
             },
             getActiveIndex() {
                 for (let nav in navList) {
@@ -100,13 +102,7 @@
             },
             logout() {
                 this.$store.commit('logout');
-            },
-            selected(url) {
-                if (url === 'right') {
-                    return this.$route.path === '/login' || this.$route.path === '/register';
-                }
-                return this.$route.path.indexOf(url) !== -1;
-            },
+            }
         }
     }
 </script>
