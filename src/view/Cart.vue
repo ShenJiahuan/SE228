@@ -1,70 +1,80 @@
 <template>
-    <el-table
-            :data="tableData"
-            style="width: 100%" v-if="tableData.length > 0"
-            @sort-change="this.sort">
-        <el-table-column
-                label="选定"
-                min-width="10%"
-                align="center">
-            <template slot-scope="scope">
-                <el-checkbox v-model="scope.row.choose"></el-checkbox>
-            </template>
-        </el-table-column>
-        <el-table-column
-                label="图片"
-                min-width="15%"
-                align="center">
-            <template slot-scope="scope">
-                <img :src="scope.row.img" class="cart-img"/>
-            </template>
-        </el-table-column>
-        <el-table-column
-                prop="title"
-                label="标题"
-                min-width="30%"
-                align="left">
-        </el-table-column>
-        <el-table-column
-                label="单价"
-                min-width="10%"
-                align="center"
-                sortable="custom">
-            <template slot-scope="scope">
-                <div>¥{{scope.row.price}}</div>
-            </template>
-        </el-table-column>
-        <el-table-column
-                label="数量"
-                min-width="15%"
-                align="center">
-            <template slot-scope="scope">
-                <order-count-box :num.sync="scope.row.count" class="count"></order-count-box>
-            </template>
-        </el-table-column>
-        <el-table-column
-                label="金额"
-                min-width="10%"
-                align="center"
-                sortable="custom">
-            <template slot-scope="scope">
-                <div>¥{{scope.row.price * scope.row.count}}</div>
-            </template>
-        </el-table-column>
-        <el-table-column
-                label="操作"
-                min-width="10%"
-                align="center">
-            <template slot-scope="scope">
-                <el-button type="primary" icon="el-icon-delete" circle  v-on:click="remove(scope.row)"></el-button>
-            </template>
-        </el-table-column>
-    </el-table>
-    <el-card v-else>
-        <h1>
-            购物车是空的
-        </h1>
-    </el-card>
+    <div>
+        <el-table
+                :data="tableData"
+                style="width: 100%" v-if="tableData.length > 0"
+                @sort-change="this.sort">
+            <el-table-column
+                    label="选定"
+                    min-width="10%"
+                    align="center">
+                <template slot-scope="scope">
+                    <el-checkbox v-model="scope.row.choose" @change="handleChange"></el-checkbox>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="图片"
+                    min-width="15%"
+                    align="center">
+                <template slot-scope="scope">
+                    <img :src="scope.row.img" class="cart-img"/>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="title"
+                    label="标题"
+                    min-width="30%"
+                    align="left">
+            </el-table-column>
+            <el-table-column
+                    label="单价"
+                    min-width="10%"
+                    align="center"
+                    sortable="custom">
+                <template slot-scope="scope">
+                    <div>¥{{scope.row.price}}</div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="数量"
+                    min-width="15%"
+                    align="center">
+                <template slot-scope="scope">
+                    <order-count-box :num.sync="scope.row.count" class="count" :set-chosen="setChosen"></order-count-box>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="金额"
+                    min-width="10%"
+                    align="center"
+                    sortable="custom">
+                <template slot-scope="scope">
+                    <div>¥{{scope.row.price * scope.row.count}}</div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="操作"
+                    min-width="10%"
+                    align="center">
+                <template slot-scope="scope">
+                    <el-button type="primary" icon="el-icon-delete" circle  v-on:click="remove(scope.row)"></el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-card v-else>
+            <h1>
+                购物车是空的
+            </h1>
+        </el-card>
+        <div class="sum">
+            <div class="total-price">
+                总金额：¥{{this.amount.toFixed(2)}}
+            </div>
+            <el-button type="primary" class="pay" :disabled="this.amount === 0" @click="pay">支付</el-button>
+        </div>
+
+    </div>
+
 </template>
 
 <script>
@@ -109,6 +119,11 @@
                 }]
             }
         },
+        computed: {
+            amount() {
+                return this.$store.getters.amount;
+            }
+        },
         methods: {
             remove(book) {
                 for (let i = 0; i < this.tableData.length; ++i) {
@@ -117,6 +132,7 @@
                         break;
                     }
                 }
+                this.setChosen();
             },
             sort(stat) {
                 if (stat.column == null) {
@@ -134,6 +150,22 @@
                         this.tableData = this.tableData.sort((book1, book2) => book1.price > book2.price ? -1 : 1);
                     }
                 }
+            },
+            setChosen() {
+                let chosen = this.tableData.filter(item => {
+                    return item.choose;
+                });
+                this.$store.commit("setCartChosen", chosen);
+            },
+            handleChange() {
+                this.setChosen();
+            },
+            pay() {
+                this.$notify({
+                    title: "成功",
+                    message: "支付成功",
+                    type: "success"
+                });
             }
         },
         created() {
@@ -144,6 +176,7 @@
                 });
                 this.$router.push("/login");
             }
+            this.setChosen();
         }
     }
 </script>
@@ -157,5 +190,21 @@
 
     .count {
         width: 60px;
+    }
+
+    .total-price {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .sum {
+        margin-top: 10px;
+        float: right;
+        display: flex;
+        align-items: center;
+    }
+
+    .pay {
+        margin: 0 20px;
     }
 </style>

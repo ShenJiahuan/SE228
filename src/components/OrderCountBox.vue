@@ -9,6 +9,7 @@
       "num",
       "update",
       "id",
+      "setChosen",
     ],
     data() {
       return {
@@ -34,6 +35,9 @@
             this.inputNum = this.oldNum;
           }
           this.$emit("update:num", this.inputNum);
+          if (this.setChosen) {
+            this.setChosen();
+          }
         });
       },
       setNonNull(event) {
@@ -44,6 +48,9 @@
         }
         if (this.update) {
           this.update(this.id);
+        }
+        if (this.setChosen) {
+          this.setChosen();
         }
       }
     }
