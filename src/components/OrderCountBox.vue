@@ -7,8 +7,6 @@
     name: "OrderCountBox",
     props: [
       "num",
-      "update",
-      "id",
       "setChosen",
     ],
     data() {
@@ -45,9 +43,6 @@
         if (val === "") {
           event.target.value = 1;
           this.$emit("update:num", 1);
-        }
-        if (this.update) {
-          this.update(this.id);
         }
         if (this.setChosen) {
           this.setChosen();
