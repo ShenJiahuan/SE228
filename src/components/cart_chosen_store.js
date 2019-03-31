@@ -10,8 +10,7 @@ export default {
     getters: {
         amount: state => {
             let amount = 0;
-            for (let i in state.cartChosenItem) {
-                let item = state.cartChosenItem[i];
+            for (let item of state.cartChosenItem) {
                 amount += item.count * item.price;
             }
             return amount;

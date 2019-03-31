@@ -73,9 +73,9 @@
         methods: {
             getBook() {
                 let id = parseInt(this.$route.params.id);
-                for (let book in bookList) {
-                    if (bookList[book].id === id) {
-                        return bookList[book];
+                for (let book of bookList) {
+                    if (book.id === id) {
+                        return book;
                     }
                 }
             },

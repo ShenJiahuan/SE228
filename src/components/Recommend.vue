@@ -42,12 +42,12 @@
         computed: {
             tableData() {
                 var data = [];
-                for (let book in bookList) {
+                for (let book of bookList) {
                     var item = {
-                        rank: bookList[book].id,
-                        title: bookList[book].title,
-                        img: require("@/static/" + bookList[book].img),
-                        id: bookList[book].id,
+                        rank: book.id,
+                        title: book.title,
+                        img: require("@/static/" + book.img),
+                        id: book.id,
                     };
                     data.push(item);
                     if (data.length >= 10) {
