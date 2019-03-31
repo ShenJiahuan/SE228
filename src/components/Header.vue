@@ -40,8 +40,8 @@
             <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
                 <el-submenu index="2" v-bind:class="{'nav-selected': selected('right')}">
                     <template slot="title">{{this.username == null ? "我的" : this.username}}</template>
-                    <el-menu-item index="/login" v-if="this.username == null">登录</el-menu-item>
-                    <el-menu-item index="/register" v-if="this.username == null">注册</el-menu-item>
+                    <el-menu-item index="/login" :route="{path: '/login', query: {redirect: this.$route.fullPath}}" v-if="this.username == null">登录</el-menu-item>
+                    <el-menu-item index="/register" :route="{path: '/register', query: {redirect: this.$route.fullPath}}" v-if="this.username == null">注册</el-menu-item>
                     <el-menu-item index="" v-if="this.username != null" v-on:click="logout">退出登录</el-menu-item>
                 </el-submenu>
             </el-menu>
@@ -94,6 +94,7 @@
             },
             logout() {
                 this.$store.commit("logout");
+                this.$router.push("/");
             }
         }
     }

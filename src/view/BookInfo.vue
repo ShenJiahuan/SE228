@@ -80,18 +80,34 @@
                 }
             },
             order() {
-                this.$notify({
-                    title: "成功",
-                    message: "购买成功",
-                    type: "success"
-                });
+                if (this.$store.state.user.username === null) {
+                    this.$notify.error({
+                        title: "错误",
+                        message: "请先登录"
+                    });
+                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+                } else {
+                    this.$notify({
+                        title: "成功",
+                        message: "购买成功",
+                        type: "success"
+                    });
+                }
             },
             addCart() {
-                this.$notify({
-                    title: "成功",
-                    message: "加入购物车成功",
-                    type: "success"
-                });
+                if (this.$store.state.user.username === null) {
+                    this.$notify.error({
+                        title: "错误",
+                        message: "请先登录"
+                    });
+                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+                } else {
+                    this.$notify({
+                        title: "成功",
+                        message: "加入购物车成功",
+                        type: "success"
+                    });
+                }
             },
             score(book) {
                 return parseFloat((book.score / 2).toFixed(1));

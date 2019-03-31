@@ -174,7 +174,7 @@
                     title: "错误",
                     message: "请先登录"
                 });
-                this.$router.push("/login");
+                this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
             }
             this.setChosen();
         }

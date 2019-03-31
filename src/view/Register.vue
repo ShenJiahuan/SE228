@@ -71,7 +71,11 @@
                 this.$refs[form].validate((valid) => {
                     if (valid) {
                         this.$store.commit("login", this.form.username, this.form.email, false);
-                        this.$router.push("/");
+                        if (this.$route.query.redirect) {
+                            this.$router.push(this.$route.query.redirect);
+                        } else {
+                            this.$router.push("/");
+                        }
                     } else {
                         return false;
                     }
