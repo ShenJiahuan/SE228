@@ -8,6 +8,7 @@
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="onSubmit('form')">登录</el-button>
+            <span class="register" @click="handleRegister">没有账号？立即注册！</span>
         </el-form-item>
     </el-form>
 </template>
@@ -43,6 +44,9 @@
                         return false;
                     }
                 });
+            },
+            handleRegister() {
+                this.$router.push({path: '/register', query: {redirect: this.$route.query.redirect}});
             }
         }
     }
@@ -57,5 +61,10 @@
 
     .entry {
         width: 300px;
+    }
+
+    .register {
+        cursor: pointer;
+        margin-left: 10px;
     }
 </style>
