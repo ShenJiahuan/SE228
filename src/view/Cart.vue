@@ -32,7 +32,7 @@
                     align="center"
                     sortable="custom">
                 <template slot-scope="scope">
-                    <div>¥{{scope.row.price}}</div>
+                    <div>¥{{scope.row.price.toFixed(2)}}</div>
                 </template>
             </el-table-column>
             <el-table-column
@@ -49,7 +49,7 @@
                     align="center"
                     sortable="custom">
                 <template slot-scope="scope">
-                    <div>¥{{scope.row.price * scope.row.count}}</div>
+                    <div>¥{{(scope.row.price * scope.row.count).toFixed(2)}}</div>
                 </template>
             </el-table-column>
             <el-table-column
