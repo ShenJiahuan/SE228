@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="8">
                 <div class="book-info">
-                    <span v-for="(value, key) in book.book_info" v-if="value !== null && key !== '定价'">
+                    <span v-for="(value, key) in book.book_info" v-if="value !== null && key !== '定价'" :key="key">
                         <span class="key">{{key}}：</span>
                         <span class="value">{{value}}</span>
                         <br>
@@ -28,7 +28,7 @@
                     <h3>评分</h3>
                     <div>
                         <el-rate
-                                v-model="this.score(book)"
+                                :value="this.score(book)"
                                 class="rate"
                                 disabled
                                 show-score
@@ -55,7 +55,7 @@
             </el-col>
         </el-row>
         <div class="book-desc">
-            <div v-for="para in book.book_desc">
+            <div v-for="para in book.book_desc" :key="para">
                 <p>{{para}}</p>
             </div>
         </div>
