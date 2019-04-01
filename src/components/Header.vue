@@ -31,7 +31,8 @@
     </svg>
             </div>
             <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
-                <el-menu-item  v-for="nav in navList" :index="nav.url" v-if="display(nav)" class="header-item"  v-bind:class="{'nav-selected': selected(nav.url)}">
+                <!-- FIX ME -->
+                <el-menu-item  v-for="nav in navList" :index="nav.url" :route="redirect(nav)" v-if="display(nav)" class="header-item"  v-bind:class="{'nav-selected': selected(nav.url)}">
                     {{nav.name}}
                 </el-menu-item>
             </el-menu>
@@ -84,6 +85,13 @@
                         return false;
                     default:
                         return true;
+                }
+            },
+            redirect(nav) {
+                if (nav.name === "图书列表" || nav.name === "图书详情") {
+                    return this.$route.fullPath;
+                } else {
+                    return nav.url;
                 }
             },
             selected(url) {
