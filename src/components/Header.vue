@@ -32,7 +32,7 @@
             </div>
             <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
                 <!-- FIX ME -->
-                <el-menu-item  v-for="nav in navList" :index="nav.url" :route="redirect(nav)" v-if="display(nav)" class="header-item"  v-bind:class="{'nav-selected': selected(nav.url)}">
+                <el-menu-item  v-for="nav in navList.filter(nav => display(nav))" :index="nav.url" :route="redirect(nav)" class="header-item"  v-bind:class="{'nav-selected': selected(nav.url)}" :key="nav.url">
                     {{nav.name}}
                 </el-menu-item>
             </el-menu>
