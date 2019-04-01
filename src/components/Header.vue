@@ -64,6 +64,9 @@
             username () {
                 return this.$store.state.user.username;
             },
+            admin() {
+                return this.$store.state.user.admin;
+            },
             path () {
                 return this.$route.path;
             }
@@ -79,7 +82,7 @@
                     case "已购":
                         return this.username != null;
                     case "系统管理":
-                        return this.isAdmin;
+                        return this.admin;
                     case "注册":
                     case "登录":
                         return false;
