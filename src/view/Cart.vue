@@ -21,10 +21,12 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="title"
                     label="标题"
                     min-width="25%"
                     align="left">
+                <template slot-scope="scope">
+                    <router-link :to="'/info/' + scope.row.id">{{scope.row.title}}</router-link>
+                </template>
             </el-table-column>
             <el-table-column
                     label="单价"
@@ -93,35 +95,35 @@
             return {
                 tableData: [{
                     id: 1,
-                    choose: true,
+                    choose: false,
                     img: require("@/static/1.jpg"),
-                    title: "我再重构我是狗",
-                    price: 30.00,
-                    count: 2,
+                    title: "解忧杂货店",
+                    price: 39.50,
+                    count: 1,
                     time: 1,
                 }, {
                     id: 2,
                     choose: true,
-                    img: require("@/static/1.jpg"),
-                    title: "Element-UI有点意思",
+                    img: require("@/static/2.jpg"),
+                    title: "活着",
                     price: 20.00,
-                    count: 2,
+                    count: 3,
                     time: 2,
                 }, {
                     id: 3,
-                    choose: true,
-                    img: require("@/static/1.jpg"),
-                    title: "重构！",
-                    price: 10.00,
+                    choose: false,
+                    img: require("@/static/3.jpg"),
+                    title: "追风筝的人",
+                    price: 29.00,
                     count: 2,
                     time: 3,
                 }, {
                     id: 4,
                     choose: true,
-                    img: require("@/static/1.jpg"),
-                    title: "真香。",
-                    price: 40.00,
-                    count: 2,
+                    img: require("@/static/4.jpg"),
+                    title: "三体",
+                    price: 23.00,
+                    count: 4,
                     time: 4,
                 }]
             }
