@@ -41,7 +41,12 @@
                 <div class="book-order">
                     <el-form :inline="true" class="input-box">
                         <el-form-item label="数量">
-                            <order-count-box  :num.sync='input' class="input"></order-count-box>
+                            <order-count-box
+                                :num.sync='input'
+                                size="medium"
+                                min=1
+                                max=999>
+                            </order-count-box>
                         </el-form-item>
                     </el-form>
                     <el-button type="primary" class="button" @click.native="order">立即购买</el-button>
@@ -148,15 +153,6 @@
 
     .input-box {
         margin-bottom: 20px;
-    }
-
-    .input-hint, .input {
-        display: inline;
-        margin: 0 10px;
-    }
-
-    .input {
-        width: 60px;
     }
 
     .button {

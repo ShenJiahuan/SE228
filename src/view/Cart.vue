@@ -23,7 +23,7 @@
             <el-table-column
                     prop="title"
                     label="标题"
-                    min-width="30%"
+                    min-width="25%"
                     align="left">
             </el-table-column>
             <el-table-column
@@ -40,12 +40,19 @@
                     min-width="15%"
                     align="center">
                 <template slot-scope="scope">
-                    <order-count-box :num.sync="scope.row.count" class="count" :set-chosen="setChosen"></order-count-box>
+                    <order-count-box
+                        :num.sync="scope.row.count"
+                        class="count"
+                        size="mini"
+                        :set-chosen="setChosen"
+                        min=1
+                        max=999>
+                    </order-count-box>
                 </template>
             </el-table-column>
             <el-table-column
                     label="金额"
-                    min-width="10%"
+                    min-width="15%"
                     align="center"
                     sortable="custom">
                 <template slot-scope="scope">
@@ -188,9 +195,7 @@
         border-radius: 2px;
     }
 
-    .count {
-        width: 60px;
-    }
+
 
     .total-price {
         font-size: 18px;

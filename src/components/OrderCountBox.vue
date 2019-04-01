@@ -1,5 +1,14 @@
 <template>
-  <el-input class="order-count" name="count" @input="change" @change="change" @blur="setNonNull" :value="this.inputNum" autocomplete="off"/>
+  <el-input-number
+    :class="{'order-count-mini': this.size === 'mini', 'order-count-medium': this.size === 'medium'}"
+    name="count"
+    :size="this.size"
+    :value="num"
+    @change="this.setNonNull"
+    autocomplete="off"
+    :min="parseInt(this.min)"
+    :max="parseInt(this.max)">
+  </el-input-number>
 </template>
 
 <script>
@@ -8,41 +17,19 @@
     props: [
       "num",
       "setChosen",
+      "size",
+      "min",
+      "max",
     ],
-    data() {
-      return {
-        inputNum: this.num,
-        oldNum: this.num,
-      }
-    },
     methods: {
-      change(event) {
-        this.$nextTick(() => {
-          let val = event;
-          if (/^[1-9]\d*$|^$/.test(val) && val < 1000) {
-            this.oldNum = val;
-            this.inputNum = val;
-          } else if (val >= 1000) {
-            this.inputNum = 999;
-            this.oldNum = 999;
-            this.$notify.error({
-              title: "错误",
-              message: "超过数量上限"
-            });
-          } else {
-            this.inputNum = this.oldNum;
-          }
-          this.$emit("update:num", this.inputNum);
-          if (this.setChosen) {
-            this.setChosen();
-          }
-        });
-      },
-      setNonNull(event) {
-        let val = event.target.value.trim();
-        if (val === "") {
-          event.target.value = 1;
-          this.$emit("update:num", 1);
+      setNonNull(value) {
+        if (value === undefined) {
+          this.$emit("update:num", 2);
+          this.$nextTick(() => {
+            this.$emit("update:num", 1);
+          })
+        } else {
+          this.$emit("update:num", value);
         }
         if (this.setChosen) {
           this.setChosen();
@@ -53,9 +40,11 @@
 </script>
 
 <style scoped>
-  .input {
-    width: 60px;
-    display: inline;
-    margin: 0 10px;
+  .order-count-mini {
+    width: 100px;
+  }
+
+  .order-count-medium {
+    width: 160px;
   }
 </style>
