@@ -27,7 +27,7 @@
           this.$emit("update:num", 2);
           this.$nextTick(() => {
             this.$emit("update:num", 1);
-          })
+          });
         } else {
           this.$emit("update:num", value);
         }
