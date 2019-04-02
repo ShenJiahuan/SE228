@@ -1,6 +1,6 @@
-FrontEnd/.DS_Store
+.DS_Store
 FrontEnd/node_modules
-FrontEnd//dist
+FrontEnd/dist
 FrontEnd/*.zip
 
 # local env files
