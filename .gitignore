@@ -2,6 +2,7 @@
 FrontEnd/node_modules
 FrontEnd/dist
 FrontEnd/*.zip
+BackEnd/target
 
 # local env files
 .env.local
