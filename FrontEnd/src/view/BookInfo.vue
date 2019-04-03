@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="book != null">
         <h1 class="title">
             {{book.title}}
         </h1>
@@ -60,11 +60,14 @@
             </div>
         </div>
     </div>
+    <div v-else  v-loading.fullscreen.lock="fullscreenLoading"></div>
 </template>
 
 <script>
     import bookList from "../data/book_list.json";
     import OrderCountBox from "@/components/OrderCountBox";
+    import Api from "@/components/Api.js";
+
     export default {
         name: "BookInfo",
         components: {OrderCountBox},
@@ -72,18 +75,16 @@
             return {
                 input: 1,
                 bookList: bookList,
-                book: this.getBook(),
+                book: null,
+                fullscreenLoading: false,
+            }
+        },
+        computed: {
+            bookID() {
+                return this.$route.params.id;
             }
         },
         methods: {
-            getBook() {
-                let id = parseInt(this.$route.params.id);
-                for (let book of bookList) {
-                    if (book.id === id) {
-                        return book;
-                    }
-                }
-            },
             order() {
                 if (this.$store.state.user.username === null) {
                     this.$notify.error({
@@ -118,8 +119,24 @@
                 return parseFloat((book.score / 2).toFixed(1));
             }
         },
-        updated() {
-            this.book = this.getBook();
+        created() {
+            this.fullscreenLoading = true;
+            Api.GetBookInfo({book_id: parseInt(this.bookID)}).then(
+                response => {
+                    this.book = response.data;
+                    this.fullscreenLoading = false;
+                }
+            );
+        },
+        watch: {
+            bookID() {
+                Api.GetBookInfo({book_id: parseInt(this.bookID)}).then(
+                    response => {
+                        this.book = response.data;
+                        this.fullscreenLoading = false;
+                    }
+                );
+            }
         }
     }
 </script>
