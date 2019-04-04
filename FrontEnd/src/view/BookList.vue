@@ -36,7 +36,6 @@
                 secondLabel: "价格",
                 thirdLabel: "销量",
                 bookList: null,
-                fullscreenLoading: null,
                 loadingInstance: null,
             }
         },
@@ -49,13 +48,6 @@
             }
         },
         methods: {
-            getBookList() {
-                return bookList.filter(
-                    book => {
-                        return book.title.indexOf(this.$route.params.keyword) !== -1;
-                    }
-                );
-            },
             handleClick(tab) {
                 if (tab.label === "价格" || tab.label === "价格由高到低") {
                     this.secondLabel = "价格由低到高";
