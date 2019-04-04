@@ -6,5 +6,9 @@ axios.defaults.withCredentials = true;
 export default {
     GetBookInfo(params) {
         return axios.get("/bookinfo", {params: params});
+    },
+
+    GetBookList(params) {
+        return axios.get("/booklist", {params: params});
     }
 };

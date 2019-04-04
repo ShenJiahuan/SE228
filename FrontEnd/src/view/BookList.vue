@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="bookList != null">
         <search-bar></search-bar>
         <div v-if="bookList.length > 0">
             <el-tabs v-model="active" @tab-click="handleClick">
@@ -17,12 +17,15 @@
             </h2>
         </el-card>
     </div>
+    <div v-else v-loading.fullscreen.lock="fullscreenLoading"></div>
 </template>
 
 <script>
     import bookList from "../data/book_list.json";
     import ListItem from "@/components/ListItem";
     import SearchBar from "@/components/SearchBar";
+    import Api from "@/components/Api.js";
+
     export default {
         name: "BookList",
         components: {SearchBar, ListItem},
@@ -33,11 +36,15 @@
                 secondLabel: "价格",
                 thirdLabel: "销量",
                 bookList: null,
+                fullscreenLoading: null,
             }
         },
         computed: {
             path() {
                 return this.$route.path;
+            },
+            keyword() {
+                return this.$route.params.keyword;
             }
         },
         methods: {
@@ -65,11 +72,25 @@
             }
         },
         created() {
-            this.bookList = this.getBookList();
+            this.fullscreenLoading = true;
+            Api.GetBookList({keyword: this.keyword}).then(
+                response => {
+                    this.bookList = response.data;
+                    this.fullscreenLoading = false;
+                    console.log(response.data);
+                }
+            );
         },
         watch: {
-            path() {
-                this.bookList = this.getBookList();
+            keyword() {
+                this.fullscreenLoading = true;
+                Api.GetBookList({keyword: this.keyword}).then(
+                    response => {
+                        this.bookList = response.data;
+                        this.fullscreenLoading = false;
+                        console.log(response.data[0]);
+                    }
+                );
             }
         }
     }
