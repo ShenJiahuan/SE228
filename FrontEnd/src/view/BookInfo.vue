@@ -60,13 +60,13 @@
             </div>
         </div>
     </div>
-    <div v-else  v-loading.fullscreen.lock="fullscreenLoading"></div>
 </template>
 
 <script>
     import bookList from "../data/book_list.json";
     import OrderCountBox from "@/components/OrderCountBox";
     import Api from "@/components/Api.js";
+    import { Loading } from "element-ui";
 
     export default {
         name: "BookInfo",
@@ -76,7 +76,6 @@
                 input: 1,
                 bookList: bookList,
                 book: null,
-                fullscreenLoading: false,
             }
         },
         computed: {
@@ -120,20 +119,21 @@
             }
         },
         created() {
-            this.fullscreenLoading = true;
+            this.loadingInstance = Loading.service({ fullscreen: true });
             Api.GetBookInfo({book_id: parseInt(this.bookID)}).then(
                 response => {
                     this.book = response.data;
-                    this.fullscreenLoading = false;
+                    this.loadingInstance.close();
                 }
             );
         },
         watch: {
             bookID() {
+                this.loadingInstance = Loading.service({ fullscreen: true });
                 Api.GetBookInfo({book_id: parseInt(this.bookID)}).then(
                     response => {
                         this.book = response.data;
-                        this.fullscreenLoading = false;
+                        this.loadingInstance.close();
                     }
                 );
             }

@@ -17,7 +17,6 @@
             </h2>
         </el-card>
     </div>
-    <div v-else v-loading.fullscreen.lock="fullscreenLoading"></div>
 </template>
 
 <script>
@@ -25,6 +24,7 @@
     import ListItem from "@/components/ListItem";
     import SearchBar from "@/components/SearchBar";
     import Api from "@/components/Api.js";
+    import { Loading } from "element-ui";
 
     export default {
         name: "BookList",
@@ -37,6 +37,7 @@
                 thirdLabel: "销量",
                 bookList: null,
                 fullscreenLoading: null,
+                loadingInstance: null,
             }
         },
         computed: {
@@ -72,23 +73,21 @@
             }
         },
         created() {
-            this.fullscreenLoading = true;
+            this.loadingInstance = Loading.service({ fullscreen: true });
             Api.GetBookList({keyword: this.keyword}).then(
                 response => {
                     this.bookList = response.data;
-                    this.fullscreenLoading = false;
-                    console.log(response.data);
+                    this.loadingInstance.close();
                 }
             );
         },
         watch: {
             keyword() {
-                this.fullscreenLoading = true;
+                this.loadingInstance = Loading.service({ fullscreen: true });
                 Api.GetBookList({keyword: this.keyword}).then(
                     response => {
                         this.bookList = response.data;
-                        this.fullscreenLoading = false;
-                        console.log(response.data[0]);
+                        this.loadingInstance.close();
                     }
                 );
             }
