@@ -35,6 +35,10 @@
                 secondLabel: "价格",
                 thirdLabel: "销量",
                 bookList: null,
+                /* sortType:
+                 * 0: sort by complex, 1: sort by price ascent, 2: sort by price descent, 3: sort by sale amount
+                 */
+                sortType: 0,
                 loadingInstance: null,
             }
         },
@@ -48,18 +52,39 @@
         },
         methods: {
             handleClick(tab) {
-                if (tab.label === "价格" || tab.label === "价格由高到低") {
-                    this.secondLabel = "价格由低到高";
-                    this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.book_info["定价"]) < parseFloat(book2.book_info["定价"]) ? -1 : 1);
-                } else if (tab.label === "价格由低到高") {
-                    this.secondLabel = "价格由高到低";
-                    this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.book_info["定价"]) > parseFloat(book2.book_info["定价"]) ? -1 : 1);
-                } else if (tab.label === "综合") {
-                    this.secondLabel = "价格";
-                    this.bookList = this.bookList.sort((book1, book2) => book1.id < book2.id ? -1 : 1);
-                } else if (tab.label === "销量") {
-                    this.secondLabel = "价格";
-                    this.bookList = this.bookList.sort((book1, book2) => book1.id < book2.id ? -1 : 1);
+                switch (tab.label) {
+                    case "价格":
+                    case "价格由高到低":
+                        this.secondLabel = "价格由低到高";
+                        this.sortType = 1;
+                        break;
+                    case "价格由低到高":
+                        this.secondLabel = "价格由高到低";
+                        this.sortType = 2;
+                        break;
+                    case "综合":
+                        this.secondLabel = "价格";
+                        this.sortType = 0;
+                        break;
+                    case "销量":
+                        this.secondLabel = "价格";
+                        this.sortType = 3;
+                        break;
+                }
+                this.sort();
+            },
+            sort() {
+                switch (this.sortType) {
+                    case 0:
+                    case 3:
+                        this.bookList = this.bookList.sort((book1, book2) => book1.id < book2.id ? -1 : 1);
+                        break;
+                    case 1:
+                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.book_info["定价"]) < parseFloat(book2.book_info["定价"]) ? -1 : 1);
+                        break;
+                    case 2:
+                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.book_info["定价"]) > parseFloat(book2.book_info["定价"]) ? -1 : 1);
+                        break;
                 }
             }
         },
@@ -79,6 +104,7 @@
                     response => {
                         this.bookList = response.data;
                         this.loadingInstance.close();
+                        this.sort();
                     }
                 );
             }
