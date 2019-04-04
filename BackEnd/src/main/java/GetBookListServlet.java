@@ -10,20 +10,19 @@ import org.apache.log4j.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-@WebServlet("/bookinfo")
-public class GetBookInfoServlet extends HttpServlet {
-    private static Logger logger = Logger.getLogger(GetBookInfoServlet.class);
+@WebServlet("/booklist")
+public class GetBookListServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(GetBookListServlet.class);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        int bookid = (int)request.getAttribute("bookid");
+        String keyword = (String)request.getAttribute("keyword");
         JSONArray bookList = LoadRawBookList.get();
         for (Object obj : bookList) {
             JSONObject book = (JSONObject) obj;
-            if (book.getInt("id") == bookid) {
+            if (book.getString("title").contains(keyword)) {
                 out.write(book.toString());
-                break;
             }
         }
         out.close();
