@@ -20,7 +20,6 @@
 </template>
 
 <script>
-    import bookList from "../data/book_list.json";
     import ListItem from "@/components/ListItem";
     import SearchBar from "@/components/SearchBar";
     import Api from "@/components/Api.js";
