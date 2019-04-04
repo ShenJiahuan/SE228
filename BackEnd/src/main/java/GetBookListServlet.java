@@ -18,13 +18,15 @@ public class GetBookListServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String keyword = (String)request.getAttribute("keyword");
-        JSONArray bookList = LoadRawBookList.get();
-        for (Object obj : bookList) {
+        JSONArray rawBookList = LoadRawBookList.get();
+        JSONArray filteredBookList = new JSONArray();
+        for (Object obj : rawBookList) {
             JSONObject book = (JSONObject) obj;
             if (book.getString("title").contains(keyword)) {
-                out.write(book.toString());
+                filteredBookList.put(book);
             }
         }
+        out.write(filteredBookList.toString());
         out.close();
     }
 }
