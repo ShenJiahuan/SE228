@@ -1,11 +1,11 @@
 <template>
     <div>
-        <el-tabs v-model="active" @tab-click="handleClick">
+        <el-tabs :value="active" @tab-click="handleClick">
             <el-tab-pane label="推荐" name="first" class="recommend-tab"></el-tab-pane>
             <el-tab-pane label="热榜" name="second" class="recommend-tab"></el-tab-pane>
         </el-tabs>
         <el-table
-                :data="tableData" :show-header="false">
+                :data="topList" :show-header="false">
             <el-table-column
                     min-width="10%">
                 <template slot-scope="scope">
@@ -31,62 +31,76 @@
 
 <script>
     import bookList from "../data/book_list.json";
+    import Api from "@/components/Api.js";
+    import { Loading } from "element-ui";
+
     export default {
         name: "Recommend",
         data() {
             return {
-                active: "first",
                 bookList: bookList,
+                topList: null,
             }
         },
         computed: {
-            tableData() {
-                var data = [];
-                for (let book of bookList) {
-                    var item = {
-                        rank: book.id,
-                        title: book.title,
-                        img: require("@/static/" + book.img),
-                        id: book.id,
-                    };
-                    data.push(item);
-                    if (data.length >= 10) {
-                        break;
-                    }
+            active() {
+                if (this.$route.path === "/index/recommend") {
+                    return "first";
+                } else if (this.$route.path === "/index/hot") {
+                    return "second";
                 }
-                if (this.active === "second") {
-                    data = data.sort((book1, book2) => book1.title < book2.title ? -1 : 1);
-                    let cnt = 1;
-                    data = data.map(book => {
-                        book.rank = cnt;
-                        cnt++;
-                        return book;
-                    });
-                }
-                return data;
+                return "";
+            },
+            path() {
+                return this.$route.path;
             }
         },
         methods: {
-            handleClick() {
-                if (this.active === "first") {
+            handleClick(tab) {
+                if (tab.name === "first") {
                     this.$router.push("/index/recommend");
                 } else {
                     this.$router.push("/index/hot");
                 }
             },
-            getActive() {
-                if (this.$route.params.choice === "recommend") {
-                    this.active = "first";
-                } else if (this.$route.params.choice === "hot") {
-                    this.active = "second";
+            load() {
+                let api = null;
+                if (this.active === "first") {
+                    api = Api.GetRecommendList;
+                } else if (this.active === "second") {
+                    api = Api.GetHotList;
+                } else {
+                    this.$router.push("/404");
+                    return;
                 }
+                this.loadingInstance = Loading.service({ fullscreen: true });
+                api().then(
+                    response => {
+                        let raw = response.data;
+                        this.topList = [];
+                        let cnt = 1;
+                        for (let book of raw) {
+                            let item = {
+                                rank: cnt,
+                                title: book.title,
+                                img: require("@/static/" + book.img),
+                                id: book.id,
+                            };
+                            this.topList.push(item);
+                            cnt += 1;
+                        }
+                        this.loadingInstance.close();
+                    }
+                );
             }
         },
         mounted() {
-            this.getActive();
+            this.load();
         },
-        updated() {
-            this.getActive();
+        watch: {
+            path() {
+                this.load();
+            }
         }
     }
 </script>

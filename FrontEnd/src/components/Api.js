@@ -10,5 +10,13 @@ export default {
 
     GetBookList(params) {
         return axios.get("/booklist", {params: params});
+    },
+
+    GetRecommendList() {
+        return axios.get("/recommend");
+    },
+
+    GetHotList() {
+        return axios.get("/hot");
     }
 };
