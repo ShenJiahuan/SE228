@@ -9,7 +9,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <filter>
     <filter-name>EncodingFilter</filter-name>
-    <filter-class>EncodingFilter</filter-class>
+    <filter-class>com.shenjiahuan.eBook.filter.EncodingFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -19,7 +19,7 @@
 
   <filter>
     <filter-name>CorsFilter</filter-name>
-    <filter-class>CORSFilter</filter-class>
+    <filter-class>com.shenjiahuan.eBook.filter.CORSFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -29,7 +29,7 @@
 
   <filter>
     <filter-name>GetBookInfoFilter</filter-name>
-    <filter-class>GetBookInfoFilter</filter-class>
+    <filter-class>com.shenjiahuan.eBook.filter.GetBookInfoFilter</filter-class>
   </filter>
 
   <filter-mapping>
@@ -39,7 +39,7 @@
 
   <filter>
     <filter-name>GetBookListFilter</filter-name>
-    <filter-class>GetBookListFilter</filter-class>
+    <filter-class>com.shenjiahuan.eBook.filter.GetBookListFilter</filter-class>
   </filter>
 
   <filter-mapping>
