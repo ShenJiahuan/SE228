@@ -1,25 +1,18 @@
 package com.shenjiahuan.eBook.servlet;
 
+import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.manage.ManageBook;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import java.util.Comparator;
+import java.util.List;
 
 @WebServlet("/recommend")
 public class GetRecommendListServlet extends GetTopListServlet {
-    @Override
-    public void init() throws ServletException {
-        comparator = new Comparator<JSONObject>() {
-            private static final String KEY_NAME = "score";
-
-            @Override
-            public int compare(JSONObject a, JSONObject b) {
-                double valA, valB;
-                valA = (double) a.get(KEY_NAME);
-                valB = (double) b.get(KEY_NAME);
-                return Double.compare(valB, valA);
-            }
-        };
+    protected List<Book> showTopBookList(int limit) {
+        ManageBook manageBook = new ManageBook();
+        return manageBook.showTopBookList("score", limit);
     }
 }

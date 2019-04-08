@@ -4,7 +4,6 @@ import com.shenjiahuan.eBook.entity.Book;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -33,5 +32,16 @@ public class ManageBook {
         List<Book> books = session.createQuery(criteriaQuery).getResultList();
         session.close();
         return books.size() != 0 ? books.get(0) : null;
+    }
+
+    public List<Book> showTopBookList(String type, int limit) {
+        Session session = factory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
+        Root<Book> book = criteriaQuery.from(Book.class);
+        criteriaQuery.orderBy(builder.desc(book.get(type)));
+        List<Book> books = session.createQuery(criteriaQuery).setMaxResults(limit).getResultList();
+        session.close();
+        return books.size() != 0 ? books : null;
     }
 }
