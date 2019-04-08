@@ -11,14 +11,39 @@
             </el-col>
             <el-col :span="8">
                 <div class="book-info">
-                    <span v-for="(value, key) in book.book_info" v-if="value !== null && key !== '定价'" :key="key">
-                        <span class="key">{{key}}：</span>
-                        <span class="value">{{value}}</span>
-                        <br>
+                    <span>
+                        <span>作者：</span>
+                        <span>{{book.author}}</span>
                     </span>
+                    <br>
+                    <span>
+                        <span>出版社：</span>
+                        <span>{{book.publisher}}</span>
+                    </span>
+                    <br>
+                    <span>
+                        <span>出版年：</span>
+                        <span>{{book.publishDate}}</span>
+                    </span>
+                    <br>
+                    <span>
+                        <span>页数：</span>
+                        <span>{{book.pages}}</span>
+                    </span>
+                    <br>
+                    <span>
+                        <span>装帧：</span>
+                        <span>{{book.decoration}}</span>
+                    </span>
+                    <br>
+                    <span>
+                        <span>ISBN：</span>
+                        <span>{{book.isbn}}</span>
+                    </span>
+                    <br>
                     <span class="key">定价：</span>
-                        <span class="value">
-                        <span class="price">¥{{book.book_info['定价']}}</span>
+                    <span class="value">
+                        <span class="price">¥{{book.price}}</span>
                     </span>
                     <br>
                 </div>
