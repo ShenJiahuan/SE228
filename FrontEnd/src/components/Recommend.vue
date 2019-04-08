@@ -76,7 +76,7 @@
                 this.loadingInstance = Loading.service({ fullscreen: true });
                 api().then(
                     response => {
-                        let raw = response.data;
+                        let raw = response.data.data;
                         this.topList = [];
                         let cnt = 1;
                         for (let book of raw) {
@@ -84,7 +84,7 @@
                                 rank: cnt,
                                 title: book.title,
                                 img: require("@/static/" + book.img),
-                                id: book.id,
+                                id: book.bookId,
                             };
                             this.topList.push(item);
                             cnt += 1;

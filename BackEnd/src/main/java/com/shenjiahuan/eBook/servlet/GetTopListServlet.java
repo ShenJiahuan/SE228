@@ -11,6 +11,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.manage.ManageBook;
 import com.shenjiahuan.eBook.util.LoadRawBookList;
 import org.apache.log4j.*;
 import org.json.JSONArray;
@@ -18,21 +23,19 @@ import org.json.JSONObject;
 
 public abstract class GetTopListServlet extends HttpServlet {
     private static Logger logger = Logger.getLogger(GetBookListServlet.class);
+    protected abstract List<Book> showTopBookList(int limit);
 
-    protected Comparator<JSONObject> comparator;
-
-    private JSONArray get(int limit) throws IOException {
-        JSONArray rawBookList = LoadRawBookList.get();
-        JSONArray result = new JSONArray();
-
-        List<JSONObject> jsonValues = new ArrayList<JSONObject>();
-        for (int i = 0; i < rawBookList.length(); i++) {
-            jsonValues.add(rawBookList.getJSONObject(i));
-        }
-        Collections.sort(jsonValues, comparator);
-
-        for (int i = 0; i < limit; i++) {
-            result.put(jsonValues.get(i));
+    private JsonObject get(int limit) throws IOException {
+        JsonObject result = null;
+        ManageBook manageBook = new ManageBook();
+        Gson gson = new Gson();
+        logger.debug("\n\n\n\n");
+        List<Book> books = showTopBookList(limit);
+        if (books != null) {
+            result = new JsonObject();
+            result.add("data", gson.toJsonTree(books));
+            result.addProperty("status", 0);
+            logger.debug(result);
         }
         return result;
     }
@@ -41,7 +44,7 @@ public abstract class GetTopListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        JSONArray filteredBookList = get(10);
+        JsonObject filteredBookList = get(10);
         out.write(filteredBookList.toString());
         out.close();
     }

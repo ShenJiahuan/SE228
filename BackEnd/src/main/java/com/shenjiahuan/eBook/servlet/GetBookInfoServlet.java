@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.manage.ManageBook;
 import com.shenjiahuan.eBook.util.LoadRawBookList;
 import org.apache.log4j.*;
 import org.json.JSONArray;
@@ -21,13 +25,13 @@ public class GetBookInfoServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         int bookid = (int)request.getAttribute("bookid");
-        JSONArray bookList = LoadRawBookList.get();
-        for (Object obj : bookList) {
-            JSONObject book = (JSONObject) obj;
-            if (book.getInt("id") == bookid) {
-                out.write(book.toString());
-                break;
-            }
+        ManageBook manageBook = new ManageBook();
+        Gson gson = new Gson();
+        Book book = manageBook.showBook(bookid);
+        if (book != null) {
+            JsonElement jsonElement = gson.toJsonTree(book);
+            jsonElement.getAsJsonObject().addProperty("status", 0);
+            out.write(gson.toJson(jsonElement));
         }
         out.close();
     }
