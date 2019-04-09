@@ -8,7 +8,7 @@
                 <el-tab-pane :label="thirdLabel" name="third"></el-tab-pane>
             </el-tabs>
             <transition-group class="list-group" name="flip-list" tag="div">
-                <list-item v-for="book in bookList" :book="book" :key="book.id"></list-item>
+                <list-item v-for="book in bookList" :book="book" :key="book.bookId"></list-item>
             </transition-group>
         </div>
         <el-card v-else>
@@ -77,13 +77,13 @@
                 switch (this.sortType) {
                     case 0:
                     case 3:
-                        this.bookList = this.bookList.sort((book1, book2) => book1.id < book2.id ? -1 : 1);
+                        this.bookList = this.bookList.sort((book1, book2) => book1.bookId < book2.bookId ? -1 : 1);
                         break;
                     case 1:
-                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.book_info["定价"]) < parseFloat(book2.book_info["定价"]) ? -1 : 1);
+                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.price) < parseFloat(book2.price) ? -1 : 1);
                         break;
                     case 2:
-                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.book_info["定价"]) > parseFloat(book2.book_info["定价"]) ? -1 : 1);
+                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.price) > parseFloat(book2.price) ? -1 : 1);
                         break;
                 }
             }
@@ -92,7 +92,7 @@
             this.loadingInstance = Loading.service({ fullscreen: true });
             Api.GetBookList({keyword: this.keyword}).then(
                 response => {
-                    this.bookList = response.data;
+                    this.bookList = response.data.data;
                     this.loadingInstance.close();
                 }
             );
@@ -102,7 +102,7 @@
                 this.loadingInstance = Loading.service({ fullscreen: true });
                 Api.GetBookList({keyword: this.keyword}).then(
                     response => {
-                        this.bookList = response.data;
+                        this.bookList = response.data.data;
                         this.loadingInstance.close();
                         this.sort();
                     }

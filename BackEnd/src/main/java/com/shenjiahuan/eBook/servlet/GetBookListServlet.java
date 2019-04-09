@@ -7,7 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.manage.ManageBook;
 import com.shenjiahuan.eBook.util.LoadRawBookList;
 import org.apache.log4j.*;
 import org.json.JSONArray;
@@ -21,15 +26,16 @@ public class GetBookListServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String keyword = (String)request.getAttribute("keyword");
-        JSONArray rawBookList = LoadRawBookList.get();
-        JSONArray filteredBookList = new JSONArray();
-        for (Object obj : rawBookList) {
-            JSONObject book = (JSONObject) obj;
-            if (book.getString("title").contains(keyword)) {
-                filteredBookList.put(book);
-            }
+        JsonObject result = null;
+        ManageBook manageBook = new ManageBook();
+        Gson gson = new Gson();
+        List<Book> books = manageBook.showRelatedBookList(keyword);
+        if (books != null) {
+            result = new JsonObject();
+            result.add("data", gson.toJsonTree(books));
+            result.addProperty("status", 0);
         }
-        out.write(filteredBookList.toString());
+        out.write(result.toString());
         out.close();
     }
 }

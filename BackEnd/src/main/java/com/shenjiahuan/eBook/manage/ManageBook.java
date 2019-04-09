@@ -44,4 +44,17 @@ public class ManageBook {
         session.close();
         return books.size() != 0 ? books : null;
     }
+
+    public List<Book> showRelatedBookList(String keyword) {
+        Session session = factory.openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
+        Root<Book> book = criteriaQuery.from(Book.class);
+        Predicate p = builder.and(builder.like(book.get("title"), "%" + keyword + "%"));
+        criteriaQuery.where(p);
+        criteriaQuery.orderBy(builder.desc(book.get("bookId")));
+        List<Book> books = session.createQuery(criteriaQuery).getResultList();
+        session.close();
+        return books.size() != 0 ? books : null;
+    }
 }
