@@ -2,7 +2,8 @@ package com.shenjiahuan.eBook.manage;
 
 import com.shenjiahuan.eBook.entity.Book;
 import org.apache.log4j.Logger;
-import org.hibernate.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -22,7 +23,7 @@ public class ManageBook {
         }
     }
     private static Logger logger = Logger.getLogger(ManageBook.class);
-    public Book showBook(int bookId) {
+    public Book getBook(int bookId) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
@@ -34,7 +35,7 @@ public class ManageBook {
         return books.size() != 0 ? books.get(0) : null;
     }
 
-    public List<Book> showTopBookList(String type, int limit) {
+    public List<Book> getTopBookList(String type, int limit) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
@@ -45,7 +46,7 @@ public class ManageBook {
         return books.size() != 0 ? books : null;
     }
 
-    public List<Book> showRelatedBookList(String keyword) {
+    public List<Book> getRelatedBookList(String keyword) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);

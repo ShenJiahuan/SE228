@@ -4,6 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Book {
@@ -21,27 +22,6 @@ public class Book {
     private Double score;
     private String bookDesc;
     private String originalName;
-
-    public Book() {}
-
-    public Book(int bookId, String title, String author, String publisher, String publishDate,
-                Integer pages, double price, String decoration, String isbn, String img, Double hot,
-                Double score, String bookDesc, String originalName) {
-        this.bookId = bookId;
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.publishDate = publishDate;
-        this.pages = pages;
-        this.price = price;
-        this.decoration = decoration;
-        this.isbn = isbn;
-        this.img = img;
-        this.hot = hot;
-        this.score = score;
-        this.bookDesc = bookDesc;
-        this.originalName = originalName;
-    }
 
     @Id
     @Column(name = "book_id")
@@ -187,46 +167,25 @@ public class Book {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Book book = (Book) o;
-
-        if (bookId != book.bookId) return false;
-        if (Double.compare(book.price, price) != 0) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-        if (publisher != null ? !publisher.equals(book.publisher) : book.publisher != null) return false;
-        if (publishDate != null ? !publishDate.equals(book.publishDate) : book.publishDate != null) return false;
-        if (pages != null ? !pages.equals(book.pages) : book.pages != null) return false;
-        if (decoration != null ? !decoration.equals(book.decoration) : book.decoration != null) return false;
-        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
-        if (img != null ? !img.equals(book.img) : book.img != null) return false;
-        if (hot != null ? !hot.equals(book.hot) : book.hot != null) return false;
-        if (score != null ? !score.equals(book.score) : book.score != null) return false;
-        if (bookDesc != null ? !bookDesc.equals(book.bookDesc) : book.bookDesc != null) return false;
-        if (originalName != null ? !originalName.equals(book.originalName) : book.originalName != null) return false;
-
-        return true;
+        return bookId == book.bookId &&
+                Double.compare(book.price, price) == 0 &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(publisher, book.publisher) &&
+                Objects.equals(publishDate, book.publishDate) &&
+                Objects.equals(pages, book.pages) &&
+                Objects.equals(decoration, book.decoration) &&
+                Objects.equals(isbn, book.isbn) &&
+                Objects.equals(img, book.img) &&
+                Objects.equals(hot, book.hot) &&
+                Objects.equals(score, book.score) &&
+                Objects.equals(bookDesc, book.bookDesc) &&
+                Objects.equals(originalName, book.originalName);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = bookId;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (author != null ? author.hashCode() : 0);
-        result = 31 * result + (publisher != null ? publisher.hashCode() : 0);
-        result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
-        result = 31 * result + (pages != null ? pages.hashCode() : 0);
-        temp = Double.doubleToLongBits(price);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (decoration != null ? decoration.hashCode() : 0);
-        result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
-        result = 31 * result + (img != null ? img.hashCode() : 0);
-        result = 31 * result + (hot != null ? hot.hashCode() : 0);
-        result = 31 * result + (score != null ? score.hashCode() : 0);
-        result = 31 * result + (bookDesc != null ? bookDesc.hashCode() : 0);
-        result = 31 * result + (originalName != null ? originalName.hashCode() : 0);
-        return result;
+        return Objects.hash(bookId, title, author, publisher, publishDate, pages, price, decoration, isbn, img, hot, score, bookDesc, originalName);
     }
 }

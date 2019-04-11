@@ -4,19 +4,19 @@ axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 export default {
-    GetBookInfo(params) {
-        return axios.get("/bookinfo", {params: params});
+    GetBookInfo(id) {
+        return axios.get("/books/" + id);
     },
 
-    GetBookList(params) {
-        return axios.get("/booklist", {params: params});
+    GetBookList(keyword) {
+        return axios.get("/books", {params: {keyword: keyword}});
     },
 
-    GetRecommendList() {
-        return axios.get("/recommend");
+    GetRecommendList(limit) {
+        return axios.get("/books/recommend",  {params: {limit: limit}});
     },
 
-    GetHotList() {
-        return axios.get("/hot");
+    GetHotList(limit) {
+        return axios.get("/books/hot", {params: {limit: limit}} );
     }
 };

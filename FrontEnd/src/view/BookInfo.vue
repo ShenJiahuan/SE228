@@ -145,7 +145,7 @@
         },
         created() {
             this.loadingInstance = Loading.service({ fullscreen: true });
-            Api.GetBookInfo({book_id: parseInt(this.bookID)}).then(
+            Api.GetBookInfo(this.bookID).then(
                 response => {
                     this.book = response.data;
                     this.loadingInstance.close();
@@ -155,7 +155,7 @@
         watch: {
             bookID() {
                 this.loadingInstance = Loading.service({ fullscreen: true });
-                Api.GetBookInfo({book_id: parseInt(this.bookID)}).then(
+                Api.GetBookInfo(this.bookID).then(
                     response => {
                         this.book = response.data;
                         this.loadingInstance.close();

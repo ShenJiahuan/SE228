@@ -90,9 +90,9 @@
         },
         created() {
             this.loadingInstance = Loading.service({ fullscreen: true });
-            Api.GetBookList({keyword: this.keyword}).then(
+            Api.GetBookList(this.keyword).then(
                 response => {
-                    this.bookList = response.data.data;
+                    this.bookList = response.data;
                     this.loadingInstance.close();
                 }
             );
@@ -100,9 +100,9 @@
         watch: {
             keyword() {
                 this.loadingInstance = Loading.service({ fullscreen: true });
-                Api.GetBookList({keyword: this.keyword}).then(
+                Api.GetBookList(this.keyword).then(
                     response => {
-                        this.bookList = response.data.data;
+                        this.bookList = response.data;
                         this.loadingInstance.close();
                         this.sort();
                     }

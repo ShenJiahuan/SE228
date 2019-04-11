@@ -8,14 +8,11 @@
     <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
     <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="format_sql">true</property>
-    <property name="show_sql">true</property>
+    <property name="connection.pool_size">100</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
     <mapping class="com.shenjiahuan.eBook.entity.Book"/>
     <mapping class="com.shenjiahuan.eBook.entity.Cart"/>
     <mapping class="com.shenjiahuan.eBook.entity.User"/>
-
-    <!-- DB schema will be updated if needed -->
-    <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
   </session-factory>
 </hibernate-configuration>

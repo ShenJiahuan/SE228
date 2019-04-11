@@ -3,6 +3,7 @@ package com.shenjiahuan.eBook.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class CartPK implements Serializable {
     private int uid;
@@ -32,19 +33,13 @@ public class CartPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         CartPK cartPK = (CartPK) o;
-
-        if (uid != cartPK.uid) return false;
-        if (bookId != cartPK.bookId) return false;
-
-        return true;
+        return uid == cartPK.uid &&
+                bookId == cartPK.bookId;
     }
 
     @Override
     public int hashCode() {
-        int result = uid;
-        result = 31 * result + bookId;
-        return result;
+        return Objects.hash(uid, bookId);
     }
 }

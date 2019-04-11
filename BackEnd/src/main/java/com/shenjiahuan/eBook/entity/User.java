@@ -4,6 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class User {
@@ -67,25 +68,16 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
-        if (uid != user.uid) return false;
-        if (admin != user.admin) return false;
-        if (root != user.root) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-
-        return true;
+        return uid == user.uid &&
+                admin == user.admin &&
+                root == user.root &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        int result = uid;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (int) admin;
-        result = 31 * result + (int) root;
-        return result;
+        return Objects.hash(uid, username, password, admin, root);
     }
 }

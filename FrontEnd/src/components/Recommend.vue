@@ -74,9 +74,9 @@
                     return;
                 }
                 this.loadingInstance = Loading.service({ fullscreen: true });
-                api().then(
+                api(10).then(
                     response => {
-                        let raw = response.data.data;
+                        let raw = response.data;
                         this.topList = [];
                         let cnt = 1;
                         for (let book of raw) {
