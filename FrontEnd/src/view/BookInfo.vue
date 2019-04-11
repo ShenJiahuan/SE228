@@ -80,7 +80,7 @@
             </el-col>
         </el-row>
         <div class="book-desc">
-            <div v-for="para in book.bookDesc.split('\n')" :key="para">
+            <div v-for="(para, index) in book.bookDesc.split('\n')" :key="index">
                 <p>{{para}}</p>
             </div>
         </div>
