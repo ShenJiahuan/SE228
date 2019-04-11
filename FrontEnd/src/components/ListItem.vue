@@ -5,7 +5,7 @@
         </div>
         <div class="item-desc">
             <h3 class="item-title">
-                <router-link v-bind:to="'/info/' + book.id">{{book.title}}</router-link>
+                <router-link v-bind:to="'/info/' + book.bookId">{{book.title}}</router-link>
             </h3>
             <span class="key" v-if="book.author != null">作者：</span>
             <span class="value" v-if="book.author != null">{{book.author}}</span>
