@@ -1,4 +1,4 @@
-package com.shenjiahuan.eBook;
+package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.entity.Book;
 import com.shenjiahuan.eBook.manage.ManageBook;

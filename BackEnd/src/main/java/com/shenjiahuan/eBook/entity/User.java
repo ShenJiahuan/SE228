@@ -14,6 +14,16 @@ public class User {
     private byte admin;
     private byte root;
 
+    public User() {}
+
+    public User(int uid, String username, String password, byte admin, byte root) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
+        this.admin = admin;
+        this.root = root;
+    }
+
     @Id
     @Column(name = "uid")
     public int getUid() {
