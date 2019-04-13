@@ -52,6 +52,7 @@
 
 <script>
     import navList from "../data/nav_list.json";
+    import Api from "@/components/Api.js";
 
     export default {
         name: "Header",
@@ -104,9 +105,20 @@
                 return this.$route.path.indexOf(url) !== -1;
             },
             logout() {
+                Api.Logout();
                 this.$store.commit("logout");
                 this.$router.push("/");
             }
+        },
+        mounted() {
+            Api.GetUsername().then(
+                response => {
+                    if (response.data.success) {
+                        let username = response.data.message;
+                        this.$store.commit("login", username, false);
+                    }
+                }
+            );
         }
     }
 </script>

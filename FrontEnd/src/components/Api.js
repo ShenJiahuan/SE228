@@ -25,5 +25,13 @@ export default {
         params.append("username", email);
         params.append("password", password);
         return axios.post("/login", params);
+    },
+
+    Logout() {
+        return axios.get("/logout");
+    },
+
+    GetUsername() {
+        return axios.get("/user");
     }
 };

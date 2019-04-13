@@ -39,12 +39,23 @@
                         Api.Login(this.form.email, this.form.password).then(
                             response => {
                                 if (response.data.success) {
-                                    this.$store.commit("login", "未知用户", this.form.email, false);
-                                    if (this.$route.query.redirect) {
-                                        this.$router.push(this.$route.query.redirect);
-                                    } else {
-                                        this.$router.push("/");
-                                    }
+                                    Api.GetUsername().then(
+                                        response => {
+                                            let username = response.data.message;
+                                            this.$store.commit("login", username, false);
+                                            if (this.$route.query.redirect) {
+                                                this.$router.push(this.$route.query.redirect);
+                                            } else {
+                                                this.$router.push("/");
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    this.$notify({
+                                        title: "登录失败",
+                                        message: "登录凭据不正确",
+                                        type: "error"
+                                    });
                                 }
                             }
                         );

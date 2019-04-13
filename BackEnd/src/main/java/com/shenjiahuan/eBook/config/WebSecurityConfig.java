@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(myAuthenticationFailureHandler)
                 .and()
                 .logout()
+                .logoutUrl("/logout")
                 .permitAll()
                 .and()
                 .cors()
