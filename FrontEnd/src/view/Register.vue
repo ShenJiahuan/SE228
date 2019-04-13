@@ -19,6 +19,8 @@
 </template>
 
 <script>
+    import Api from "@/components/Api.js";
+
     export default {
         name: "Register",
         data() {
@@ -70,12 +72,29 @@
             onSubmit(form) {
                 this.$refs[form].validate((valid) => {
                     if (valid) {
-                        this.$store.commit("login", this.form.username, this.form.email, false);
-                        if (this.$route.query.redirect) {
-                            this.$router.push(this.$route.query.redirect);
-                        } else {
-                            this.$router.push("/");
-                        }
+                        Api.Register(this.form.email, this.form.username, this.form.password).then(
+                            response => {
+                                if (response.data.success) {
+                                    Api.GetUsername().then(
+                                        response => {
+                                            let username = response.data.message;
+                                            this.$notify({
+                                                title: "注册成功",
+                                                message: "跳转至登录页面",
+                                                type: "success"
+                                            });
+                                            this.$router.push({path: "/login", query: {redirect: this.$route.query.redirect}});
+                                        }
+                                    );
+                                } else {
+                                    this.$notify({
+                                        title: "注册失败",
+                                        message: "注册失败",
+                                        type: "error"
+                                    });
+                                }
+                            }
+                        );
                     } else {
                         return false;
                     }

@@ -30,9 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userDetailsDao.findUserByUsername(email);
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;
         if (user != null) {
-            System.out.println(user.getPassword());
             builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
             builder.disabled(false);
+            logger.debug(user.getPassword());
             builder.password(user.getPassword());
             String[] authorities = {"User"};
             builder.authorities(authorities);

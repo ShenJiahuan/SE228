@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://192.168.1.103:8080";
+axios.defaults.baseURL = "http://10.166.93.158:8080";
 axios.defaults.withCredentials = true;
 
 export default {
@@ -22,13 +22,21 @@ export default {
 
     Login(email, password) {
         var params = new URLSearchParams();
-        params.append("username", email);
+        params.append("email", email);
         params.append("password", password);
-        return axios.post("/login", params);
+        return axios.post("/user/login", params);
+    },
+
+    Register(email, username, password) {
+        var params = new URLSearchParams();
+        params.append("email", email);
+        params.append("username", username);
+        params.append("password", password);
+        return axios.post("/user/register", params);
     },
 
     Logout() {
-        return axios.get("/logout");
+        return axios.get("/user/logout");
     },
 
     GetUsername() {

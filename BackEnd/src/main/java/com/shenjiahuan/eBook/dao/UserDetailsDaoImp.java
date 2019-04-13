@@ -1,9 +1,15 @@
 package com.shenjiahuan.eBook.dao;
 
 import com.shenjiahuan.eBook.entity.User;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,6 +21,10 @@ import java.util.List;
 @Repository
 public class UserDetailsDaoImp implements UserDetailsDao {
 
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
   private static SessionFactory sessionFactory;
   static {
     try {
@@ -23,6 +33,24 @@ public class UserDetailsDaoImp implements UserDetailsDao {
       System.err.println("Failed to create sessionFactory object." + ex);
       throw new ExceptionInInitializerError(ex);
     }
+  }
+
+  @Override
+  public void save(User user) {
+    user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    Session session = sessionFactory.openSession();
+    Transaction tx = null;
+    try {
+      tx = session.beginTransaction();
+      session.save(user);
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    session.close();
   }
 
   @Override
