@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = "http://192.168.1.103:8080";
 axios.defaults.withCredentials = true;
 
 export default {
@@ -18,5 +18,12 @@ export default {
 
     GetHotList(limit) {
         return axios.get("/books/hot", {params: {limit: limit}} );
+    },
+
+    Login(email, password) {
+        var params = new URLSearchParams();
+        params.append("username", email);
+        params.append("password", password);
+        return axios.post("/login", params);
     }
 };

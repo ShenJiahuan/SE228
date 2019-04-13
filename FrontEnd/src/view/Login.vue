@@ -14,6 +14,8 @@
 </template>
 
 <script>
+    import Api from "@/components/Api.js";
+
     export default {
         name: "Login",
         data() {
@@ -34,12 +36,18 @@
             onSubmit(form) {
                 this.$refs[form].validate((valid) => {
                     if (valid) {
-                        this.$store.commit("login", "未知用户", this.form.email, false);
-                        if (this.$route.query.redirect) {
-                            this.$router.push(this.$route.query.redirect);
-                        } else {
-                            this.$router.push("/");
-                        }
+                        Api.Login(this.form.email, this.form.password).then(
+                            response => {
+                                if (response.data.success) {
+                                    this.$store.commit("login", "未知用户", this.form.email, false);
+                                    if (this.$route.query.redirect) {
+                                        this.$router.push(this.$route.query.redirect);
+                                    } else {
+                                        this.$router.push("/");
+                                    }
+                                }
+                            }
+                        );
                     } else {
                         return false;
                     }

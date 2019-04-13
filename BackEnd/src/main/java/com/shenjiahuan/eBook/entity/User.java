@@ -9,20 +9,11 @@ import java.util.Objects;
 @Entity
 public class User {
     private int uid;
-    private String username;
+    private String email;
     private String password;
     private byte admin;
     private byte root;
-
-    public User() {}
-
-    public User(int uid, String username, String password, byte admin, byte root) {
-        this.uid = uid;
-        this.username = username;
-        this.password = password;
-        this.admin = admin;
-        this.root = root;
-    }
+    private String username;
 
     @Id
     @Column(name = "uid")
@@ -35,13 +26,13 @@ public class User {
     }
 
     @Basic
-    @Column(name = "username")
-    public String getUsername() {
-        return username;
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Basic
@@ -74,6 +65,16 @@ public class User {
         this.root = root;
     }
 
+    @Basic
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,12 +83,13 @@ public class User {
         return uid == user.uid &&
                 admin == user.admin &&
                 root == user.root &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, username, password, admin, root);
+        return Objects.hash(uid, email, password, admin, root, username);
     }
 }
