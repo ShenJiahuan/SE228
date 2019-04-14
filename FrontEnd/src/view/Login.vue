@@ -51,9 +51,13 @@
                                         }
                                     );
                                 } else {
+                                    let message = "未知错误";
+                                    if (response.data.message === "Bad credentials") {
+                                        message = "邮箱或密码错误";
+                                    }
                                     this.$notify({
                                         title: "登录失败",
-                                        message: "登录凭据不正确",
+                                        message: message,
                                         type: "error"
                                     });
                                 }
