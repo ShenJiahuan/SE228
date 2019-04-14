@@ -2,10 +2,8 @@ package com.shenjiahuan.eBook.validator;
 
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.shenjiahuan.eBook.util.UserCheck;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -24,13 +22,17 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty", "Email address should not be empty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty", "Username should not be empty");
         if (userDetailsDao.findUserByUsername(user.getEmail()) != null) {
-            errors.rejectValue("username", "Duplicate.userForm.username");
+            errors.rejectValue("email", "Duplicate", "Email address exists");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8) {
-            errors.rejectValue("password", "Size.userForm.password");
+        if (!UserCheck.checkEmail(user.getEmail())) {
+            errors.rejectValue("email", "Illegal", "Illegal email address");
+        }
+        ValidationUtils.rejectIfEmpty(errors, "password", "NotEmpty", "Password should not be empty");
+        if (!UserCheck.checkPass(user.getPassword())) {
+            errors.rejectValue("password", "Illegal", "Illegal password");
         }
     }
 }

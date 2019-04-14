@@ -87,9 +87,13 @@
                                         }
                                     );
                                 } else {
+                                    let message = "未知错误";
+                                    if (response.data.message === "Email address exists") {
+                                        message = "该邮箱已存在";
+                                    }
                                     this.$notify({
                                         title: "注册失败",
-                                        message: "注册失败",
+                                        message: message,
                                         type: "error"
                                     });
                                 }

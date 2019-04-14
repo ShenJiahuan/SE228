@@ -43,7 +43,7 @@ public class UserController {
     public HandlerResponse registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            return new HandlerResponse("注册失败", false);
+            return new HandlerResponse(bindingResult.getAllErrors().get(0).getDefaultMessage(), false);
         }
 
         userDetailsDao.save(userForm);
