@@ -41,8 +41,8 @@
             <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
                 <el-submenu index="2" v-bind:class="{'nav-selected': selected('right')}">
                     <template slot="title">{{this.username == null ? "我的" : this.username}}</template>
-                    <el-menu-item index="/login" :route="{path: '/login', query: {redirect: this.$route.fullPath}}" v-if="this.username == null">登录</el-menu-item>
-                    <el-menu-item index="/register" :route="{path: '/register', query: {redirect: this.$route.fullPath}}" v-if="this.username == null">注册</el-menu-item>
+                    <el-menu-item index="/login" :route="{path: '/login', query: {redirect: getRedirectURL()}}" v-if="this.username == null">登录</el-menu-item>
+                    <el-menu-item index="/register" :route="{path: '/register', query: {redirect: getRedirectURL()}}" v-if="this.username == null">注册</el-menu-item>
                     <el-menu-item index="" v-if="this.username != null" v-on:click="logout">退出登录</el-menu-item>
                 </el-submenu>
             </el-menu>
@@ -108,6 +108,15 @@
                 Api.Logout();
                 this.$store.commit("logout");
                 this.$router.push("/");
+            },
+            getRedirectURL() {
+                if (this.$route.fullPath === "/register" || this.$route.fullPath === "/login") {
+                    return "/";
+                }
+                if (this.$route.query.redirect) {
+                     return this.$route.query.redirect;
+                }
+                return this.$route.fullPath;
             }
         },
         mounted() {
