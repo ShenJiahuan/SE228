@@ -1,10 +1,11 @@
-package com.shenjiahuan.eBook.manage;
+package com.shenjiahuan.eBook.dao;
 
 import com.shenjiahuan.eBook.entity.Book;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,7 +13,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class ManageBook {
+@Repository
+public class BookDaoImp implements BookDao {
+
     private static SessionFactory factory;
     static {
         try {
@@ -22,8 +25,9 @@ public class ManageBook {
             throw new ExceptionInInitializerError(ex);
         }
     }
-    private static Logger logger = Logger.getLogger(ManageBook.class);
-    public Book getBook(int bookId) {
+    private static Logger logger = Logger.getLogger(BookDaoImp.class);
+
+    public Book findBookById(int bookId) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
@@ -35,7 +39,7 @@ public class ManageBook {
         return books.size() != 0 ? books.get(0) : null;
     }
 
-    public List<Book> getTopBookList(String type, int limit) {
+    public List<Book> findTopBookList(String type, int limit) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
@@ -46,7 +50,7 @@ public class ManageBook {
         return books.size() != 0 ? books : null;
     }
 
-    public List<Book> getRelatedBookList(String keyword) {
+    public List<Book> findRelatedBookList(String keyword) {
         Session session = factory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Book> criteriaQuery = builder.createQuery(Book.class);
