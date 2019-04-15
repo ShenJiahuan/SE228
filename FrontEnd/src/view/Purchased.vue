@@ -117,38 +117,51 @@
                     return orderTime.getTime() >= this.time.minDate.getTime() &&
                             orderTime.getTime() <= this.time.maxDate.getTime();
                 })
+            },
+            username() {
+                return this.$store.state.user.username;
             }
         },
-        created() {
-            console.log(this.$store.state.user);
-            if (this.$store.state.user.username == null) {
-                this.$notify.error({
-                    title: "错误",
-                    message: "请先登录"
-                });
-                this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+        watch: {
+            username() {
+                this.getPurchased();
             }
-
-            Api.GetPurchased().then(
-                response => {
-                    let dateFormat = require('dateformat');
-                    let result = response.data.result;
-                    this.initialData = [];
-                    for (let item of result) {
-                        console.log(item);
-                        let time = new Date(item[0].purchaseTime * 1000);
-                        this.initialData.push({
-                            id: item[1].bookId,
-                            choose: false,
-                            img: require("@/static/" + item[1].img),
-                            title: item[1].title,
-                            price: item[1].price,
-                            count: item[0].count,
-                            time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
-                        })
-                    }
+        },
+        mounted() {
+            this.getPurchased();
+        },
+        methods: {
+            getPurchased() {
+                console.log(this.$store.state.user);
+                if (this.$store.state.user.username === "") {
+                    this.$notify.error({
+                        title: "错误",
+                        message: "请先登录"
+                    });
+                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
                 }
-            )
+
+                Api.GetPurchased().then(
+                    response => {
+                        let dateFormat = require('dateformat');
+                        let result = response.data.result;
+                        this.initialData = [];
+                        for (let item of result) {
+                            console.log(item);
+                            let time = new Date(item[0].purchaseTime * 1000);
+                            this.initialData.push({
+                                id: item[1].bookId,
+                                choose: false,
+                                img: require("@/static/" + item[1].img),
+                                title: item[1].title,
+                                price: item[1].price,
+                                count: item[0].count,
+                                time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
+                            })
+                        }
+                    }
+                )
+            }
         }
     }
 </script>

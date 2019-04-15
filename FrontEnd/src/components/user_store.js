@@ -5,7 +5,7 @@ export default {
     },
     mutations: {
         logout(state) {
-            state.username = null;
+            state.username = "";
             state.admin = false;
         },
         login(state, username, email, admin) {

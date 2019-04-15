@@ -40,10 +40,10 @@
         <div class="header-right">
             <el-menu mode="horizontal" router="router" active-text-color="#409EFF">
                 <el-submenu index="2" v-bind:class="{'nav-selected': selected('right')}">
-                    <template slot="title">{{this.username == null ? "我的" : this.username}}</template>
-                    <el-menu-item index="/login" :route="{path: '/login', query: {redirect: getRedirectURL()}}" v-if="this.username == null">登录</el-menu-item>
-                    <el-menu-item index="/register" :route="{path: '/register', query: {redirect: getRedirectURL()}}" v-if="this.username == null">注册</el-menu-item>
-                    <el-menu-item index="" v-if="this.username != null" v-on:click="logout">退出登录</el-menu-item>
+                    <template slot="title">{{!this.loggedIn ? "我的" : this.username}}</template>
+                    <el-menu-item index="/login" :route="{path: '/login', query: {redirect: getRedirectURL()}}" v-if="!this.loggedIn">登录</el-menu-item>
+                    <el-menu-item index="/register" :route="{path: '/register', query: {redirect: getRedirectURL()}}" v-if="!this.loggedIn">注册</el-menu-item>
+                    <el-menu-item index="" v-if="this.loggedIn" v-on:click="logout">退出登录</el-menu-item>
                 </el-submenu>
             </el-menu>
         </div>
@@ -70,6 +70,9 @@
             },
             path () {
                 return this.$route.path;
+            },
+            loggedIn() {
+                return this.username != null && this.username !== "";
             }
         },
         methods: {
@@ -81,7 +84,7 @@
                         return this.$route.path.split("/")[1] === "info";
                     case "购物车":
                     case "已购":
-                        return this.username != null;
+                        return this.loggedIn;
                     case "系统管理":
                         return this.admin;
                     case "注册":
@@ -125,6 +128,8 @@
                     if (response.data.success) {
                         let username = response.data.result;
                         this.$store.commit("login", username, false);
+                    } else {
+                        this.$store.commit("login", "", false);
                     }
                 }
             );
