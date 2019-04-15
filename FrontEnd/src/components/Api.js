@@ -9,7 +9,7 @@ export default {
     },
 
     GetBookList(keyword) {
-        return axios.get("/books", {params: {keyword: keyword}});
+        return axios.get("/books/", {params: {keyword: keyword}});
     },
 
     GetRecommendList(limit) {
