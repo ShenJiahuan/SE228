@@ -7,12 +7,12 @@ import lombok.Setter;
 @Setter
 public class HandlerResponse {
 
-    private Object message;
+    private Object result;
 
     private boolean success;
 
-    public HandlerResponse(Object message, boolean success){
-        this.message = message;
+    public HandlerResponse(Object result, boolean success){
+        this.result = result;
         this.success = success;
     }
 }

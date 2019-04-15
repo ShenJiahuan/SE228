@@ -123,7 +123,7 @@
             Api.GetUsername().then(
                 response => {
                     if (response.data.success) {
-                        let username = response.data.message;
+                        let username = response.data.result;
                         this.$store.commit("login", username, false);
                     }
                 }

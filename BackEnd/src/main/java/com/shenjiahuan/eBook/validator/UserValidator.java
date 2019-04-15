@@ -24,7 +24,7 @@ public class UserValidator implements Validator {
         User user = (User) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty", "Email address should not be empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty", "Username should not be empty");
-        if (userDetailsDao.findUserByUsername(user.getEmail()) != null) {
+        if (userDetailsDao.findUserByEmail(user.getEmail()) != null) {
             errors.rejectValue("email", "Duplicate", "Email address exists");
         }
         if (!UserCheck.checkEmail(user.getEmail())) {

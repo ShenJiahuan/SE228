@@ -1,5 +1,6 @@
 package com.shenjiahuan.eBook.config;
 
+import com.shenjiahuan.eBook.entrypoint.UnauthorizedEntryPoint;
 import com.shenjiahuan.eBook.handler.MyAuthenticationFailureHandler;
 import com.shenjiahuan.eBook.handler.MyAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 
+    @Autowired
+    private UnauthorizedEntryPoint unauthorizedEntryPoint;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/books/*").permitAll()
                 .antMatchers("/user/**").permitAll()

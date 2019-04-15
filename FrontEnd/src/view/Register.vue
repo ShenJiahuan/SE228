@@ -77,7 +77,7 @@
                                 if (response.data.success) {
                                     Api.GetUsername().then(
                                         response => {
-                                            let username = response.data.message;
+                                            let username = response.data.result;
                                             this.$notify({
                                                 title: "注册成功",
                                                 message: "跳转至登录页面",
@@ -88,7 +88,7 @@
                                     );
                                 } else {
                                     let message = "未知错误";
-                                    if (response.data.message === "Email address exists") {
+                                    if (response.data.result === "Email address exists") {
                                         message = "该邮箱已存在";
                                     }
                                     this.$notify({

@@ -5,5 +5,7 @@ import com.shenjiahuan.eBook.entity.User;
 public interface UserDetailsDao {
   void save(User user);
 
-  User findUserByUsername(String email);
+  User findUserByEmail(String email);
+
+  User findUserByUsername(String username);
 }

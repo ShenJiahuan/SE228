@@ -4,12 +4,14 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.shenjiahuan.eBook.entity.Cart" table="cart" schema="ebook">
-        <composite-id mapped="true" class="com.shenjiahuan.eBook.entity.CartPK">
+    <class name="com.shenjiahuan.eBook.entity.Order" table="order" schema="ebook">
+        <composite-id mapped="true" class="com.shenjiahuan.eBook.entity.OrderPK">
             <key-property name="uid" column="uid"/>
             <key-property name="bookId" column="book_id"/>
         </composite-id>
         <property name="count" column="count"/>
-        <property name="time" column="time"/>
+        <property name="addTime" column="add_time"/>
+        <property name="purchaseTime" column="purchase_time"/>
+        <property name="purchased" column="purchased"/>
     </class>
 </hibernate-mapping>

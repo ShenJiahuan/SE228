@@ -41,5 +41,9 @@ export default {
 
     GetUsername() {
         return axios.get("/user");
+    },
+
+    GetPurchased() {
+        return axios.get("/orders");
     }
 };

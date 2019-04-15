@@ -41,7 +41,7 @@
                                 if (response.data.success) {
                                     Api.GetUsername().then(
                                         response => {
-                                            let username = response.data.message;
+                                            let username = response.data.result;
                                             this.$store.commit("login", username, false);
                                             if (this.$route.query.redirect) {
                                                 this.$router.push(this.$route.query.redirect);
@@ -52,7 +52,7 @@
                                     );
                                 } else {
                                     let message = "未知错误";
-                                    if (response.data.message === "Bad credentials") {
+                                    if (response.data.result === "Bad credentials") {
                                         message = "邮箱或密码错误";
                                     }
                                     this.$notify({

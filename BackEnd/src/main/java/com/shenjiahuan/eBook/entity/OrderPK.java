@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class CartPK implements Serializable {
+public class OrderPK implements Serializable {
     private int uid;
     private int bookId;
 
@@ -33,9 +33,9 @@ public class CartPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CartPK cartPK = (CartPK) o;
-        return uid == cartPK.uid &&
-                bookId == cartPK.bookId;
+        OrderPK orderPK = (OrderPK) o;
+        return uid == orderPK.uid &&
+                bookId == orderPK.bookId;
     }
 
     @Override

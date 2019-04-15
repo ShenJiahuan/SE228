@@ -56,6 +56,8 @@
 </template>
 
 <script>
+    import Api from "@/components/Api.js";
+
     import PurchasedDatePicker from "@/components/PurchasedDatePicker";
     export default {
         name: "Purchased",
@@ -101,19 +103,24 @@
             },
             tableData() {
                 return this.initialData.filter(book => {
+                    console.log(typeof book.time);
                     let year = parseInt(book.time.substr(0, 4));
                     let month = parseInt(book.time.substr(5, 6)) - 1;
                     let day = parseInt(book.time.substr(8, 9));
                     let orderTime = new Date(year, month, day);
+                    console.log(year, month, day);
                     if (this.time.minDate === null || this.time.maxDate === null) {
                         return false;
                     }
+
+                    console.log(orderTime.getTime(), this.time.minDate.getTime(), this.time.maxDate.getTime());
                     return orderTime.getTime() >= this.time.minDate.getTime() &&
                             orderTime.getTime() <= this.time.maxDate.getTime();
                 })
             }
         },
         created() {
+            console.log(this.$store.state.user);
             if (this.$store.state.user.username == null) {
                 this.$notify.error({
                     title: "错误",
@@ -121,6 +128,27 @@
                 });
                 this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
             }
+
+            Api.GetPurchased().then(
+                response => {
+                    let dateFormat = require('dateformat');
+                    let result = response.data.result;
+                    this.initialData = [];
+                    for (let item of result) {
+                        console.log(item);
+                        let time = new Date(item[0].purchaseTime * 1000);
+                        this.initialData.push({
+                            id: item[1].bookId,
+                            choose: false,
+                            img: require("@/static/" + item[1].img),
+                            title: item[1].title,
+                            price: item[1].price,
+                            count: item[0].count,
+                            time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
+                        })
+                    }
+                }
+            )
         }
     }
 </script>

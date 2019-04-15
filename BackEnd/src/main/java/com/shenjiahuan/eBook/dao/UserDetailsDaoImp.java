@@ -54,12 +54,25 @@ public class UserDetailsDaoImp implements UserDetailsDao {
   }
 
   @Override
-  public User findUserByUsername(String email) {
+  public User findUserByEmail(String email) {
     Session session = sessionFactory.openSession();
     CriteriaBuilder builder = session.getCriteriaBuilder();
     CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
     Root<User> user = criteriaQuery.from(User.class);
     Predicate p = builder.and(builder.equal(user.get("email"), email));
+    criteriaQuery.where(p);
+    List<User> users = session.createQuery(criteriaQuery).getResultList();
+    session.close();
+    return users.size() != 0 ? users.get(0) : null;
+  }
+
+  @Override
+  public User findUserByUsername(String username) {
+    Session session = sessionFactory.openSession();
+    CriteriaBuilder builder = session.getCriteriaBuilder();
+    CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+    Root<User> user = criteriaQuery.from(User.class);
+    Predicate p = builder.and(builder.equal(user.get("username"), username));
     criteriaQuery.where(p);
     List<User> users = session.createQuery(criteriaQuery).getResultList();
     session.close();
