@@ -27,7 +27,7 @@ public class OrderDaoImp implements OrderDao {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Object> findPurchasedOrderByUserId(int userId) {
+    public List<Object> findPaidOrderByUserId(int userId) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = builder.createQuery(Order.class);
@@ -44,7 +44,7 @@ public class OrderDaoImp implements OrderDao {
         return orders.size() != 0 ? orders : null;
     }
 
-    public List<Object> findUnpurchasedOrderByUserId(int userId) {
+    public List<Object> findUnpaidOrderByUserId(int userId) {
         return null;
     }
 }
