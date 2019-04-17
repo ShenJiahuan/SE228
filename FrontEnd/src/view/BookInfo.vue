@@ -88,7 +88,6 @@
 </template>
 
 <script>
-    import bookList from "../data/book_list.json";
     import OrderCountBox from "@/components/OrderCountBox";
     import Api from "@/components/Api.js";
     import { Loading } from "element-ui";
@@ -99,7 +98,6 @@
         data() {
             return {
                 input: 1,
-                bookList: bookList,
                 book: null,
             }
         },
