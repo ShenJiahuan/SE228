@@ -43,7 +43,7 @@ export default {
         return axios.get("/user");
     },
 
-    GetPurchased() {
-        return axios.get("/orders");
+    GetOrder(paid) {
+        return axios.get("/orders", {params: {paid: paid}});
     }
 };

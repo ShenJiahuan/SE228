@@ -6,6 +6,7 @@ import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -21,10 +22,10 @@ public class OrderController {
     private UserDetailsDao userDetailsDao;
 
     @RequestMapping(value = "/orders", method = GET)
-    public HandlerResponse getBookList(Principal principal) {
+    public HandlerResponse getBookList(@RequestParam(value="paid") boolean paid, Principal principal) {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
-        System.out.println(user.getUid());
-        return new HandlerResponse(orderDao.findOrderByUserId(user.getUid(), true), true);
+        System.out.println(paid);
+        return new HandlerResponse(orderDao.findOrderByUserId(user.getUid(), paid), true);
     }
 }

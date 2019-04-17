@@ -117,7 +117,7 @@
                     this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
                 }
 
-                Api.GetPurchased().then(
+                Api.GetOrder(true).then(
                     response => {
                         let dateFormat = require('dateformat');
                         let result = response.data.result;
