@@ -158,7 +158,7 @@
                 });
             },
             getCart() {
-                if (this.$store.state.user.username === "") {
+                if (this.username === "") {
                     this.$notify.error({
                         title: "错误",
                         message: "请先登录"

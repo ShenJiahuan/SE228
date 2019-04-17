@@ -99,6 +99,7 @@
         },
         watch: {
             username() {
+                this.loadingInstance = Loading.service({ fullscreen: true });
                 this.getPurchased();
             }
         },
@@ -109,7 +110,7 @@
         methods: {
             getPurchased() {
                 console.log(this.$store.state.user);
-                if (this.$store.state.user.username === "") {
+                if (this.username === "") {
                     this.$notify.error({
                         title: "错误",
                         message: "请先登录"
