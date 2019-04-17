@@ -45,5 +45,9 @@ export default {
 
     GetOrder(paid) {
         return axios.get("/orders", {params: {paid: paid}});
+    },
+
+    CreateOrder(order, paid) {
+        return axios.post("/orders", order, {params: {paid: paid}});
     }
 };
