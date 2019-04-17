@@ -22,7 +22,7 @@ public class OrderController {
     private UserDetailsDao userDetailsDao;
 
     @RequestMapping(value = "/orders", method = GET)
-    public HandlerResponse getBookList(@RequestParam(value="paid") boolean paid, Principal principal) {
+    public HandlerResponse getOrderList(@RequestParam(value="paid") boolean paid, Principal principal) {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
         System.out.println(paid);
