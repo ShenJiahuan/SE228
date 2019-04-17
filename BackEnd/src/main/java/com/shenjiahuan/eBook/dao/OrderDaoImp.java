@@ -27,13 +27,13 @@ public class OrderDaoImp implements OrderDao {
     }
 
     @SuppressWarnings("unchecked")
-    public List<Object> findPaidOrderByUserId(int userId) {
+    public List<Object> findOrderByUserId(int userId, boolean paid) {
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Order> criteriaQuery = builder.createQuery(Order.class);
         Root<Order> order = criteriaQuery.from(Order.class);
         Predicate p1 = builder.and(builder.equal(order.get("uid"), userId));
-        Predicate p2 = builder.and(builder.equal(order.get("purchased"), 1));
+        Predicate p2 = builder.and(builder.equal(order.get("purchased"), paid ? 1 : 0));
         criteriaQuery.where(p1, p2);
 //        criteriaQuery.orderBy(builder.asc(order.get("purchase_time")));
         String hql = "From Order A, Book B where A.bookId = B.bookId and A.uid = :uid and A.purchased = 1";
@@ -42,9 +42,5 @@ public class OrderDaoImp implements OrderDao {
         List<Object> orders = query.getResultList();
         session.close();
         return orders.size() != 0 ? orders : null;
-    }
-
-    public List<Object> findUnpaidOrderByUserId(int userId) {
-        return null;
     }
 }

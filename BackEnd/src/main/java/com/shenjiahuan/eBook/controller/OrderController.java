@@ -25,6 +25,6 @@ public class OrderController {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
         System.out.println(user.getUid());
-        return new HandlerResponse(orderDao.findPaidOrderByUserId(user.getUid()), true);
+        return new HandlerResponse(orderDao.findOrderByUserId(user.getUid(), true), true);
     }
 }
