@@ -170,20 +170,24 @@
                         let dateFormat = require('dateformat');
                         let result = response.data.result;
                         this.tableData = [];
-                        for (let item of result) {
-                            let time = new Date(item[0].purchaseTime * 1000);
-                            this.tableData.push({
-                                id: item[1].bookId,
-                                choose: false,
-                                img: require("@/static/" + item[1].img),
-                                title: item[1].title,
-                                price: item[1].price,
-                                count: item[0].count,
-                                time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
-                            })
+                        if (result != null) {
+                            for (let item of result) {
+                                let time = new Date(item[0].purchaseTime * 1000);
+                                this.tableData.push({
+                                    id: item[1].bookId,
+                                    choose: false,
+                                    img: require("@/static/" + item[1].img),
+                                    title: item[1].title,
+                                    price: item[1].price,
+                                    count: item[0].count,
+                                    time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
+                                })
+                            }
                         }
                         this.loadingInstance.close();
-                        this.setChosen();
+                        if (result != null) {
+                            this.setChosen();
+                        }
                     }
                 );
             }
