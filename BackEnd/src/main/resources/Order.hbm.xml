@@ -8,9 +8,9 @@
         <composite-id mapped="true" class="com.shenjiahuan.eBook.entity.OrderPK">
             <key-property name="uid" column="uid"/>
             <key-property name="bookId" column="book_id"/>
+            <key-property name="addTime" column="add_time"/>
         </composite-id>
         <property name="count" column="count"/>
-        <property name="addTime" column="add_time"/>
         <property name="purchaseTime" column="purchase_time"/>
         <property name="purchased" column="purchased"/>
     </class>

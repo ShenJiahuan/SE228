@@ -10,9 +10,20 @@ public class Order {
     private int uid;
     private int bookId;
     private Integer count;
-    private Integer addTime;
+    private int addTime;
     private Integer purchaseTime;
     private Byte purchased;
+
+    public Order() {}
+
+    public Order(int uid, int bookId, Integer count, Integer addTime, Integer purchaseTime, Byte purchased) {
+        this.uid = uid;
+        this.bookId = bookId;
+        this.count = count;
+        this.addTime = addTime;
+        this.purchaseTime = purchaseTime;
+        this.purchased = purchased;
+    }
 
     @Id
     @Column(name = "uid")
@@ -44,13 +55,13 @@ public class Order {
         this.count = count;
     }
 
-    @Basic
+    @Id
     @Column(name = "add_time")
-    public Integer getAddTime() {
+    public int getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Integer addTime) {
+    public void setAddTime(int addTime) {
         this.addTime = addTime;
     }
 
@@ -81,8 +92,8 @@ public class Order {
         Order order = (Order) o;
         return uid == order.uid &&
                 bookId == order.bookId &&
+                addTime == order.addTime &&
                 Objects.equals(count, order.count) &&
-                Objects.equals(addTime, order.addTime) &&
                 Objects.equals(purchaseTime, order.purchaseTime) &&
                 Objects.equals(purchased, order.purchased);
     }

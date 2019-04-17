@@ -8,6 +8,7 @@ import java.util.Objects;
 public class OrderPK implements Serializable {
     private int uid;
     private int bookId;
+    private int addTime;
 
     @Column(name = "uid")
     @Id
@@ -29,17 +30,28 @@ public class OrderPK implements Serializable {
         this.bookId = bookId;
     }
 
+    @Column(name = "add_time")
+    @Id
+    public int getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(int addTime) {
+        this.addTime = addTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderPK orderPK = (OrderPK) o;
         return uid == orderPK.uid &&
-                bookId == orderPK.bookId;
+                bookId == orderPK.bookId &&
+                addTime == orderPK.addTime;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, bookId);
+        return Objects.hash(uid, bookId, addTime);
     }
 }
