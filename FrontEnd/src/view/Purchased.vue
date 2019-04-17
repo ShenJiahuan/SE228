@@ -3,7 +3,7 @@
         <PurchasedDatePicker></PurchasedDatePicker>
         <el-table
                 :data="tableData"
-                style="width: 100%" v-if="tableData.length > 0">
+                style="width: 100%" v-if="tableData != null && tableData.length > 0">
             <el-table-column
                     label="图片"
                     min-width="15%"
@@ -47,7 +47,7 @@
                     align="center">
             </el-table-column>
         </el-table>
-        <el-card v-else>
+        <el-card v-else-if="tableData != null">
             <h1>
                 该时间段内无购买记录
             </h1>
@@ -57,44 +57,16 @@
 
 <script>
     import Api from "@/components/Api.js";
-
     import PurchasedDatePicker from "@/components/PurchasedDatePicker";
+    import { Loading } from "element-ui";
+
     export default {
         name: "Purchased",
         components: {PurchasedDatePicker},
         data() {
             return {
-                initialData: [{
-                    id: 1,
-                    img: require("@/static/1.jpg"),
-                    title: "我再重构我是狗",
-                    price: 30.00,
-                    count: 2,
-                    time: "2019-03-29 18:53:40",
-                }, {
-                    id: 2,
-                    img: require("@/static/1.jpg"),
-                    title: "Element-UI有点意思",
-                    price: 20.00,
-                    count: 2,
-                    time: "2019-03-28 18:53:39",
-                }, {
-                    id: 3,
-                    choose: true,
-                    img: require("@/static/1.jpg"),
-                    title: "重构！",
-                    price: 10.00,
-                    count: 2,
-                    time: "2019-03-27 18:53:38",
-                }, {
-                    id: 4,
-                    choose: true,
-                    img: require("@/static/1.jpg"),
-                    title: "真香。",
-                    price: 40.00,
-                    count: 2,
-                    time: "2019-03-26 18:53:37",
-                }]
+                initialData: null,
+                loadingInstance: null,
             }
         },
         computed: {
@@ -102,6 +74,9 @@
                 return this.$store.state.searchTime.time;
             },
             tableData() {
+                if (this.initialData == null) {
+                    return null;
+                }
                 return this.initialData.filter(book => {
                     console.log(typeof book.time);
                     let year = parseInt(book.time.substr(0, 4));
@@ -127,7 +102,8 @@
                 this.getPurchased();
             }
         },
-        mounted() {
+        created() {
+            this.loadingInstance = Loading.service({ fullscreen: true });
             this.getPurchased();
         },
         methods: {
@@ -147,7 +123,6 @@
                         let result = response.data.result;
                         this.initialData = [];
                         for (let item of result) {
-                            console.log(item);
                             let time = new Date(item[0].purchaseTime * 1000);
                             this.initialData.push({
                                 id: item[1].bookId,
@@ -159,6 +134,7 @@
                                 time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
                             })
                         }
+                        this.loadingInstance.close();
                     }
                 )
             }
