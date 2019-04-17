@@ -2,7 +2,7 @@
     <div>
         <el-table
                 :data="tableData"
-                style="width: 100%" v-if="tableData.length > 0"
+                style="width: 100%" v-if="tableData != null && tableData.length > 0"
                 @sort-change="this.sort">
             <el-table-column
                     label="选定"
@@ -70,7 +70,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-card v-else>
+        <el-card v-else-if="tableData != null">
             <h1>
                 购物车是空的
             </h1>
@@ -87,50 +87,31 @@
 </template>
 
 <script>
+    import Api from "@/components/Api.js";
     import OrderCountBox from "@/components/OrderCountBox";
+    import { Loading } from "element-ui";
+
     export default {
         name: "Cart",
         components: {OrderCountBox},
         data() {
             return {
-                tableData: [{
-                    id: 1,
-                    choose: false,
-                    img: require("@/static/1.jpg"),
-                    title: "解忧杂货店",
-                    price: 39.50,
-                    count: 1,
-                    time: 1,
-                }, {
-                    id: 2,
-                    choose: true,
-                    img: require("@/static/2.jpg"),
-                    title: "活着",
-                    price: 20.00,
-                    count: 3,
-                    time: 2,
-                }, {
-                    id: 3,
-                    choose: false,
-                    img: require("@/static/3.jpg"),
-                    title: "追风筝的人",
-                    price: 29.00,
-                    count: 2,
-                    time: 3,
-                }, {
-                    id: 4,
-                    choose: true,
-                    img: require("@/static/4.jpg"),
-                    title: "三体",
-                    price: 23.00,
-                    count: 4,
-                    time: 4,
-                }]
+                tableData: null,
+                loadingInstance: null,
             }
         },
         computed: {
             amount() {
                 return this.$store.getters.amount;
+            },
+            username() {
+                return this.$store.state.user.username;
+            }
+        },
+        watch: {
+            username() {
+                this.loadingInstance = Loading.service({ fullscreen: true });
+                this.getCart();
             }
         },
         methods: {
@@ -175,17 +156,41 @@
                     message: "支付成功",
                     type: "success"
                 });
+            },
+            getCart() {
+                if (this.$store.state.user.username === "") {
+                    this.$notify.error({
+                        title: "错误",
+                        message: "请先登录"
+                    });
+                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+                }
+                Api.GetOrder(false).then(
+                    response => {
+                        let dateFormat = require('dateformat');
+                        let result = response.data.result;
+                        this.tableData = [];
+                        for (let item of result) {
+                            let time = new Date(item[0].purchaseTime * 1000);
+                            this.tableData.push({
+                                id: item[1].bookId,
+                                choose: false,
+                                img: require("@/static/" + item[1].img),
+                                title: item[1].title,
+                                price: item[1].price,
+                                count: item[0].count,
+                                time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
+                            })
+                        }
+                        this.loadingInstance.close();
+                        this.setChosen();
+                    }
+                );
             }
         },
         created() {
-            if (this.$store.state.user.username == null) {
-                this.$notify.error({
-                    title: "错误",
-                    message: "请先登录"
-                });
-                this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
-            }
-            this.setChosen();
+            this.loadingInstance = Loading.service({ fullscreen: true });
+            this.getCart();
         }
     }
 </script>
