@@ -74,8 +74,8 @@
                             </order-count-box>
                         </el-form-item>
                     </el-form>
-                    <el-button type="primary" class="button" @click.native="order">立即购买</el-button>
-                    <el-button type="primary" class="button" @click.native="addCart">加入购物车</el-button>
+                    <el-button type="primary" class="button" @click.native="order(true)">立即购买</el-button>
+                    <el-button type="primary" class="button" @click.native="order(false)">加入购物车</el-button>
                 </div>
             </el-col>
         </el-row>
@@ -107,7 +107,7 @@
             }
         },
         methods: {
-            order() {
+            order(paid) {
                 if (this.$store.state.user.username == null || this.$store.state.user.username === "") {
                     this.$notify.error({
                         title: "错误",
@@ -123,30 +123,16 @@
                             }
                         ]
                     };
-                    Api.CreateOrder(data, true).then(
+                    Api.CreateOrder(data, paid).then(
                         response => {
+                            let message = paid ? "购买成功" : "加入购物车成功";
                             this.$notify({
                                 title: "成功",
-                                message: "购买成功",
+                                message: message,
                                 type: "success"
                             });
                         }
                     );
-                }
-            },
-            addCart() {
-                if (this.$store.state.user.username === null) {
-                    this.$notify.error({
-                        title: "错误",
-                        message: "请先登录"
-                    });
-                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
-                } else {
-                    this.$notify({
-                        title: "成功",
-                        message: "加入购物车成功",
-                        type: "success"
-                    });
                 }
             },
             score(book) {
