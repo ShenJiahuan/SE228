@@ -52,6 +52,5 @@ public class OrderDaoImp implements OrderDao {
         } finally {
             session.close();
         }
-        session.close();
     }
 }

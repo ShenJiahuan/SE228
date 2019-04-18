@@ -50,7 +50,6 @@ public class UserDetailsDaoImp implements UserDetailsDao {
     } finally {
       session.close();
     }
-    session.close();
   }
 
   @Override
