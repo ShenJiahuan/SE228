@@ -19,10 +19,18 @@ public class OrderDaoImp implements OrderDao {
     public List<Object> findOrderByUserId(int userId, boolean paid) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        String hql =
-                "From Order A, Book B " +
-                "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
-                "order by A.purchaseTime desc";
+        String hql;
+        if (paid) {
+            hql =
+                    "From Order A, Book B " +
+                    "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
+                    "order by A.purchaseTime desc";
+        } else {
+            hql =
+                    "From Order A, Book B " +
+                    "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
+                    "order by A.addTime desc";
+        }
         Query query = session.createQuery(hql);
         query.setParameter("uid", userId);
         query.setParameter("paid", paid ? (byte) 1 : (byte) 0);
