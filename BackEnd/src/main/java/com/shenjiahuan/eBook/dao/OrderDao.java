@@ -8,4 +8,6 @@ public interface OrderDao {
     List<Object> findOrderByUserId(int userId, boolean paid);
 
     void createOrder(List<Order> orders);
+
+    void updateOrder(List<Order> orders);
 }

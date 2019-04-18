@@ -46,4 +46,18 @@ public class OrderDaoImp implements OrderDao {
         }
 
     }
+
+    public void updateOrder(List<Order> orders) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            for (Order order : orders) {
+                session.update(order);
+            }
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
 }

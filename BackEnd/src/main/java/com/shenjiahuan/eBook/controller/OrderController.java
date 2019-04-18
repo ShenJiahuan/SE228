@@ -9,6 +9,7 @@ import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.Order;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.response.HandlerResponse;
+import com.shenjiahuan.eBook.util.CreateOrderList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 public class OrderController {
@@ -42,24 +42,19 @@ public class OrderController {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
-        Byte purchased = paid ? (byte) 1 : (byte) 0;
-        int addTime = (int)(new Date().getTime() / 1000);
-        System.out.println(paid);
-        JsonParser parser = new JsonParser();
-        JsonArray orders = parser.parse(body).getAsJsonObject().getAsJsonArray("orders");
-        List<Order> orderList = new ArrayList<>();
-        for (JsonElement order : orders) {
-            JsonObject orderJsonObject = order.getAsJsonObject();
-            int bookId = orderJsonObject.get("id").getAsInt();
-            int count = orderJsonObject.get("count").getAsInt();
-            if (paid) {
-                orderList.add(new Order(uid, bookId, count, addTime, addTime, purchased));
-            } else {
-                orderList.add(new Order(uid, bookId, count, addTime, null, purchased));
-            }
-
-        }
+        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
         orderDao.createOrder(orderList);
+        return new HandlerResponse(null, true);
+    }
+
+    @RequestMapping(value = "/orders", method = PUT)
+    @ResponseBody
+    public HandlerResponse updateOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
+        String username = principal.getName();
+        User user = userDetailsDao.findUserByUsername(username);
+        int uid = user.getUid();
+        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
+        orderDao.updateOrder(orderList);
         return new HandlerResponse(null, true);
     }
 }
