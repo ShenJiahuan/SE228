@@ -43,18 +43,29 @@ public class OrderController {
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
         List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
-        orderDao.createOrder(orderList);
+        orderDao.createOrUpdateOrder(orderList);
         return new HandlerResponse(null, true);
     }
 
     @RequestMapping(value = "/orders", method = PUT)
     @ResponseBody
-    public HandlerResponse updateOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
+    public HandlerResponse updateOrder(Principal principal, @RequestBody String body) {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
-        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
-        orderDao.updateOrder(orderList);
+        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
+        orderDao.createOrUpdateOrder(orderList);
+        return new HandlerResponse(null, true);
+    }
+
+    @RequestMapping(value = "/orders", method = DELETE)
+    @ResponseBody
+    public HandlerResponse deleteOrder(Principal principal, @RequestBody String body) {
+        String username = principal.getName();
+        User user = userDetailsDao.findUserByUsername(username);
+        int uid = user.getUid();
+        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
+        orderDao.deleteOrder(orderList);
         return new HandlerResponse(null, true);
     }
 }

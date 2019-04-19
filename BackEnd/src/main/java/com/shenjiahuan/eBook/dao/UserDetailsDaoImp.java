@@ -46,7 +46,7 @@ public class UserDetailsDaoImp implements UserDetailsDao {
         query.setParameter("email", email);
         @SuppressWarnings("unchecked")
         List<User> users = query.list();
-        session.close();
+        session.getTransaction().commit();
         return users.size() != 0 ? users.get(0) : null;
     }
 
@@ -59,7 +59,7 @@ public class UserDetailsDaoImp implements UserDetailsDao {
         query.setParameter("username", username);
         @SuppressWarnings("unchecked")
         List<User> users = query.list();
-        session.close();
+        session.getTransaction().commit();
         return users.size() != 0 ? users.get(0) : null;
     }
 }
