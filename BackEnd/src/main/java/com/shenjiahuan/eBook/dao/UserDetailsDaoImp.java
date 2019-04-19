@@ -62,4 +62,31 @@ public class UserDetailsDaoImp implements UserDetailsDao {
         session.getTransaction().commit();
         return users.size() != 0 ? users.get(0) : null;
     }
+
+    @Override
+    public List<User> findAllUsers() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery("From User");
+        @SuppressWarnings("unchecked")
+        List<User> users = query.list();
+        session.getTransaction().commit();
+        return users;
+    }
+
+    @Override
+    public void banUser(int uid, boolean banned) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            Query query = session.createQuery("update User set banned = :banned where uid = :uid");
+            query.setParameter("banned", banned ? (byte) 1 : (byte) 0);
+            query.setParameter("uid", uid);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
 }

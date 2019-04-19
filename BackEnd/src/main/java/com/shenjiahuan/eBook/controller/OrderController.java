@@ -30,7 +30,7 @@ public class OrderController {
     private UserDetailsDao userDetailsDao;
 
     @RequestMapping(value = "/orders", method = GET)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_NORMAL')")
     public HandlerResponse getOrderList(@RequestParam(value="paid") boolean paid, Principal principal) {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
@@ -39,7 +39,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders", method = POST)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
     public HandlerResponse createOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
         String username = principal.getName();
@@ -51,7 +51,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders", method = PUT)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
     public HandlerResponse updateOrder(Principal principal, @RequestBody String body) {
         String username = principal.getName();
@@ -63,7 +63,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders", method = DELETE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
     public HandlerResponse deleteOrder(Principal principal, @RequestBody String body) {
         String username = principal.getName();

@@ -1,6 +1,5 @@
 package com.shenjiahuan.eBook.service;
 
-import com.shenjiahuan.eBook.dao.RoleDao;
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.util.Converter;
@@ -14,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -22,9 +24,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserDetailsDao userDetailsDao;
-
-    @Autowired
-    RoleDao roleDao;
 
     private Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
@@ -39,8 +38,20 @@ public class CustomUserDetailsService implements UserDetailsService {
             builder.disabled(false);
             logger.debug(user.getPassword());
             builder.password(user.getPassword());
-            String[] authorities = Converter.asStrings(roleDao.findRoleById(user.getUid()).toArray());
-            builder.authorities(authorities);
+            //String[] authorities = Converter.asStrings(roleDao.findRoleById(user.getUid()).toArray());
+            List<String> authorities = new ArrayList<>();
+            if (user.getAdmin() == 1) {
+                authorities.add("ROLE_ADMIN");
+            }
+            if (user.getRoot() == 1) {
+                authorities.add("ROLE_ROOT");
+            }
+            if (user.getBanned() == 1) {
+                authorities.add("ROLE_BANNED");
+            } else {
+                authorities.add("ROLE_NORMAL");
+            }
+            builder.authorities(Converter.asStrings(authorities.toArray()));
         } else {
             throw new UsernameNotFoundException("User not found.");
         }

@@ -1,20 +1,14 @@
 package com.shenjiahuan.eBook.controller;
 
-import com.shenjiahuan.eBook.dao.RoleDao;
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.ui.Model;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 @RestController
@@ -38,9 +32,6 @@ public class UserController {
     UserDetailsDao userDetailsDao;
 
     @Autowired
-    RoleDao roleDao;
-
-    @Autowired
     private UserValidator userValidator;
 
     @PostMapping("/user/register")
@@ -52,10 +43,30 @@ public class UserController {
 
         userDetailsDao.save(userForm);
 
-        roleDao.addRoleToUser(userDetailsDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
+        //roleDao.addRoleToUser(userDetailsDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
 
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
         return new HandlerResponse("注册成功", true);
+    }
+
+    @RequestMapping(value = "/user/list", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public HandlerResponse listUsers() {
+        return new HandlerResponse(userDetailsDao.findAllUsers(), true);
+    }
+
+    @RequestMapping(value = "/user/ban", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public HandlerResponse banUser(@RequestParam(value="uid") int uid) {
+        userDetailsDao.banUser(uid, true);
+        return new HandlerResponse(null, true);
+    }
+
+    @RequestMapping(value = "/user/unban", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public HandlerResponse unbanUser(@RequestParam(value="uid") int uid) {
+        userDetailsDao.banUser(uid, false);
+        return new HandlerResponse(null, true);
     }
 }

@@ -12,6 +12,9 @@ public class User {
     private String email;
     private String password;
     private String username;
+    private Byte admin;
+    private Byte root;
+    private Byte banned;
 
     @Id
     @Column(name = "uid")
@@ -53,6 +56,36 @@ public class User {
         this.username = username;
     }
 
+    @Basic
+    @Column(name = "admin")
+    public Byte getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Byte admin) {
+        this.admin = admin;
+    }
+
+    @Basic
+    @Column(name = "root")
+    public Byte getRoot() {
+        return root;
+    }
+
+    public void setRoot(Byte root) {
+        this.root = root;
+    }
+
+    @Basic
+    @Column(name = "banned")
+    public Byte getBanned() {
+        return banned;
+    }
+
+    public void setBanned(Byte banned) {
+        this.banned = banned;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,11 +94,14 @@ public class User {
         return uid == user.uid &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(username, user.username);
+                Objects.equals(username, user.username) &&
+                Objects.equals(admin, user.admin) &&
+                Objects.equals(root, user.root) &&
+                Objects.equals(banned, user.banned);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, email, password, username);
+        return Objects.hash(uid, email, password, username, admin, root, banned);
     }
 }

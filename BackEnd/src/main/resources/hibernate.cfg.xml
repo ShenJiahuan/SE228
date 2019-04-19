@@ -16,6 +16,5 @@
     <mapping class="com.shenjiahuan.eBook.entity.Book"/>
     <mapping class="com.shenjiahuan.eBook.entity.Order"/>
     <mapping class="com.shenjiahuan.eBook.entity.User"/>
-    <mapping class="com.shenjiahuan.eBook.entity.Role"/>
   </session-factory>
 </hibernate-configuration>
