@@ -8,8 +8,6 @@
         <id name="uid" column="uid"/>
         <property name="email" column="email"/>
         <property name="password" column="password"/>
-        <property name="admin" column="admin"/>
-        <property name="root" column="root"/>
         <property name="username" column="username"/>
     </class>
 </hibernate-mapping>

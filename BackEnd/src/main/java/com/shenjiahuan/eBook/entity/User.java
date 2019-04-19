@@ -11,8 +11,6 @@ public class User {
     private int uid;
     private String email;
     private String password;
-    private byte admin;
-    private byte root;
     private String username;
 
     @Id
@@ -46,26 +44,6 @@ public class User {
     }
 
     @Basic
-    @Column(name = "admin")
-    public byte getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(byte admin) {
-        this.admin = admin;
-    }
-
-    @Basic
-    @Column(name = "root")
-    public byte getRoot() {
-        return root;
-    }
-
-    public void setRoot(byte root) {
-        this.root = root;
-    }
-
-    @Basic
     @Column(name = "username")
     public String getUsername() {
         return username;
@@ -81,8 +59,6 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return uid == user.uid &&
-                admin == user.admin &&
-                root == user.root &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(username, user.username);
@@ -90,6 +66,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, email, password, admin, root, username);
+        return Objects.hash(uid, email, password, username);
     }
 }
