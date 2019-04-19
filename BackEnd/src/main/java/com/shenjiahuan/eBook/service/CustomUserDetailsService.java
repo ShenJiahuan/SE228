@@ -1,7 +1,9 @@
 package com.shenjiahuan.eBook.service;
 
+import com.shenjiahuan.eBook.dao.RoleDao;
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.User;
+import com.shenjiahuan.eBook.util.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserDetailsDao userDetailsDao;
 
+    @Autowired
+    RoleDao roleDao;
+
     private Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Transactional(readOnly = true)
@@ -34,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             builder.disabled(false);
             logger.debug(user.getPassword());
             builder.password(user.getPassword());
-            String[] authorities = {"User"};
+            String[] authorities = Converter.asStrings(roleDao.findRoleById(user.getUid()).toArray());
             builder.authorities(authorities);
         } else {
             throw new UsernameNotFoundException("User not found.");

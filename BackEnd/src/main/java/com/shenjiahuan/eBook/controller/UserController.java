@@ -1,5 +1,6 @@
 package com.shenjiahuan.eBook.controller;
 
+import com.shenjiahuan.eBook.dao.RoleDao;
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.response.HandlerResponse;
@@ -37,6 +38,9 @@ public class UserController {
     UserDetailsDao userDetailsDao;
 
     @Autowired
+    RoleDao roleDao;
+
+    @Autowired
     private UserValidator userValidator;
 
     @PostMapping("/user/register")
@@ -47,6 +51,8 @@ public class UserController {
         }
 
         userDetailsDao.save(userForm);
+
+        roleDao.addRoleToUser(userDetailsDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
 
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 

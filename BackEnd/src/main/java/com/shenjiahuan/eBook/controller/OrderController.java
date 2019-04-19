@@ -11,6 +11,7 @@ import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.util.CreateOrderList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -29,6 +30,7 @@ public class OrderController {
     private UserDetailsDao userDetailsDao;
 
     @RequestMapping(value = "/orders", method = GET)
+    @PreAuthorize("hasRole('USER')")
     public HandlerResponse getOrderList(@RequestParam(value="paid") boolean paid, Principal principal) {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
@@ -37,6 +39,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders", method = POST)
+    @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public HandlerResponse createOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
         String username = principal.getName();
@@ -48,6 +51,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders", method = PUT)
+    @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public HandlerResponse updateOrder(Principal principal, @RequestBody String body) {
         String username = principal.getName();
@@ -59,6 +63,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders", method = DELETE)
+    @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public HandlerResponse deleteOrder(Principal principal, @RequestBody String body) {
         String username = principal.getName();

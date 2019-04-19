@@ -1,5 +1,6 @@
 package com.shenjiahuan.eBook.dao;
 
+import com.shenjiahuan.eBook.entity.Role;
 import com.shenjiahuan.eBook.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -18,5 +19,17 @@ public class RoleDaoImp implements RoleDao {
         List<String> roles = query.list();
         session.getTransaction().commit();
         return roles;
+    }
+
+    public void addRoleToUser(int userId, String role) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            session.save(new Role(userId, role));
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
     }
 }
