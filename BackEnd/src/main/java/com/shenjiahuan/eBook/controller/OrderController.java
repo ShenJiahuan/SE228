@@ -43,7 +43,7 @@ public class OrderController {
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
         List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
-        orderDao.createOrUpdateOrder(orderList);
+        orderDao.createOrder(orderList);
         return new HandlerResponse(null, true);
     }
 
@@ -54,7 +54,7 @@ public class OrderController {
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
         List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
-        orderDao.createOrUpdateOrder(orderList);
+        orderDao.updateOrder(orderList);
         return new HandlerResponse(null, true);
     }
 

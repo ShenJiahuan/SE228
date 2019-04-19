@@ -72,7 +72,7 @@ public class OrderDaoImp implements OrderDao {
     }
 
     // FIXME: may cause books in the cart over the upper bound
-    public void createOrUpdateOrder(List<Order> orders) {
+    public void createOrder(List<Order> orders) {
         List<Integer> previousOrders = existOrder(orders);
         int size = orders.size();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -82,6 +82,27 @@ public class OrderDaoImp implements OrderDao {
                 Order order = orders.get(i);
                 if (order.getPurchased() == 0) {
                     order.setCount(order.getCount() + previousOrders.get(i));
+                    String hql = "Delete from Order where bookId = :bookId and uid = :uid and purchased = 0";
+                    Query query = session.createQuery(hql);
+                    query.setParameter("bookId", order.getBookId());
+                    query.setParameter("uid", order.getUid());
+                    query.executeUpdate();
+                }
+                session.save(order);
+            }
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateOrder(List<Order> orders) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            for (Order order : orders) {
+                if (order.getPurchased() == 0) {
                     String hql = "Delete from Order where bookId = :bookId and uid = :uid and purchased = 0";
                     Query query = session.createQuery(hql);
                     query.setParameter("bookId", order.getBookId());

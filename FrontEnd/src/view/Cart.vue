@@ -48,7 +48,8 @@
                         size="mini"
                         :set-chosen="setChosen"
                         min=1
-                        max=999>
+                        max=999
+                        :book-id="scope.row.id">
                     </order-count-box>
                 </template>
             </el-table-column>
@@ -118,6 +119,24 @@
             remove(book) {
                 for (let i = 0; i < this.tableData.length; ++i) {
                     if (this.tableData[i].id === book.id) {
+                        let data = {
+                            orders: [
+                                {
+                                    id: book.id,
+                                    count: 0,
+                                }
+                            ]
+                        };
+                        console.log(data);
+                        Api.DeleteOrder(data).then(
+                            response => {
+                                this.$notify({
+                                    title: "成功",
+                                    message: "删除书籍成功",
+                                    type: "success"
+                                });
+                            }
+                        );
                         this.tableData.splice(i, 1);
                         break;
                     }

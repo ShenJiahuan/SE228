@@ -49,5 +49,13 @@ export default {
 
     CreateOrder(order, paid) {
         return axios.post("/orders", order, {params: {paid: paid}});
+    },
+
+    UpdateOrder(order) {
+        return axios.put("/orders", order);
+    },
+
+    DeleteOrder(order) {
+        return axios.delete("/orders", {data: order});
     }
 };

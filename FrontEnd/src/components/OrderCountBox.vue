@@ -12,6 +12,8 @@
 </template>
 
 <script>
+  import Api from "@/components/Api.js";
+
   export default {
     name: "OrderCountBox",
     props: [
@@ -20,6 +22,7 @@
       "size",
       "min",
       "max",
+      "bookId",
     ],
     methods: {
       setNonNull(value) {
@@ -33,6 +36,27 @@
         }
         if (this.setChosen) {
           this.setChosen();
+        }
+        if (this.bookId != null) {
+          console.log(this.bookId);
+          let data = {
+            orders: [
+              {
+                id: this.bookId,
+                count: value,
+              }
+            ]
+          };
+          console.log(data);
+          Api.UpdateOrder(data).then(
+            response => {
+              this.$notify({
+                title: "成功",
+                message: "更新购物车成功",
+                type: "success"
+              });
+            }
+          );
         }
       }
     }
