@@ -14,4 +14,6 @@ public interface UserDetailsDao {
     List<User> findAllUsers();
 
     void banUser(int uid, boolean banned);
+
+    void adminUser(int uid, boolean admin);
 }

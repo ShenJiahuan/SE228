@@ -20,7 +20,7 @@ public class UserController {
             return new HandlerResponse("", false);
         }
         String username = principal.getName();
-        return new HandlerResponse(username, true);
+        return new HandlerResponse(userDetailsDao.findUserByUsername(username), true);
     }
 
     @RequestMapping(value="/user/login", method = RequestMethod.GET)
@@ -56,17 +56,17 @@ public class UserController {
         return new HandlerResponse(userDetailsDao.findAllUsers(), true);
     }
 
-    @RequestMapping(value = "/user/ban", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/ban", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HandlerResponse banUser(@RequestParam(value="uid") int uid) {
-        userDetailsDao.banUser(uid, true);
+    public HandlerResponse banUser(@RequestParam(value="uid") int uid, @RequestParam(value="ban") boolean ban) {
+        userDetailsDao.banUser(uid, ban);
         return new HandlerResponse(null, true);
     }
 
-    @RequestMapping(value = "/user/unban", method = RequestMethod.GET)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HandlerResponse unbanUser(@RequestParam(value="uid") int uid) {
-        userDetailsDao.banUser(uid, false);
+    @RequestMapping(value = "/user/admin", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ROOT')")
+    public HandlerResponse adminUser(@RequestParam(value="uid") int uid, @RequestParam(value="admin") boolean admin) {
+        userDetailsDao.adminUser(uid, admin);
         return new HandlerResponse(null, true);
     }
 }

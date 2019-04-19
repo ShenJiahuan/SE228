@@ -57,5 +57,17 @@ export default {
 
     DeleteOrder(order) {
         return axios.delete("/orders", {data: order});
+    },
+
+    GetAllUser() {
+        return axios.get("/user/list");
+    },
+
+    BanUser(uid, ban) {
+        return axios.post("/user/ban", {}, {params: {uid: uid, ban: ban}});
+    },
+
+    AdminUser(uid, admin) {
+        return axios.post("/user/admin", {}, {params: {uid: uid, admin: admin}});
     }
 };

@@ -85,7 +85,7 @@
                     case "购物车":
                     case "已购":
                         return this.loggedIn;
-                    case "系统管理":
+                    case "用户管理":
                         return this.admin;
                     case "注册":
                     case "登录":
@@ -126,10 +126,12 @@
             Api.GetUsername().then(
                 response => {
                     if (response.data.success) {
-                        let username = response.data.result;
-                        this.$store.commit("login", username, false);
+                        let username = response.data.result.username;
+                        let admin = response.data.result.admin === 1;
+                        let root = response.data.result.root === 1;
+                        this.$store.commit("login", {username:username, admin:admin, root:root});
                     } else {
-                        this.$store.commit("login", "", false);
+                        this.$store.commit("login", {username:"", admin:false, root:false});
                     }
                 }
             );

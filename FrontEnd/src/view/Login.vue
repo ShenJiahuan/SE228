@@ -41,8 +41,11 @@
                                 if (response.data.success) {
                                     Api.GetUsername().then(
                                         response => {
-                                            let username = response.data.result;
-                                            this.$store.commit("login", username, false);
+                                            console.log(response);
+                                            let username = response.data.result.username;
+                                            let admin = response.data.result.admin === 1;
+                                            let root = response.data.result.root === 1;
+                                            this.$store.commit("login", {username:username, admin:admin, root:root});
                                             if (this.$route.query.redirect) {
                                                 this.$router.push(this.$route.query.redirect);
                                             } else {

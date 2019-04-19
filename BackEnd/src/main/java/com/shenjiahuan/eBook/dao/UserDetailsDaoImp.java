@@ -26,6 +26,9 @@ public class UserDetailsDaoImp implements UserDetailsDao {
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setBanned((byte) 0);
+        user.setAdmin((byte) 0);
+        user.setRoot((byte) 0);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
@@ -81,6 +84,22 @@ public class UserDetailsDaoImp implements UserDetailsDao {
         try {
             Query query = session.createQuery("update User set banned = :banned where uid = :uid");
             query.setParameter("banned", banned ? (byte) 1 : (byte) 0);
+            query.setParameter("uid", uid);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void adminUser(int uid, boolean admin) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        try {
+            Query query = session.createQuery("update User set admin = :admin where uid = :uid");
+            query.setParameter("admin", admin ? (byte) 1 : (byte) 0);
             query.setParameter("uid", uid);
             query.executeUpdate();
             session.getTransaction().commit();
