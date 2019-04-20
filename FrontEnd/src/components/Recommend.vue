@@ -83,7 +83,7 @@
                             let item = {
                                 rank: cnt,
                                 title: book.title,
-                                img: require("@/static/" + book.img),
+                                img: "http://localhost:8080/images/" + book.img,
                                 id: book.bookId,
                             };
                             this.topList.push(item);

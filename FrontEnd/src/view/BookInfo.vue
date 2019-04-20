@@ -6,7 +6,7 @@
         <el-row class="top-content">
             <el-col :span="8">
                 <div class="book-img">
-                    <img :src="require('@/static/' + book.img)" />
+                    <img :src="'http://localhost:8080/images/' + book.img" />
                 </div>
             </el-col>
             <el-col :span="8">
