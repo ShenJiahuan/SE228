@@ -48,7 +48,7 @@
             ]
           };
           console.log(data);
-          Api.UpdateOrder(data).then(
+          Api.UpdateOrder(data, false).then(
             response => {
               this.$notify({
                 title: "成功",

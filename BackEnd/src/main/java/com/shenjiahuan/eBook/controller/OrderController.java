@@ -53,11 +53,11 @@ public class OrderController {
     @RequestMapping(value = "/orders", method = PUT)
     @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
-    public HandlerResponse updateOrder(Principal principal, @RequestBody String body) {
+    public HandlerResponse updateOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
-        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
+        List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
         orderDao.updateOrder(orderList);
         return new HandlerResponse(null, true);
     }

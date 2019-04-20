@@ -67,7 +67,7 @@
                     min-width="10%"
                     align="center">
                 <template slot-scope="scope">
-                    <el-button type="primary" icon="el-icon-delete" circle  v-on:click="remove(scope.row)"></el-button>
+                    <el-button type="primary" icon="el-icon-delete" circle  v-on:click="remove(scope.row.id, true)"></el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -116,27 +116,29 @@
             }
         },
         methods: {
-            remove(book) {
+            remove(id, del) {
                 for (let i = 0; i < this.tableData.length; ++i) {
-                    if (this.tableData[i].id === book.id) {
+                    if (this.tableData[i].id === id) {
                         let data = {
                             orders: [
                                 {
-                                    id: book.id,
+                                    id: id,
                                     count: 0,
                                 }
                             ]
                         };
                         console.log(data);
-                        Api.DeleteOrder(data).then(
-                            response => {
-                                this.$notify({
-                                    title: "成功",
-                                    message: "删除书籍成功",
-                                    type: "success"
-                                });
-                            }
-                        );
+                        if (del) {
+                            Api.DeleteOrder(data).then(
+                                response => {
+                                    this.$notify({
+                                        title: "成功",
+                                        message: "删除书籍成功",
+                                        type: "success"
+                                    });
+                                }
+                            );
+                        }
                         this.tableData.splice(i, 1);
                         break;
                     }
@@ -170,11 +172,29 @@
                 this.setChosen();
             },
             pay() {
-                this.$notify({
-                    title: "成功",
-                    message: "支付成功",
-                    type: "success"
-                });
+                let books = this.$store.state.cartChosenStore.cartChosenItem;
+                console.log(books);
+                let data = {
+                    orders: []
+                };
+                for (let book of books) {
+                    data.orders.push({
+                        id: book.id,
+                        count: book.count
+                    });
+                }
+                Api.UpdateOrder(data, true).then(
+                    response => {
+                        this.$notify({
+                            title: "成功",
+                            message: "支付成功",
+                            type: "success"
+                        });
+                        for (let item of data.orders) {
+                            this.remove(item.id, false);
+                        }
+                    }
+                );
             },
             getCart() {
                 if (this.username === "") {

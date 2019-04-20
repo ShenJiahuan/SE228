@@ -134,8 +134,14 @@ public class OrderDaoImp implements OrderDao {
                             .setParameter("order", order.getCount())
                             .setParameter("bookId", order.getBookId())
                             .executeUpdate();
+                    int addTime = (int) session
+                            .createQuery("select addTime from Order where bookId = :bookId and purchased = 0")
+                            .setParameter("bookId", order.getBookId())
+                            .list()
+                            .get(0);
+                    order.setAddTime(addTime);
                 }
-                session.save(order);
+                session.update(order);
             }
             session.getTransaction().commit();
         } catch (Exception ex) {

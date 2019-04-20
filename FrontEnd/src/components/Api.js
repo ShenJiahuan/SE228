@@ -51,8 +51,8 @@ export default {
         return axios.post("/orders", order, {params: {paid: paid}});
     },
 
-    UpdateOrder(order) {
-        return axios.put("/orders", order);
+    UpdateOrder(order, paid) {
+        return axios.put("/orders", order, {params: {paid: paid}});
     },
 
     DeleteOrder(order) {
