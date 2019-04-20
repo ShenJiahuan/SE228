@@ -74,6 +74,9 @@
                             </order-count-box>
                         </el-form-item>
                     </el-form>
+                    <div class="book-remain">
+                        剩余&nbsp{{book.remain}}件
+                    </div>
                     <el-button type="primary" class="button" @click.native="order(true)">立即购买</el-button>
                     <el-button type="primary" class="button" @click.native="order(false)">加入购物车</el-button>
                 </div>
@@ -189,8 +192,11 @@
         padding-top: 20px;
     }
 
-    .input-box {
+    .book-remain {
         margin-bottom: 20px;
+        text-align: left;
+        padding-left: 40px;
+        font-size: 14px;
     }
 
     .button {

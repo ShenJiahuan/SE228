@@ -87,6 +87,19 @@ public class OrderDaoImp implements OrderDao {
                     query.setParameter("bookId", order.getBookId());
                     query.setParameter("uid", order.getUid());
                     query.executeUpdate();
+                } else {
+                    int remain = (int) session
+                            .createQuery("select remain from Book where bookId = :bookId")
+                            .setParameter("bookId", order.getBookId())
+                            .list().get(0);
+                    if (remain < order.getCount()) {
+                        throw new Exception("No enough books");
+                    }
+                    session
+                            .createQuery("update Book set remain = remain - :order where bookId = :bookId")
+                            .setParameter("order", order.getCount())
+                            .setParameter("bookId", order.getBookId())
+                            .executeUpdate();
                 }
                 session.save(order);
             }
@@ -108,6 +121,19 @@ public class OrderDaoImp implements OrderDao {
                     query.setParameter("bookId", order.getBookId());
                     query.setParameter("uid", order.getUid());
                     query.executeUpdate();
+                } else {
+                    int remain = (int) session
+                            .createQuery("select remain from Book where bookId = :bookId")
+                            .setParameter("bookId", order.getBookId())
+                            .list().get(0);
+                    if (remain < order.getCount()) {
+                        throw new Exception("No enough books");
+                    }
+                    session
+                            .createQuery("update Book set remain = remain - :order where bookId = :bookId")
+                            .setParameter("order", order.getCount())
+                            .setParameter("bookId", order.getBookId())
+                            .executeUpdate();
                 }
                 session.save(order);
             }
