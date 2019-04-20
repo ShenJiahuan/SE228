@@ -19,5 +19,6 @@
         <property name="score" column="score"/>
         <property name="bookDesc" column="book_desc"/>
         <property name="originalName" column="original_name"/>
+        <property name="remain" column="remain"/>
     </class>
 </hibernate-mapping>

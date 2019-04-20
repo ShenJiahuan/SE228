@@ -22,6 +22,7 @@ public class Book {
     private Double score;
     private String bookDesc;
     private String originalName;
+    private int remain;
 
     @Id
     @Column(name = "book_id")
@@ -163,6 +164,16 @@ public class Book {
         this.originalName = originalName;
     }
 
+    @Basic
+    @Column(name = "remain")
+    public int getRemain() {
+        return remain;
+    }
+
+    public void setRemain(int remain) {
+        this.remain = remain;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -181,11 +192,12 @@ public class Book {
                 Objects.equals(hot, book.hot) &&
                 Objects.equals(score, book.score) &&
                 Objects.equals(bookDesc, book.bookDesc) &&
-                Objects.equals(originalName, book.originalName);
+                Objects.equals(originalName, book.originalName) &&
+                Objects.equals(remain, book.remain);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, title, author, publisher, publishDate, pages, price, decoration, isbn, img, hot, score, bookDesc, originalName);
+        return Objects.hash(bookId, title, author, publisher, publishDate, pages, price, decoration, isbn, img, hot, score, bookDesc, originalName, remain);
     }
 }
