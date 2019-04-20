@@ -20,6 +20,10 @@ export default {
         return axios.get("/books/hot", {params: {limit: limit}} );
     },
 
+    CreateBook(info) {
+        return axios.post("/books", info);
+    },
+
     Login(email, password) {
         var params = new URLSearchParams();
         params.append("email", email);

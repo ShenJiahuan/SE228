@@ -1,7 +1,7 @@
 <template>
     <el-card shadow="hover" class="item">
         <div class="item-img">
-            <img :src="'http://localhost:8080/static/' + book.img" />
+            <img :src="'http://localhost:8080/images/' + book.img" />
         </div>
         <div class="item-desc">
             <h3 class="item-title">

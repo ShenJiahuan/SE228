@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/books/*").permitAll()
+                .antMatchers("/books/{id}", "/books/*", "/books/hot", "/books/recommend").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .anyRequest().authenticated()

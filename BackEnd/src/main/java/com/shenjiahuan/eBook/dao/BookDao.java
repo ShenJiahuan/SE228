@@ -10,4 +10,6 @@ public interface BookDao {
     List<Book> findTopBookList(String type, int limit);
 
     List<Book> findRelatedBookList(String keyword);
+
+    void createBook(Book book);
 }
