@@ -86,6 +86,7 @@
                     case "已购":
                         return this.loggedIn;
                     case "用户管理":
+                    case "添加书籍":
                         return this.admin;
                     case "注册":
                     case "登录":
