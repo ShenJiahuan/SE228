@@ -3,9 +3,11 @@ package com.shenjiahuan.eBook.controller;
 import com.shenjiahuan.eBook.dao.BookDao;
 import com.shenjiahuan.eBook.entity.Book;
 import com.shenjiahuan.eBook.dao.BookDaoImp;
+import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +39,9 @@ public class BookController {
 
     @RequestMapping(value = "/books/hot", method = GET)
     public List<Book> getHotBookList(@RequestParam(value="limit") int limit) {
+        if (limit <= 0) {
+            throw new IncorrectParameterException("limit must be positive");
+        }
         return bookDao.findTopBookList("hot", limit);
     }
 
