@@ -47,6 +47,9 @@ public class BookController {
 
     @RequestMapping(value = "/books/recommend", method = GET)
     public List<Book> getRecommendBookList(@RequestParam(value="limit") int limit) {
+        if (limit <= 0) {
+            throw new IncorrectParameterException("limit must be positive");
+        }
         return bookDao.findTopBookList("score", limit);
     }
 

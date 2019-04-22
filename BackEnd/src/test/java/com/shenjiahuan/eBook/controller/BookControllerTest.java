@@ -9,13 +9,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -115,11 +117,54 @@ public class BookControllerTest {
     }
 
     @Test
-    public void getRecommendBookList() {
+    public void getRecommendBookListSuccess() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/books/recommend")
+                .param("limit", "10"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JsonParser jsonParser = new JsonParser();
+        JsonArray jsonArray = (JsonArray) jsonParser.parse(result.getResponse().getContentAsString());
+        assertEquals(10, jsonArray.size());
     }
 
     @Test
-    public void uploadImage() {
+    public void getRecommendBookListIncorrectLimit() throws Exception {
+        this.mockMvc.perform(get("/books/recommend")
+                .param("limit", "-10"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    public void getRecommendBookListWithoutLimit() throws Exception {
+        this.mockMvc.perform(get("/books/recommend"))
+                .andExpect(status().is(400));
+    }
+
+    @Test
+    public void uploadImageUnauthorized() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL"})
+    public void uploadImageNoPermission() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL", "ADMIN"})
+    public void uploadImageSuccess() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(200));
     }
 
     @Test
