@@ -11,5 +11,5 @@ public interface BookDao {
 
     List<Book> findRelatedBookList(String keyword);
 
-    void createBook(Book book);
+    boolean createBook(Book book);
 }

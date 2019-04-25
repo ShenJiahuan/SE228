@@ -23,6 +23,6 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
 
         logger.info(e.getMessage());
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(new HandlerResponse(e.getMessage(),false)));
+        response.getWriter().write(JSON.toJSONString(new HandlerResponse(e.getMessage(), -1)));
     }
 }

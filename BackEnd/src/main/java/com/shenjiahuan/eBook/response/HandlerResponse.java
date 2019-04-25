@@ -9,10 +9,16 @@ public class HandlerResponse {
 
     private Object result;
 
-    private boolean success;
+    /*
+     * status:
+     *  0 - Success
+     * -1 - Unauthorized
+     * -2 - Incorrect parameters
+     */
+    private int status;
 
-    public HandlerResponse(Object result, boolean success){
+    public HandlerResponse(Object result, int status){
         this.result = result;
-        this.success = success;
+        this.status = status;
     }
 }

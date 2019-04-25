@@ -56,7 +56,8 @@ public class BookDaoImp implements BookDao {
         return books.size() != 0 ? books : null;
     }
 
-    public void createBook(Book book) {
+    public boolean createBook(Book book) {
+        boolean success = true;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
@@ -69,9 +70,11 @@ public class BookDaoImp implements BookDao {
             Files.move(Paths.get(srcdir + book.getImg()), Paths.get(destdir + book.getImg()));
             session.getTransaction().commit();
         } catch (Exception ex) {
+            success = false;
             session.getTransaction().rollback();
             ex.printStackTrace();
         }
+        return success;
     }
 
 }

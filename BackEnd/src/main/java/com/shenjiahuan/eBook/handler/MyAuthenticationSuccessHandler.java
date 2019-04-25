@@ -23,6 +23,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         logger.info("登录成功");
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(new HandlerResponse("登录成功",true)));
+        response.getWriter().write(JSON.toJSONString(new HandlerResponse("登录成功", 0)));
     }
 }

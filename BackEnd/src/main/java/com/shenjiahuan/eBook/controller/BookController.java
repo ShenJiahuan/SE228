@@ -3,6 +3,7 @@ package com.shenjiahuan.eBook.controller;
 import com.shenjiahuan.eBook.dao.BookDao;
 import com.shenjiahuan.eBook.entity.Book;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
+import com.shenjiahuan.eBook.exception.NotFoundException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,20 @@ public class BookController {
 
     @RequestMapping(value = "/books/{id}", method = GET)
     public Book getBookInfo(@PathVariable("id") int id) {
-        return bookDao.findBookById(id);
+        Book book = bookDao.findBookById(id);
+        if (book == null) {
+            throw new NotFoundException("book not found");
+        }
+        return book;
     }
 
     @RequestMapping(value = "/books", method = GET)
     public List<Book> getBookList(@RequestParam(value="keyword") String keyword) {
-        return bookDao.findRelatedBookList(keyword);
+        List<Book> books = bookDao.findRelatedBookList(keyword);
+        if (books == null) {
+            throw new NotFoundException("book not found");
+        }
+        return books;
     }
 
     @RequestMapping(value = "/books/hot", method = GET)
@@ -40,7 +49,13 @@ public class BookController {
         if (limit <= 0) {
             throw new IncorrectParameterException("limit must be positive");
         }
-        return bookDao.findTopBookList("hot", limit);
+        List<Book> books = bookDao.findTopBookList("hot", limit);
+        if (books == null) {
+            throw new NotFoundException("book not found");
+        } else if (books.size() < limit) {
+            throw new IncorrectParameterException("limit too large");
+        }
+        return books;
     }
 
     @RequestMapping(value = "/books/recommend", method = GET)
@@ -48,20 +63,28 @@ public class BookController {
         if (limit <= 0) {
             throw new IncorrectParameterException("limit must be positive");
         }
-        return bookDao.findTopBookList("score", limit);
+        List<Book> books = bookDao.findTopBookList("score", limit);
+        if (books == null) {
+            throw new NotFoundException("book not found");
+        } else if (books.size() < limit) {
+            throw new IncorrectParameterException("limit too large");
+        }
+        return books;
     }
 
     @RequestMapping(value = "/upload/image", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HandlerResponse uploadImage(@RequestParam("file") MultipartFile file, Principal principal) {
-        String fileName = fileStorageService.storeFile(file);
-        return new HandlerResponse(fileName, true);
+    public String uploadImage(@RequestParam("file") MultipartFile file, Principal principal) {
+        return fileStorageService.storeFile(file);
     }
 
     @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HandlerResponse uploadBook(@RequestBody Book book) {
-        bookDao.createBook(book);
-        return new HandlerResponse(null, true);
+    public void uploadBook(@RequestBody Book book) {
+        if (bookDao.createBook(book)) {
+            return;
+        } else {
+            throw new IncorrectParameterException("error inserting book");
+        }
     }
 }

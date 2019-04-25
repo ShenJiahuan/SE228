@@ -29,7 +29,7 @@ public class OrderController {
         String username = principal.getName();
         User user = userDetailsDao.findUserByUsername(username);
         System.out.println(paid);
-        return new HandlerResponse(orderDao.findOrderByUserId(user.getUid(), paid), true);
+        return new HandlerResponse(orderDao.findOrderByUserId(user.getUid(), paid), 0);
     }
 
     @RequestMapping(value = "/orders", method = POST)
@@ -41,7 +41,7 @@ public class OrderController {
         int uid = user.getUid();
         List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
         orderDao.createOrder(orderList);
-        return new HandlerResponse(null, true);
+        return new HandlerResponse(null, 0);
     }
 
     @RequestMapping(value = "/orders", method = PUT)
@@ -53,7 +53,7 @@ public class OrderController {
         int uid = user.getUid();
         List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
         orderDao.updateOrder(orderList);
-        return new HandlerResponse(null, true);
+        return new HandlerResponse(null, 0);
     }
 
     @RequestMapping(value = "/orders", method = DELETE)
@@ -65,6 +65,6 @@ public class OrderController {
         int uid = user.getUid();
         List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
         orderDao.deleteOrder(orderList);
-        return new HandlerResponse(null, true);
+        return new HandlerResponse(null, 0);
     }
 }
