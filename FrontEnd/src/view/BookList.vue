@@ -39,7 +39,6 @@
                  * 0: sort by complex, 1: sort by price ascent, 2: sort by price descent, 3: sort by sale amount
                  */
                 sortType: 0,
-                loadingInstance: null,
             }
         },
         computed: {
@@ -86,27 +85,36 @@
                         this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.price) > parseFloat(book2.price) ? -1 : 1);
                         break;
                 }
+            },
+            getBookList(keyword) {
+                this.bookList = null;
+                Api.GetBookList(keyword).then(
+                    response => {
+                        this.bookList = response.data;
+                    },
+                    error => {
+                        switch (error.response.data.status) {
+                            case 404:
+                                this.bookList = [];
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
+                    }
+                );
             }
         },
         created() {
-            this.loadingInstance = Loading.service({ fullscreen: true });
-            Api.GetBookList(this.keyword).then(
-                response => {
-                    this.bookList = response.data;
-                    this.loadingInstance.close();
-                }
-            );
+            this.getBookList(this.keyword);
         },
         watch: {
             keyword() {
-                this.loadingInstance = Loading.service({ fullscreen: true });
-                Api.GetBookList(this.keyword).then(
-                    response => {
-                        this.bookList = response.data;
-                        this.loadingInstance.close();
-                        this.sort();
-                    }
-                );
+                this.getBookList(this.keyword);
             }
         }
     }

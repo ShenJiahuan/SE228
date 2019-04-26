@@ -140,26 +140,38 @@
             },
             score(book) {
                 return parseFloat((book.score / 2).toFixed(1));
+            },
+            getBookInfo(bookid) {
+                Api.GetBookInfo(bookid)
+                    .then(response => {
+                        this.book = response.data;
+                    }, error => {
+                        switch (error.response.data.status) {
+                            case 404:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "书籍不存在",
+                                    type: "error"
+                                });
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
+                        this.$router.push("/");
+                    });
             }
         },
         created() {
-            this.loadingInstance = Loading.service({ fullscreen: true });
-            Api.GetBookInfo(this.bookID).then(
-                response => {
-                    this.book = response.data;
-                    this.loadingInstance.close();
-                }
-            );
+            this.getBookInfo(this.bookID);
         },
         watch: {
             bookID() {
-                this.loadingInstance = Loading.service({ fullscreen: true });
-                Api.GetBookInfo(this.bookID).then(
-                    response => {
-                        this.book = response.data;
-                        this.loadingInstance.close();
-                    }
-                );
+                this.getBookInfo(this.bookID);
             }
         }
     }

@@ -1,7 +1,30 @@
 import axios from "axios";
+import { Loading } from "element-ui";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
+
+let loadingInstance = null;
+
+axios.interceptors.request.use(
+    config => {
+        loadingInstance = Loading.service({ fullscreen: true });
+        return config;
+    },
+    error =>{
+        loadingInstance.close();
+        return Promise.reject(error);
+});
+
+axios.interceptors.response.use(
+    response => {
+        loadingInstance.close();
+        return response;
+    },
+    error => {
+        loadingInstance.close();
+        return Promise.reject(error);
+});
 
 export default {
     GetBookInfo(id) {

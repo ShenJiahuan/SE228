@@ -73,7 +73,6 @@
                     this.$router.push("/404");
                     return;
                 }
-                this.loadingInstance = Loading.service({ fullscreen: true });
                 api(10).then(
                     response => {
                         let raw = response.data;
@@ -89,7 +88,12 @@
                             this.topList.push(item);
                             cnt += 1;
                         }
-                        this.loadingInstance.close();
+                    }, error => {
+                        this.$notify({
+                            title: "错误",
+                            message: "未知错误",
+                            type: "error"
+                        });
                     }
                 );
             }

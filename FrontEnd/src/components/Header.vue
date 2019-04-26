@@ -134,6 +134,18 @@
                     } else {
                         this.$store.commit("login", {username:"", admin:false, root:false});
                     }
+                }, error => {
+                    switch (error.response.data.status) {
+                        case 401:
+                            break;
+                        default:
+                            this.$notify({
+                                title: "错误",
+                                message: "未知错误",
+                                type: "error"
+                            });
+                            break;
+                    }
                 }
             );
         }
