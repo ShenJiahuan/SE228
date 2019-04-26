@@ -24,7 +24,8 @@ public class UserDetailsDaoImp implements UserDetailsDao {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public void save(User user) {
+    public boolean save(User user) {
+        boolean success = true;
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setBanned((byte) 0);
         user.setAdmin((byte) 0);
@@ -35,9 +36,11 @@ public class UserDetailsDaoImp implements UserDetailsDao {
             session.save(user);
             session.getTransaction().commit();
         } catch (Exception ex) {
+            success = false;
             session.getTransaction().rollback();
             ex.printStackTrace();
         }
+        return success;
     }
 
     @Override
@@ -79,7 +82,8 @@ public class UserDetailsDaoImp implements UserDetailsDao {
 
     @Override
     // FIXME: only specific group of users can be banned
-    public void banUser(int uid, boolean banned) {
+    public boolean banUser(int uid, boolean banned) {
+        boolean success = true;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
@@ -89,13 +93,16 @@ public class UserDetailsDaoImp implements UserDetailsDao {
             query.executeUpdate();
             session.getTransaction().commit();
         } catch (Exception ex) {
+            success = false;
             session.getTransaction().rollback();
             ex.printStackTrace();
         }
+        return success;
     }
 
     @Override
-    public void adminUser(int uid, boolean admin) {
+    public boolean adminUser(int uid, boolean admin) {
+        boolean success = true;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
@@ -105,8 +112,10 @@ public class UserDetailsDaoImp implements UserDetailsDao {
             query.executeUpdate();
             session.getTransaction().commit();
         } catch (Exception ex) {
+            success = false;
             session.getTransaction().rollback();
             ex.printStackTrace();
         }
+        return success;
     }
 }

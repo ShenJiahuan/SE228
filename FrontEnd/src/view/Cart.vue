@@ -98,7 +98,6 @@
         data() {
             return {
                 tableData: null,
-                loadingInstance: null,
             }
         },
         computed: {
@@ -111,7 +110,6 @@
         },
         watch: {
             username() {
-                this.loadingInstance = Loading.service({ fullscreen: true });
                 this.getCart();
             }
         },
@@ -135,6 +133,12 @@
                                         title: "成功",
                                         message: "删除书籍成功",
                                         type: "success"
+                                    });
+                                }, error => {
+                                    this.$notify({
+                                        title: "错误",
+                                        message: "未知错误",
+                                        type: "error"
                                     });
                                 }
                             );
@@ -193,21 +197,31 @@
                         for (let item of data.orders) {
                             this.remove(item.id, false);
                         }
+                    }, error => {
+                        switch (error.response.data.status) {
+                            case 400:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "库存不足",
+                                    type: "error"
+                                });
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
                     }
                 );
             },
             getCart() {
-                if (this.username === "") {
-                    this.$notify.error({
-                        title: "错误",
-                        message: "请先登录"
-                    });
-                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
-                }
                 Api.GetOrder(false).then(
                     response => {
                         let dateFormat = require('dateformat');
-                        let result = response.data.result;
+                        let result = response.data;
                         this.tableData = [];
                         if (result != null) {
                             for (let item of result) {
@@ -223,16 +237,38 @@
                                 })
                             }
                         }
-                        this.loadingInstance.close();
                         if (result != null) {
                             this.setChosen();
+                        }
+                    }, error => {
+                        switch (error.response.data.status) {
+                            case 401:
+                                this.$notify.error({
+                                    title: "错误",
+                                    message: "请先登录"
+                                });
+                                this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+                                break;
+                            case 403:
+                                this.$notify.error({
+                                    title: "错误",
+                                    message: "您的账户已被禁用，请联系管理员"
+                                });
+                                this.$router.push("/");
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
                         }
                     }
                 );
             }
         },
         created() {
-            this.loadingInstance = Loading.service({ fullscreen: true });
             this.getCart();
         }
     }

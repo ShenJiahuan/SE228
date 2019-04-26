@@ -36,36 +36,7 @@
             onSubmit(form) {
                 this.$refs[form].validate((valid) => {
                     if (valid) {
-                        Api.Login(this.form.email, this.form.password).then(
-                            response => {
-                                if (response.data.success) {
-                                    Api.GetUsername().then(
-                                        response => {
-                                            console.log(response);
-                                            let username = response.data.result.username;
-                                            let admin = response.data.result.admin === 1;
-                                            let root = response.data.result.root === 1;
-                                            this.$store.commit("login", {username:username, admin:admin, root:root});
-                                            if (this.$route.query.redirect) {
-                                                this.$router.push(this.$route.query.redirect);
-                                            } else {
-                                                this.$router.push("/");
-                                            }
-                                        }
-                                    );
-                                } else {
-                                    let message = "未知错误";
-                                    if (response.data.result === "Bad credentials") {
-                                        message = "邮箱或密码错误";
-                                    }
-                                    this.$notify({
-                                        title: "登录失败",
-                                        message: message,
-                                        type: "error"
-                                    });
-                                }
-                            }
-                        );
+                        this.login(this.form.email, this.form.password);
                     } else {
                         return false;
                     }
@@ -73,6 +44,39 @@
             },
             handleRegister() {
                 this.$router.push({path: '/register', query: {redirect: this.$route.query.redirect}});
+            },
+            login(email, password) {
+                Api.Login(email, password).then(
+                    response => {
+                        this.getUsername();
+                        if (this.$route.query.redirect) {
+                            this.$router.push(this.$route.query.redirect);
+                        } else {
+                            this.$router.push("/");
+                        }
+                    }, error => {
+                        let message = "未知错误";
+                        if (error.response.data.result === "Bad credentials") {
+                            message = "邮箱或密码错误";
+                        }
+                        this.$notify({
+                            title: "登录失败",
+                            message: message,
+                            type: "error"
+                        });
+                    }
+                );
+            },
+            getUsername() {
+                Api.GetUsername().then(
+                    response => {
+                        console.log(response);
+                        let username = response.data.username;
+                        let admin = response.data.admin === 1;
+                        let root = response.data.root === 1;
+                        this.$store.commit("login", {username:username, admin:admin, root:root});
+                    }
+                );
             }
         }
     }

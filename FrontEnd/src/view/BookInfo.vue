@@ -83,8 +83,10 @@
             </el-col>
         </el-row>
         <div class="book-desc">
-            <div v-for="(para, index) in book.bookDesc.split('\n')" :key="index">
-                <p>{{para}}</p>
+            <div v-if="book.bookDesc != null">
+                <div v-for="(para, index) in book.bookDesc.split('\n')" :key="index">
+                    <p>{{para}}</p>
+                </div>
             </div>
         </div>
     </div>

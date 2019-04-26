@@ -88,7 +88,7 @@ var router = new Router({
       }
     },
     {
-      path: "/createbook",
+      path: "/book/create",
       name: "CreateBook",
       component: CreateBook,
       meta: {

@@ -125,6 +125,7 @@ public class OrderDaoImp implements OrderDao {
                     query.setParameter("bookId", order.getBookId());
                     query.setParameter("uid", order.getUid());
                     query.executeUpdate();
+                    session.save(order);
                 } else {
                     int remain = (int) session
                             .createQuery("select remain from Book where bookId = :bookId")
@@ -144,8 +145,8 @@ public class OrderDaoImp implements OrderDao {
                             .list()
                             .get(0);
                     order.setAddTime(addTime);
+                    session.update(order);
                 }
-                session.update(order);
             }
             session.getTransaction().commit();
         } catch (Exception ex) {

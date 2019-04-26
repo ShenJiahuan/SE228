@@ -66,7 +66,6 @@
         data() {
             return {
                 initialData: null,
-                loadingInstance: null,
             }
         },
         computed: {
@@ -78,17 +77,14 @@
                     return null;
                 }
                 return this.initialData.filter(book => {
-                    console.log(typeof book.time);
                     let year = parseInt(book.time.substr(0, 4));
                     let month = parseInt(book.time.substr(5, 6)) - 1;
                     let day = parseInt(book.time.substr(8, 9));
                     let orderTime = new Date(year, month, day);
-                    console.log(year, month, day);
                     if (this.time.minDate === null || this.time.maxDate === null) {
                         return false;
                     }
 
-                    console.log(orderTime.getTime(), this.time.minDate.getTime(), this.time.maxDate.getTime());
                     return orderTime.getTime() >= this.time.minDate.getTime() &&
                             orderTime.getTime() <= this.time.maxDate.getTime();
                 })
@@ -99,29 +95,18 @@
         },
         watch: {
             username() {
-                this.loadingInstance = Loading.service({ fullscreen: true });
                 this.getPurchased();
             }
         },
         created() {
-            this.loadingInstance = Loading.service({ fullscreen: true });
             this.getPurchased();
         },
         methods: {
             getPurchased() {
-                console.log(this.$store.state.user);
-                if (this.username === "") {
-                    this.$notify.error({
-                        title: "错误",
-                        message: "请先登录"
-                    });
-                    this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
-                }
-
                 Api.GetOrder(true).then(
                     response => {
                         let dateFormat = require('dateformat');
-                        let result = response.data.result;
+                        let result = response.data;
                         this.initialData = [];
                         if (result != null) {
                             for (let item of result) {
@@ -137,7 +122,30 @@
                                 })
                             }
                         }
-                        this.loadingInstance.close();
+                    }, error => {
+                        switch (error.response.data.status) {
+                            case 401:
+                                this.$notify.error({
+                                    title: "错误",
+                                    message: "请先登录"
+                                });
+                                this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+                                break;
+                            case 403:
+                                this.$notify.error({
+                                    title: "错误",
+                                    message: "您的账户已被禁用，请联系管理员"
+                                });
+                                this.$router.push("/");
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
                     }
                 )
             }

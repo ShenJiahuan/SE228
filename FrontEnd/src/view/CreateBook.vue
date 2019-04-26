@@ -34,6 +34,9 @@
                 <el-form-item label="详情" prop="bookDesc">
                     <el-input type="textarea" v-model="form.bookDesc" class="entry"></el-input>
                 </el-form-item>
+                <el-form-item label="库存" prop="remain">
+                    <el-input v-model="form.remain" class="entry"></el-input>
+                </el-form-item>
                 <el-form-item>
                     <el-upload
                             class="image-uploader"
@@ -41,6 +44,7 @@
                             :show-file-list="false"
                             :with-credentials="true"
                             :on-success="handleSuccess"
+                            :on-error="handleError"
                             :before-upload="beforeUpload">
                         <img v-if="localImg" :src="localImg" class="image">
                         <i v-else class="el-icon-plus image-uploader-icon"></i>
@@ -73,6 +77,7 @@
                     isbn: null,
                     score: null,
                     bookDesc: null,
+                    remain: null,
                     img: "",
                 },
                 localImg: "",
@@ -81,19 +86,58 @@
         methods: {
             handleSuccess(res, file) {
                 console.log(res, file);
-                this.form.img = res.result;
+                this.form.img = res;
                 this.localImg = URL.createObjectURL(file.raw);
                 console.log(this.form.img);
+                this.$notify.success({
+                    title: "成功",
+                    message: "上传图片成功"
+                });
+            },
+            handleError(err, file) {
+                this.$notify.error({
+                    title: "错误",
+                    message: "无法上传图片"
+                });
             },
             beforeUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 if (!isJPG) {
-                    this.$message.error('上传图片只能是 JPG 格式!');
+                    this.$notify.error({
+                        title: "错误",
+                        message: "上传图片只能是 JPG 格式！"
+                    });
                 }
                 return isJPG;
             },
             onSubmit() {
-                Api.CreateBook(this.form);
+                Api.CreateBook(this.form).then(
+                    response => {
+                        this.$notify({
+                            title: "成功",
+                            message: "创建书籍成功",
+                            type: "success"
+                        });
+                        this.$router.push("/");
+                    }, error => {
+                        switch (error.response.data.status) {
+                            case 400:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "参数错误",
+                                    type: "error"
+                                });
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
+                    }
+                );
             }
         }
     }

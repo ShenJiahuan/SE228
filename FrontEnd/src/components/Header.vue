@@ -126,17 +126,15 @@
         mounted() {
             Api.GetUsername().then(
                 response => {
-                    if (response.data.success) {
-                        let username = response.data.result.username;
-                        let admin = response.data.result.admin === 1;
-                        let root = response.data.result.root === 1;
-                        this.$store.commit("login", {username:username, admin:admin, root:root});
-                    } else {
-                        this.$store.commit("login", {username:"", admin:false, root:false});
-                    }
+                    console.log(response.data);
+                    let username = response.data.username;
+                    let admin = response.data.admin === 1;
+                    let root = response.data.root === 1;
+                    this.$store.commit("login", {username:username, admin:admin, root:root});
                 }, error => {
                     switch (error.response.data.status) {
                         case 401:
+                            this.$store.commit("login", {username:"", admin:false, root:false});
                             break;
                         default:
                             this.$notify({

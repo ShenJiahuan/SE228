@@ -2,6 +2,7 @@ package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.dao.BookDao;
 import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.exception.NotFoundException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
@@ -75,14 +76,20 @@ public class BookController {
     @RequestMapping(value = "/upload/image", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String uploadImage(@RequestParam("file") MultipartFile file, Principal principal) {
-        return fileStorageService.storeFile(file);
+        String filename = null;
+        try {
+            filename = fileStorageService.storeFile(file);
+        } catch (FileStorageException ex) {
+            throw new IncorrectParameterException("cannot upload file");
+        }
+        return filename;
     }
 
     @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void uploadBook(@RequestBody Book book) {
         if (!bookDao.createBook(book)) {
-            throw new IncorrectParameterException("error inserting book");
+            throw new IncorrectParameterException("error creating book");
         }
     }
 }

@@ -22,6 +22,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
 
         logger.info(e.getMessage());
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSON.toJSONString(new HandlerResponse(e.getMessage(), -1)));
     }

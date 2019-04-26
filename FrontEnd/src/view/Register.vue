@@ -72,37 +72,44 @@
             onSubmit(form) {
                 this.$refs[form].validate((valid) => {
                     if (valid) {
-                        Api.Register(this.form.email, this.form.username, this.form.password).then(
-                            response => {
-                                if (response.data.success) {
-                                    Api.GetUsername().then(
-                                        response => {
-                                            let username = response.data.result;
-                                            this.$notify({
-                                                title: "注册成功",
-                                                message: "跳转至登录页面",
-                                                type: "success"
-                                            });
-                                            this.$router.push({path: "/login", query: {redirect: this.$route.query.redirect}});
-                                        }
-                                    );
-                                } else {
-                                    let message = "未知错误";
-                                    if (response.data.result === "Email address exists") {
-                                        message = "该邮箱已存在";
-                                    }
-                                    this.$notify({
-                                        title: "注册失败",
-                                        message: message,
-                                        type: "error"
-                                    });
-                                }
-                            }
-                        );
+                        this.register(this.form.email, this.form.username, this.form.password);
                     } else {
                         return false;
                     }
                 });
+            },
+            register(email, username, password) {
+                Api.Register(email, username, password).then(
+                    response => {
+                        this.$notify({
+                            title: "注册成功",
+                            message: "跳转至登录页面",
+                            type: "success"
+                        });
+                        this.$router.push({path: "/login", query: {redirect: this.$route.query.redirect}});
+                    }, error => {
+                        let message = "未知错误";
+                        if (response.data.result === "Email address exists") {
+                            message = "该邮箱已存在";
+                        }
+                        this.$notify({
+                            title: "注册失败",
+                            message: message,
+                            type: "error"
+                        });
+                    }
+                );
+            },
+            getUsername() {
+                Api.GetUsername().then(
+                    response => {
+                        console.log(response);
+                        let username = response.data.username;
+                        let admin = response.data.admin === 1;
+                        let root = response.data.root === 1;
+                        this.$store.commit("login", {username:username, admin:admin, root:root});
+                    }
+                );
             }
         }
     }

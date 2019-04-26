@@ -77,7 +77,7 @@ public class OrderController {
         try {
             List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
             if (!orderDao.deleteOrder(orderList)) {
-                throw new IncorrectParameterException("books not enough");
+                throw new IncorrectParameterException("Unknown exception");
             }
         } catch (NullPointerException ex) {
             throw new IncorrectParameterException("order parameters incorrect");

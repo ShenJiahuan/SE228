@@ -58,44 +58,57 @@
         data() {
             return {
                 tableData: null,
-                loadingInstance: null,
             }
         },
         methods: {
             handleBan(row) {
                 console.log(this.tableData[row]);
-                Api.BanUser(this.tableData[row].id, this.tableData[row].banned);
+                Api.BanUser(this.tableData[row].id, this.tableData[row].banned).then(
+                    response => {},
+                    error => {
+                        this.$notify.error({
+                            title: "错误",
+                            message: "无法禁用该用户"
+                        });
+                        this.tableData[row].banned = false;
+                    }
+                );
             },
 
             handleAdmin(row) {
                 console.log(this.tableData[row]);
-                Api.AdminUser(this.tableData[row].id, this.tableData[row].admin);
+                Api.AdminUser(this.tableData[row].id, this.tableData[row].admin).then(
+                    response => {},
+                    error => {
+                        this.$notify.error({
+                            title: "错误",
+                            message: "无法授予该用户管理员权限"
+                        });
+                        this.tableData[row].admin = false;
+                    }
+                );
             },
         },
         mounted() {
-            this.loadingInstance = Loading.service({ fullscreen: true });
             Api.GetAllUser().then(
                 response => {
-                    if (response.data.success) {
-                        let rawData = response.data.result;
-                        this.tableData = [];
-                        for (let user of rawData) {
-                            this.tableData.push({
-                                id: user.uid,
-                                username: user.username,
-                                email: user.email,
-                                banned: user.banned === 1,
-                                admin: user.admin === 1,
-                                root: user.root === 1,
-                            });
-                        }
-                        this.loadingInstance.close();
-                    } else {
-                        this.$notify.error({
-                            title: "错误",
-                            message: "无法获取用户信息"
+                    let rawData = response.data;
+                    this.tableData = [];
+                    for (let user of rawData) {
+                        this.tableData.push({
+                            id: user.uid,
+                            username: user.username,
+                            email: user.email,
+                            banned: user.banned === 1,
+                            admin: user.admin === 1,
+                            root: user.root === 1,
                         });
                     }
+                }, error => {
+                    this.$notify.error({
+                        title: "错误",
+                        message: "无法获取用户信息"
+                    });
                 }
             );
         }

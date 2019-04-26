@@ -60,6 +60,6 @@
     "name": "添加书籍",
     "sub_name": "CreateBook",
     "require": ["login", "admin"],
-    "url": "/createbook"
+    "url": "/book/create"
   }
 ]
