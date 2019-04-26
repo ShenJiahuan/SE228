@@ -2,6 +2,8 @@ package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
 import com.shenjiahuan.eBook.entity.User;
+import com.shenjiahuan.eBook.exception.IncorrectParameterException;
+import com.shenjiahuan.eBook.exception.UnauthorizedException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class UserController {
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    @ResponseBody
-    public HandlerResponse currentUserName(Principal principal) {
-        if (principal == null) {
-            return new HandlerResponse("", -1);
-        }
-        String username = principal.getName();
-        return new HandlerResponse(userDetailsDao.findUserByUsername(username), 0);
-    }
-
-    @RequestMapping(value="/user/login", method = RequestMethod.GET)
-    public String login() {
-        return "";
-    }
 
     @Autowired
     UserDetailsDao userDetailsDao;
@@ -34,11 +23,26 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @ResponseBody
+    public User currentUserName(Principal principal) {
+        if (principal == null) {
+            throw new UnauthorizedException("Not logged in");
+        }
+        String username = principal.getName();
+        return userDetailsDao.findUserByUsername(username);
+    }
+
+    @RequestMapping(value="/user/login", method = RequestMethod.GET)
+    public String login() {
+        return "";
+    }
+
     @PostMapping("/user/register")
-    public HandlerResponse registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public void registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            return new HandlerResponse(bindingResult.getAllErrors().get(0).getDefaultMessage(), -2);
+            throw new IncorrectParameterException("register form incorrect");
         }
 
         userDetailsDao.save(userForm);
@@ -46,27 +50,23 @@ public class UserController {
         //roleDao.addRoleToUser(userDetailsDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
 
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-
-        return new HandlerResponse("注册成功", 0);
     }
 
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HandlerResponse listUsers() {
-        return new HandlerResponse(userDetailsDao.findAllUsers(), 0);
+    public List<User> listUsers() {
+        return userDetailsDao.findAllUsers();
     }
 
     @RequestMapping(value = "/user/ban", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public HandlerResponse banUser(@RequestParam(value="uid") int uid, @RequestParam(value="ban") boolean ban) {
+    public void banUser(@RequestParam(value="uid") int uid, @RequestParam(value="ban") boolean ban) {
         userDetailsDao.banUser(uid, ban);
-        return new HandlerResponse(null, 0);
     }
 
     @RequestMapping(value = "/user/admin", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ROOT')")
-    public HandlerResponse adminUser(@RequestParam(value="uid") int uid, @RequestParam(value="admin") boolean admin) {
+    public void adminUser(@RequestParam(value="uid") int uid, @RequestParam(value="admin") boolean admin) {
         userDetailsDao.adminUser(uid, admin);
-        return new HandlerResponse(null, 0);
     }
 }

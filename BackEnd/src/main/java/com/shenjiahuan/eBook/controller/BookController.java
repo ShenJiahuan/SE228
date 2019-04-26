@@ -81,9 +81,7 @@ public class BookController {
     @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void uploadBook(@RequestBody Book book) {
-        if (bookDao.createBook(book)) {
-            return;
-        } else {
+        if (!bookDao.createBook(book)) {
             throw new IncorrectParameterException("error inserting book");
         }
     }

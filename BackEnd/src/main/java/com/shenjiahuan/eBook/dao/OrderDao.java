@@ -7,9 +7,9 @@ import java.util.List;
 public interface OrderDao {
     List<Object> findOrderByUserId(int userId, boolean paid);
 
-    void createOrder(List<Order> orders);
+    boolean createOrder(List<Order> orders);
 
-    void updateOrder(List<Order> orders);
+    boolean updateOrder(List<Order> orders);
 
-    void deleteOrder(List<Order> orders);
+    boolean deleteOrder(List<Order> orders);
 }

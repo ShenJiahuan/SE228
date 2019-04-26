@@ -78,6 +78,7 @@ public class UserDetailsDaoImp implements UserDetailsDao {
     }
 
     @Override
+    // FIXME: only specific group of users can be banned
     public void banUser(int uid, boolean banned) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();

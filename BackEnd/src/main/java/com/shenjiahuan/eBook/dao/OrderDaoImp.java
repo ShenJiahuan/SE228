@@ -39,7 +39,7 @@ public class OrderDaoImp implements OrderDao {
         @SuppressWarnings("unchecked")
         List<Object> orders = query.list();
         session.getTransaction().commit();
-        return orders.size() != 0 ? orders : null;
+        return orders;
     }
 
     private List<Integer> existOrder(List<Order> orders) {
@@ -72,7 +72,8 @@ public class OrderDaoImp implements OrderDao {
     }
 
     // FIXME: may cause books in the cart over the upper bound
-    public void createOrder(List<Order> orders) {
+    public boolean createOrder(List<Order> orders) {
+        boolean success = true;
         List<Integer> previousOrders = existOrder(orders);
         int size = orders.size();
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -107,10 +108,13 @@ public class OrderDaoImp implements OrderDao {
         } catch (Exception ex) {
             session.getTransaction().rollback();
             ex.printStackTrace();
+            success = false;
         }
+        return success;
     }
 
-    public void updateOrder(List<Order> orders) {
+    public boolean updateOrder(List<Order> orders) {
+        boolean success = true;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
@@ -147,10 +151,13 @@ public class OrderDaoImp implements OrderDao {
         } catch (Exception ex) {
             session.getTransaction().rollback();
             ex.printStackTrace();
+            success = false;
         }
+        return success;
     }
 
-    public void deleteOrder(List<Order> orders) {
+    public boolean deleteOrder(List<Order> orders) {
+        boolean success = true;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         try {
@@ -165,6 +172,8 @@ public class OrderDaoImp implements OrderDao {
         } catch (Exception ex) {
             session.getTransaction().rollback();
             ex.printStackTrace();
+            success = false;
         }
+        return success;
     }
 }

@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -171,6 +172,21 @@ public class BookControllerTest {
     }
 
     @Test
-    public void uploadBook() {
+    public void uploadBookUnauthorized() throws Exception {
+        String body = "{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"img\":\"a1ab759e3204d0cd19969c38ed1f19cb.jpg\"}";
+        this.mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL"})
+    public void uploadBookNoPermission() throws Exception {
+        String body = "{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"img\":\"a1ab759e3204d0cd19969c38ed1f19cb.jpg\"}";
+        this.mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is(403));
     }
 }
