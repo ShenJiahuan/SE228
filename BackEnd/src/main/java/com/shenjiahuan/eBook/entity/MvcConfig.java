@@ -1,5 +1,6 @@
 package com.shenjiahuan.eBook.entity;
 
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -20,10 +21,12 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        URL path = MvcConfig.class.getProtectionDomain().getCodeSource().getLocation();
+        ApplicationHome home = new ApplicationHome(getClass());
+        File jarFile = home.getSource();
+        String path = jarFile.getParentFile().toString();
         registry
                 .addResourceHandler("/images/**")
-                .addResourceLocations(path + "/static/images/");
+                .addResourceLocations("file:" + path + "/static/images/");
         System.out.println(path);
     }
 
