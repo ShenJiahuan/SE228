@@ -1,5 +1,5 @@
 export default {
     state: {
-        backend: "https://ebook.shenjiahuan.com/"
+        backend: "http://localhost:8080/"
     }
 };
