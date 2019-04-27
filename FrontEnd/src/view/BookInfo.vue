@@ -6,7 +6,7 @@
         <el-row class="top-content">
             <el-col :span="8">
                 <div class="book-img">
-                    <img :src="'http://localhost:8080/images/' + book.img" />
+                    <img :src="this.$store.state.config.backend + 'images/' + book.img" />
                 </div>
             </el-col>
             <el-col :span="8">
@@ -136,6 +136,27 @@
                                 message: message,
                                 type: "success"
                             });
+                            if (paid) {
+                                this.book.remain -= this.input;
+                            }
+                        }, error => {
+                            switch (error.response.data.status) {
+                                case 400:
+                                    let message = error.response.data.message === "books not enough" ? "库存不足" : "未知错误";
+                                    this.$notify({
+                                        title: "错误",
+                                        message: message,
+                                        type: "error"
+                                    });
+                                    break;
+                                default:
+                                    this.$notify({
+                                        title: "错误",
+                                        message: "未知错误",
+                                        type: "error"
+                                    });
+                                    break;
+                            }
                         }
                     );
                 }

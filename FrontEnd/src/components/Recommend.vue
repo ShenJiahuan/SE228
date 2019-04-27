@@ -82,7 +82,7 @@
                             let item = {
                                 rank: cnt,
                                 title: book.title,
-                                img: "http://localhost:8080/images/" + book.img,
+                                img: this.$store.state.config.backend + "images/" + book.img,
                                 id: book.bookId,
                             };
                             this.topList.push(item);

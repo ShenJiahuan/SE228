@@ -8,6 +8,7 @@ import com.shenjiahuan.eBook.exception.NotFoundException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +23,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class BookController {
 
     @Autowired
+    @Lazy
     private BookDao bookDao;
 
     @Autowired
+    @Lazy
     private FileStorageService fileStorageService;
 
     @RequestMapping(value = "/books/{id}", method = GET)

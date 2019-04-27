@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class UserDetailsDaoImp implements UserDetailsDao {
 
     @Autowired
+    @Lazy
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -44,39 +46,57 @@ public class UserDetailsDaoImp implements UserDetailsDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public User findUserByEmail(String email) {
+        List<User> users = null;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        String hql = "From User where email = :email";
-        Query query = session.createQuery(hql);
-        query.setParameter("email", email);
-        @SuppressWarnings("unchecked")
-        List<User> users = query.list();
-        session.getTransaction().commit();
-        return users.size() != 0 ? users.get(0) : null;
+        try {
+            String hql = "From User where email = :email";
+            Query query = session.createQuery(hql);
+            query.setParameter("email", email);
+            users = query.list();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+        return (users != null && users.size() != 0) ? users.get(0) : null;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public User findUserByUsername(String username) {
+        List<User> users = null;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        String hql = "From User where username = :username";
-        Query query = session.createQuery(hql);
-        query.setParameter("username", username);
-        @SuppressWarnings("unchecked")
-        List<User> users = query.list();
-        session.getTransaction().commit();
-        return users.size() != 0 ? users.get(0) : null;
+        try {
+            String hql = "From User where username = :username";
+            Query query = session.createQuery(hql);
+            query.setParameter("username", username);
+            users = query.list();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
+        return (users != null && users.size() != 0) ? users.get(0) : null;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<User> findAllUsers() {
+        List<User> users = null;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        Query query = session.createQuery("From User");
-        @SuppressWarnings("unchecked")
-        List<User> users = query.list();
-        session.getTransaction().commit();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("From User");
+            users = query.list();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
+        }
         return users;
     }
 

@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,9 +33,11 @@ public class BookControllerTest {
     }
 
     @Autowired
+    @Lazy
     BookController bookController;
 
     @Autowired
+    @Lazy
     private MockMvc mockMvc;
 
     @Test

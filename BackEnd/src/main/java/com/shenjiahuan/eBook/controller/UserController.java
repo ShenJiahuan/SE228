@@ -7,6 +7,7 @@ import com.shenjiahuan.eBook.exception.UnauthorizedException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,11 @@ import java.util.List;
 public class UserController {
 
     @Autowired
+    @Lazy
     UserDetailsDao userDetailsDao;
 
     @Autowired
+    @Lazy
     private UserValidator userValidator;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)

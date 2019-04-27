@@ -18,27 +18,34 @@ import java.util.List;
 @Repository
 public class OrderDaoImp implements OrderDao {
 
+    @SuppressWarnings("unchecked")
     public List<Object> findOrderByUserId(int userId, boolean paid) {
+        List<Object> orders = null;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        String hql;
-        if (paid) {
-            hql =
-                    "From Order A, Book B " +
-                    "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
-                    "order by A.purchaseTime desc";
-        } else {
-            hql =
-                    "From Order A, Book B " +
-                    "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
-                    "order by A.addTime desc";
+        try {
+            String hql;
+            if (paid) {
+                hql =
+                        "From Order A, Book B " +
+                                "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
+                                "order by A.purchaseTime desc";
+            } else {
+                hql =
+                        "From Order A, Book B " +
+                                "where A.bookId = B.bookId and A.uid = :uid and A.purchased = :paid " +
+                                "order by A.addTime desc";
+            }
+            Query query = session.createQuery(hql);
+            query.setParameter("uid", userId);
+            query.setParameter("paid", paid ? (byte) 1 : (byte) 0);
+
+            orders = query.list();
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            session.getTransaction().rollback();
+            ex.printStackTrace();
         }
-        Query query = session.createQuery(hql);
-        query.setParameter("uid", userId);
-        query.setParameter("paid", paid ? (byte) 1 : (byte) 0);
-        @SuppressWarnings("unchecked")
-        List<Object> orders = query.list();
-        session.getTransaction().commit();
         return orders;
     }
 

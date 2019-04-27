@@ -3,6 +3,7 @@ package com.shenjiahuan.eBook.service;
 import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.property.FileStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
@@ -21,6 +22,7 @@ public class FileStorageService {
     private final Path fileStorageLocation;
 
     @Autowired
+    @Lazy
     public FileStorageService(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
                 .toAbsolutePath().normalize();
@@ -45,6 +47,7 @@ public class FileStorageService {
             fileName = DigestUtils.md5DigestAsHex((fileName + new Date().getTime()).getBytes()) + ".jpg";
             // Copy file to the target location (Replacing existing file with the same name)
             Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            System.out.println(targetLocation);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return fileName;
