@@ -22,7 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         ApplicationHome home = new ApplicationHome(getClass());
-        File jarFile = home.getSource();
+        File jarFile = home.getDir();
         String path = jarFile.getParentFile().toString();
         registry
                 .addResourceHandler("/images/**")
