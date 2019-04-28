@@ -1,5 +1,11 @@
 <template>
     <div class="date-filter">
+        <el-switch
+                v-model="filter"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="this.handleChange">
+        </el-switch>
         <div>日期筛选</div>
         <div>
             <el-date-picker
@@ -10,6 +16,7 @@
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
                     align="right"
+                    :disabled="!filter"
                     @change="this.handleChange">
             </el-date-picker>
         </div>
@@ -53,6 +60,7 @@
                     }
                 },
                 value: null,
+                filter: true,
             };
         },
         created() {
@@ -64,7 +72,11 @@
         },
         methods: {
             handleChange() {
-                this.$store.commit("setTime", {minDate: this.value[0], maxDate: this.value[1]});
+                if (this.filter) {
+                    this.$store.commit("setTime", {minDate: this.value[0], maxDate: this.value[1]});
+                } else {
+                    this.$store.commit("setTime", {minDate: new Date(0), maxDate: new Date()});
+                }
             }
         }
     }
