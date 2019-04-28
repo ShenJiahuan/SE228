@@ -11,6 +11,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -146,13 +147,14 @@ public class OrderDaoImp implements OrderDao {
                             .setParameter("order", order.getCount())
                             .setParameter("bookId", order.getBookId())
                             .executeUpdate();
-                    double addTime = (double) session
-                            .createQuery("select addTime from Order where bookId = :bookId and purchased = 0")
+
+                    session
+                            .createQuery("update Order set purchased = 1, purchaseTime = :purchaseTime" +
+                                    " where uid = :uid and bookId = :bookId and purchased = 0")
+                            .setParameter("purchaseTime", order.getPurchaseTime())
+                            .setParameter("uid", order.getUid())
                             .setParameter("bookId", order.getBookId())
-                            .list()
-                            .get(0);
-                    order.setAddTime(addTime);
-                    session.update(order);
+                            .executeUpdate();
                 }
             }
             session.getTransaction().commit();

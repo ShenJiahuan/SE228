@@ -3,12 +3,12 @@ package com.shenjiahuan.eBook.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Objects;
+import java.math.BigDecimal;
 
 public class OrderPK implements Serializable {
     private int uid;
     private int bookId;
-    private double addTime;
+    private BigDecimal addTime;
 
     @Column(name = "uid")
     @Id
@@ -32,11 +32,11 @@ public class OrderPK implements Serializable {
 
     @Column(name = "add_time")
     @Id
-    public double getAddTime() {
+    public BigDecimal getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(double addTime) {
+    public void setAddTime(BigDecimal addTime) {
         this.addTime = addTime;
     }
 
@@ -44,14 +44,21 @@ public class OrderPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         OrderPK orderPK = (OrderPK) o;
-        return uid == orderPK.uid &&
-                bookId == orderPK.bookId &&
-                addTime == orderPK.addTime;
+
+        if (uid != orderPK.uid) return false;
+        if (bookId != orderPK.bookId) return false;
+        if (addTime != null ? !addTime.equals(orderPK.addTime) : orderPK.addTime != null) return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, bookId, addTime);
+        int result = uid;
+        result = 31 * result + bookId;
+        result = 31 * result + (addTime != null ? addTime.hashCode() : 0);
+        return result;
     }
 }

@@ -6,13 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.shenjiahuan.eBook.entity.Order;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class CreateOrderList {
     public static List<Order> fromJsonStr(String str, int uid, boolean paid) {
-        double addTime = new Date().getTime() / 1000.0;
+        BigDecimal addTime = new BigDecimal(new Date().getTime() / 1000.0);
         System.out.println(paid);
         JsonParser parser = new JsonParser();
         JsonArray orders = parser.parse(str).getAsJsonObject().getAsJsonArray("orders");
