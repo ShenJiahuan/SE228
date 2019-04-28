@@ -146,7 +146,7 @@ public class OrderDaoImp implements OrderDao {
                             .setParameter("order", order.getCount())
                             .setParameter("bookId", order.getBookId())
                             .executeUpdate();
-                    int addTime = (int) session
+                    double addTime = (double) session
                             .createQuery("select addTime from Order where bookId = :bookId and purchased = 0")
                             .setParameter("bookId", order.getBookId())
                             .list()

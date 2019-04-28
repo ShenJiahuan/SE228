@@ -8,7 +8,7 @@ import java.util.Objects;
 public class OrderPK implements Serializable {
     private int uid;
     private int bookId;
-    private int addTime;
+    private double addTime;
 
     @Column(name = "uid")
     @Id
@@ -32,11 +32,11 @@ public class OrderPK implements Serializable {
 
     @Column(name = "add_time")
     @Id
-    public int getAddTime() {
+    public double getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(double addTime) {
         this.addTime = addTime;
     }
 

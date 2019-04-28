@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CreateOrderList {
     public static List<Order> fromJsonStr(String str, int uid, boolean paid) {
-        int addTime = (int)(new Date().getTime() / 1000);
+        double addTime = new Date().getTime() / 1000.0;
         System.out.println(paid);
         JsonParser parser = new JsonParser();
         JsonArray orders = parser.parse(str).getAsJsonObject().getAsJsonArray("orders");

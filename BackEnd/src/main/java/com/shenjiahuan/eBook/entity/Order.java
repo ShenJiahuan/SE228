@@ -10,13 +10,13 @@ public class Order {
     private int uid;
     private int bookId;
     private Integer count;
-    private int addTime;
-    private Integer purchaseTime;
+    private Double addTime;
+    private Double purchaseTime;
     private Byte purchased;
 
     public Order() {}
 
-    public Order(int uid, int bookId, Integer count, Integer addTime, Integer purchaseTime, Byte purchased) {
+    public Order(int uid, int bookId, Integer count, Double addTime, Double purchaseTime, Byte purchased) {
         this.uid = uid;
         this.bookId = bookId;
         this.count = count;
@@ -57,21 +57,21 @@ public class Order {
 
     @Id
     @Column(name = "add_time")
-    public int getAddTime() {
+    public Double getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(int addTime) {
+    public void setAddTime(Double addTime) {
         this.addTime = addTime;
     }
 
     @Basic
     @Column(name = "purchase_time")
-    public Integer getPurchaseTime() {
+    public Double getPurchaseTime() {
         return purchaseTime;
     }
 
-    public void setPurchaseTime(Integer purchaseTime) {
+    public void setPurchaseTime(Double purchaseTime) {
         this.purchaseTime = purchaseTime;
     }
 
@@ -92,7 +92,7 @@ public class Order {
         Order order = (Order) o;
         return uid == order.uid &&
                 bookId == order.bookId &&
-                addTime == order.addTime &&
+                Objects.equals(addTime, order.addTime) &&
                 Objects.equals(count, order.count) &&
                 Objects.equals(purchaseTime, order.purchaseTime) &&
                 Objects.equals(purchased, order.purchased);
