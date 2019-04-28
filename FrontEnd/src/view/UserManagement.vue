@@ -105,10 +105,29 @@
                         });
                     }
                 }, error => {
-                    this.$notify.error({
-                        title: "错误",
-                        message: "无法获取用户信息"
-                    });
+                    switch (error.response.data.status) {
+                        case 401:
+                            this.$notify.error({
+                                title: "错误",
+                                message: "请先登录"
+                            });
+                            this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
+                            break;
+                        case 403:
+                            this.$notify.error({
+                                title: "错误",
+                                message: "您无权限访问该页面"
+                            });
+                            this.$router.push("/");
+                            break;
+                        default:
+                            this.$notify({
+                                title: "错误",
+                                message: "未知错误",
+                                type: "error"
+                            });
+                            break;
+                    }
                 }
             );
         }

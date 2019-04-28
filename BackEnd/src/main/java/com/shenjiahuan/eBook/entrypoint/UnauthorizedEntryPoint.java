@@ -20,7 +20,7 @@ public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
-        out.print(gson.toJson(new HandlerResponse("Unauthorized", -1)));
+        out.print(gson.toJson(new HandlerResponse("Unauthorized", 401)));
         out.close();
     }
 }

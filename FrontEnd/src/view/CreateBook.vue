@@ -139,6 +139,15 @@
                     }
                 );
             }
+        },
+        mounted() {
+            if (!this.$store.state.user.admin) {
+                this.$notify.error({
+                    title: "错误",
+                    message: "您无权限访问该页面"
+                });
+                this.$router.push("/");
+            }
         }
     }
 </script>
