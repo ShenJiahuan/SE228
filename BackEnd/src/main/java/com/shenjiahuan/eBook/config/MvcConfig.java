@@ -1,4 +1,4 @@
-package com.shenjiahuan.eBook.entity;
+package com.shenjiahuan.eBook.config;
 
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.context.annotation.Configuration;
