@@ -149,6 +149,13 @@
                                         type: "error"
                                     });
                                     break;
+                                case 403:
+                                    this.$notify({
+                                        title: "错误",
+                                        message: "您的账户已被禁用，请联系管理员",
+                                        type: "error"
+                                    });
+                                    break;
                                 default:
                                     this.$notify({
                                         title: "错误",
