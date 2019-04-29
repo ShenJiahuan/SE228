@@ -2,10 +2,9 @@ package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.dao.OrderDao;
 import com.shenjiahuan.eBook.dao.UserDetailsDao;
-import com.shenjiahuan.eBook.entity.Order;
+import com.shenjiahuan.eBook.entity.OrderItem;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
-import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.util.CreateOrderList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -44,8 +43,8 @@ public class OrderController {
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
         try {
-            List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
-            if (!orderDao.createOrder(orderList)) {
+            List<OrderItem> orderItemList = CreateOrderList.fromJsonStr(body, uid, paid);
+            if (!orderDao.createOrder(orderItemList)) {
                 throw new IncorrectParameterException("books not enough");
             }
         } catch (NullPointerException ex) {
@@ -61,8 +60,8 @@ public class OrderController {
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
         try {
-            List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, paid);
-            if (!orderDao.updateOrder(orderList)) {
+            List<OrderItem> orderItemList = CreateOrderList.fromJsonStr(body, uid, paid);
+            if (!orderDao.updateOrder(orderItemList)) {
                 throw new IncorrectParameterException("books not enough");
             }
         } catch (NullPointerException ex) {
@@ -78,8 +77,8 @@ public class OrderController {
         User user = userDetailsDao.findUserByUsername(username);
         int uid = user.getUid();
         try {
-            List<Order> orderList = CreateOrderList.fromJsonStr(body, uid, false);
-            if (!orderDao.deleteOrder(orderList)) {
+            List<OrderItem> orderItemList = CreateOrderList.fromJsonStr(body, uid, false);
+            if (!orderDao.deleteOrder(orderItemList)) {
                 throw new IncorrectParameterException("Unknown exception");
             }
         } catch (NullPointerException ex) {

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.shenjiahuan.eBook.entity.OrderItem" table="orderitem" schema="ebook">
+        <composite-id mapped="true" class="com.shenjiahuan.eBook.entity.OrderItemPK">
+            <key-property name="uid" column="uid"/>
+            <key-property name="bookId" column="book_id"/>
+            <key-property name="addTime" column="add_time"/>
+        </composite-id>
+        <property name="count" column="count"/>
+        <property name="purchaseTime" column="purchase_time"/>
+        <property name="purchased" column="purchased"/>
+        <property name="order_id" column="order_id"/>
+    </class>
+</hibernate-mapping>

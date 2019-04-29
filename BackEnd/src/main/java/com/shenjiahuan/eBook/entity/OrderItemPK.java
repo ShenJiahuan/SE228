@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class OrderPK implements Serializable {
+public class OrderItemPK implements Serializable {
     private int uid;
     private int bookId;
     private BigDecimal addTime;
@@ -45,11 +45,11 @@ public class OrderPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OrderPK orderPK = (OrderPK) o;
+        OrderItemPK orderItemPK = (OrderItemPK) o;
 
-        if (uid != orderPK.uid) return false;
-        if (bookId != orderPK.bookId) return false;
-        if (addTime != null ? !addTime.equals(orderPK.addTime) : orderPK.addTime != null) return false;
+        if (uid != orderItemPK.uid) return false;
+        if (bookId != orderItemPK.bookId) return false;
+        if (addTime != null ? !addTime.equals(orderItemPK.addTime) : orderItemPK.addTime != null) return false;
 
         return true;
     }

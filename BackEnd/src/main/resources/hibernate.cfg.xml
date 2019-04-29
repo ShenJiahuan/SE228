@@ -14,7 +14,8 @@
     <property name="show_sql">true</property>
     <property name="current_session_context_class">thread</property>
     <mapping class="com.shenjiahuan.eBook.entity.Book"/>
-    <mapping class="com.shenjiahuan.eBook.entity.Order"/>
+    <mapping class="com.shenjiahuan.eBook.entity.OrderItem"/>
     <mapping class="com.shenjiahuan.eBook.entity.User"/>
+    <mapping class="com.shenjiahuan.eBook.entity.Order"/>
   </session-factory>
 </hibernate-configuration>
