@@ -1,11 +1,23 @@
 package com.shenjiahuan.eBook.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Table(name="\"Order\"")
+@Table(name="\"order\"")
 public class Order {
+
+    private int uid;
     private int orderId;
+    private BigDecimal payTime;
+
+    public Order() {}
+
+    public Order(int uid, BigDecimal payTime) {
+        this.uid = uid;
+        this.payTime = payTime;
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -14,24 +26,36 @@ public class Order {
         return orderId;
     }
 
+    @Column(name = "uid")
+    public int getUid() {
+        return uid;
+    }
+
+    @Column(name = "pay_time")
+    public BigDecimal getPayTime() {
+        return payTime;
+    }
+
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        if (orderId != order.orderId) return false;
-
-        return true;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
-    @Override
-    public int hashCode() {
-        return orderId;
+    public void setPayTime(BigDecimal payTime) {
+        this.payTime = payTime;
+    }
+
+    private List<OrderItem> items;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order")
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
     }
 }
