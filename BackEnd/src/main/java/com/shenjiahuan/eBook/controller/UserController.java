@@ -1,10 +1,10 @@
 package com.shenjiahuan.eBook.controller;
 
-import com.shenjiahuan.eBook.dao.UserDetailsDao;
+import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.exception.UnauthorizedException;
-import com.shenjiahuan.eBook.response.HandlerResponse;
+import com.shenjiahuan.eBook.service.UserService;
 import com.shenjiahuan.eBook.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -19,8 +19,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    @Lazy
-    UserDetailsDao userDetailsDao;
+    UserService userService;
 
     @Autowired
     @Lazy
@@ -33,7 +32,7 @@ public class UserController {
             throw new UnauthorizedException("Not logged in");
         }
         String username = principal.getName();
-        return userDetailsDao.findUserByUsername(username);
+        return userService.findUserByUsername(username);
     }
 
     @RequestMapping(value="/user/login", method = RequestMethod.GET)
@@ -44,11 +43,11 @@ public class UserController {
     @PostMapping("/user/register")
     public void registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
-        if (bindingResult.hasErrors() || !userDetailsDao.save(userForm)) {
+        if (bindingResult.hasErrors() || !userService.save(userForm)) {
             throw new IncorrectParameterException("register form incorrect");
         }
 
-        //roleDao.addRoleToUser(userDetailsDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
+        //roleDao.addRoleToUser(userDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
 
         //securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
     }
@@ -56,18 +55,18 @@ public class UserController {
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> listUsers() {
-        return userDetailsDao.findAllUsers();
+        return userService.findAllUsers();
     }
 
     @RequestMapping(value = "/user/ban", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void banUser(@RequestParam(value="uid") int uid, @RequestParam(value="ban") boolean ban) {
-        userDetailsDao.banUser(uid, ban);
+        userService.banUser(uid, ban);
     }
 
     @RequestMapping(value = "/user/admin", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ROOT')")
     public void adminUser(@RequestParam(value="uid") int uid, @RequestParam(value="admin") boolean admin) {
-        userDetailsDao.adminUser(uid, admin);
+        userService.adminUser(uid, admin);
     }
 }

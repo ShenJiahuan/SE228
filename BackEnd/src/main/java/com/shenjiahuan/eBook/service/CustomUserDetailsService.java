@@ -1,6 +1,6 @@
 package com.shenjiahuan.eBook.service;
 
-import com.shenjiahuan.eBook.dao.UserDetailsDao;
+import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.util.Converter;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     @Lazy
-    private UserDetailsDao userDetailsDao;
+    private UserDao userDao;
 
     private Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
@@ -30,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        User user = userDetailsDao.findUserByEmail(email);
+        User user = userDao.findUserByEmail(email);
         org.springframework.security.core.userdetails.User.UserBuilder builder = null;
         if (user != null) {
             builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());

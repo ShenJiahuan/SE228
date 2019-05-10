@@ -1,5 +1,7 @@
 package com.shenjiahuan.eBook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +22,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
     @Column(name = "item_id")
     public int getItemId() {
         return itemId;

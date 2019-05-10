@@ -105,21 +105,24 @@
             getPurchased() {
                 Api.GetOrder(true).then(
                     response => {
+                        console.log(response);
                         let dateFormat = require('dateformat');
                         let result = response.data;
                         this.initialData = [];
                         if (result != null) {
-                            for (let item of result) {
-                                let time = new Date(item[0].purchaseTime * 1000);
-                                this.initialData.push({
-                                    id: item[1].bookId,
-                                    choose: false,
-                                    img: this.$store.state.config.backend + "images/" + item[1].img,
-                                    title: item[1].title,
-                                    price: item[1].price,
-                                    count: item[0].count,
-                                    time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
-                                })
+                            for (let order of result) {
+                                let time = new Date(order.payTime * 1000);
+                                for (let item of order.items) {
+                                    this.initialData.push({
+                                        id: item.bookId,
+                                        choose: false,
+                                        img: this.$store.state.config.backend + "images/" + item.book.img,
+                                        title: item.book.title,
+                                        price: item.book.price,
+                                        count: item.count,
+                                        time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
+                                    });
+                                }
                             }
                         }
                     }, error => {

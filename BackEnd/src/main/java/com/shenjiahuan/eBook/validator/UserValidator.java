@@ -1,6 +1,6 @@
 package com.shenjiahuan.eBook.validator;
 
-import com.shenjiahuan.eBook.dao.UserDetailsDao;
+import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.util.UserCheck;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.validation.Validator;
 public class UserValidator implements Validator {
     @Autowired
     @Lazy
-    private UserDetailsDao userDetailsDao;
+    private UserDao userDao;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -26,7 +26,7 @@ public class UserValidator implements Validator {
         User user = (User) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty", "Email address should not be empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty", "Username should not be empty");
-        if (userDetailsDao.findUserByEmail(user.getEmail()) != null) {
+        if (userDao.findUserByEmail(user.getEmail()) != null) {
             errors.rejectValue("email", "Duplicate", "Email address exists");
         }
         if (!UserCheck.checkEmail(user.getEmail())) {

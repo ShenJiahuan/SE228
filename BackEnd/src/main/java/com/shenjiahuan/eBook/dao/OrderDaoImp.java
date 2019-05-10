@@ -5,8 +5,11 @@ import com.shenjiahuan.eBook.entity.Order;
 import com.shenjiahuan.eBook.entity.OrderItem;
 import com.shenjiahuan.eBook.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -15,35 +18,22 @@ import java.util.List;
 @Repository
 public class OrderDaoImp implements OrderDao {
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     @SuppressWarnings("unchecked")
-    public List<Order> findOrderByUserId(int userId) {
-        List<Order> orders = null;
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        try {
-            orders = session.createQuery("from Order where uid = :uid")
-                        .setParameter("uid", userId)
-                        .list();
-            session.getTransaction().commit();
-        } catch (Exception ex) {
-            session.getTransaction().rollback();
-            ex.printStackTrace();
-        }
+    public List<Object> findOrderByUserId(int userId) {
+        List<Object> orders = null;
+        Session session = sessionFactory.getCurrentSession();
+        orders = session.createQuery("from Order o where uid = :uid order by payTime desc")
+                    .setParameter("uid", userId)
+                    .list();
         return orders;
     }
 
     public boolean createOrder(Order order) {
         boolean success = true;
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        try {
-            session.save(order);
-            session.getTransaction().commit();
-        } catch (Exception ex) {
-            success = false;
-            session.getTransaction().rollback();
-            ex.printStackTrace();
-        }
+        HibernateUtil.getSessionFactory().getCurrentSession().save(order);
         return success;
     }
 }

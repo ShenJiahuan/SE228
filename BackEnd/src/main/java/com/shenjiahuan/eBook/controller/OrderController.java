@@ -1,11 +1,12 @@
 package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.dao.OrderDao;
-import com.shenjiahuan.eBook.dao.UserDetailsDao;
+import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.Order;
-import com.shenjiahuan.eBook.entity.OrderItem;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
+import com.shenjiahuan.eBook.service.OrderService;
+import com.shenjiahuan.eBook.service.UserService;
 import com.shenjiahuan.eBook.util.CreateOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -21,19 +22,20 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 public class OrderController {
     @Autowired
     @Lazy
-    private OrderDao orderDao;
+    private OrderService orderService;
 
     @Autowired
     @Lazy
-    private UserDetailsDao userDetailsDao;
+    private UserService userService;
 
     @RequestMapping(value = "/orders", method = GET)
     @PreAuthorize("hasRole('ROLE_NORMAL')")
-    public List<Order> getOrderList(@RequestParam(value="paid") boolean paid, Principal principal) {
+    public List<Object> getOrderList(@RequestParam(value="paid") boolean paid, Principal principal) {
         String username = principal.getName();
-        User user = userDetailsDao.findUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         System.out.println(paid);
-        return orderDao.findOrderByUserId(user.getUid());
+        List<Object> orders = orderService.findOrderByUserId(user.getUid());
+        return orders;
     }
 
     @RequestMapping(value = "/orders", method = POST)
@@ -41,11 +43,11 @@ public class OrderController {
     @ResponseBody
     public void createOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
         String username = principal.getName();
-        User user = userDetailsDao.findUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         int uid = user.getUid();
         try {
             Order order = CreateOrder.fromJsonStr(body, uid);
-            if (!orderDao.createOrder(order)) {
+            if (!orderService.createOrder(order)) {
                 throw new IncorrectParameterException("books not enough");
             }
         } catch (NullPointerException ex) {
@@ -58,11 +60,11 @@ public class OrderController {
     @ResponseBody
     public void updateOrder(@RequestParam(value="paid") boolean paid, Principal principal, @RequestBody String body) {
         String username = principal.getName();
-        User user = userDetailsDao.findUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         int uid = user.getUid();
         try {
             Order order = CreateOrder.fromJsonStr(body, uid);
-            if (!orderDao.createOrder(order)) {
+            if (!orderService.createOrder(order)) {
                 throw new IncorrectParameterException("books not enough");
             }
         } catch (NullPointerException ex) {
@@ -75,7 +77,7 @@ public class OrderController {
     @ResponseBody
     public void deleteOrder(Principal principal, @RequestBody String body) {
         String username = principal.getName();
-        User user = userDetailsDao.findUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         int uid = user.getUid();
         try {
             /*

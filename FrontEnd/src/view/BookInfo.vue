@@ -123,7 +123,7 @@
                     let data = {
                         orders: [
                             {
-                                id: this.bookID,
+                                id: parseInt(this.bookID),
                                 count: this.input,
                             }
                         ]

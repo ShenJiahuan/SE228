@@ -2,6 +2,7 @@ package com.shenjiahuan.eBook.dao;
 
 import com.shenjiahuan.eBook.entity.Book;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BookDao {
@@ -11,5 +12,5 @@ public interface BookDao {
 
     List<Book> findRelatedBookList(String keyword);
 
-    boolean createBook(Book book);
+    boolean createBook(Book book) throws IOException;
 }

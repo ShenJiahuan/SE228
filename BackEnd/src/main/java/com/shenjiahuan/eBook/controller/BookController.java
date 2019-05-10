@@ -6,6 +6,7 @@ import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.exception.NotFoundException;
 import com.shenjiahuan.eBook.response.HandlerResponse;
+import com.shenjiahuan.eBook.service.BookService;
 import com.shenjiahuan.eBook.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,8 +24,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class BookController {
 
     @Autowired
-    @Lazy
-    private BookDao bookDao;
+    private BookService bookService;
 
     @Autowired
     @Lazy
@@ -32,7 +32,7 @@ public class BookController {
 
     @RequestMapping(value = "/books/{id}", method = GET)
     public Book getBookInfo(@PathVariable("id") int id) {
-        Book book = bookDao.findBookById(id);
+        Book book = bookService.findBookById(id);
         if (book == null) {
             throw new NotFoundException("book not found");
         }
@@ -41,7 +41,7 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = GET)
     public List<Book> getBookList(@RequestParam(value="keyword") String keyword) {
-        List<Book> books = bookDao.findRelatedBookList(keyword);
+        List<Book> books = bookService.findRelatedBookList(keyword);
         if (books == null) {
             throw new NotFoundException("book not found");
         }
@@ -53,7 +53,7 @@ public class BookController {
         if (limit <= 0) {
             throw new IncorrectParameterException("limit must be positive");
         }
-        List<Book> books = bookDao.findTopBookList("hot", limit);
+        List<Book> books = bookService.findTopBookList("hot", limit);
         if (books == null) {
             throw new NotFoundException("book not found");
         } else if (books.size() < limit) {
@@ -67,7 +67,7 @@ public class BookController {
         if (limit <= 0) {
             throw new IncorrectParameterException("limit must be positive");
         }
-        List<Book> books = bookDao.findTopBookList("score", limit);
+        List<Book> books = bookService.findTopBookList("score", limit);
         if (books == null) {
             throw new NotFoundException("book not found");
         } else if (books.size() < limit) {
@@ -91,7 +91,7 @@ public class BookController {
     @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void uploadBook(@RequestBody Book book) {
-        if (!bookDao.createBook(book)) {
+        if (!bookService.createBook(book)) {
             throw new IncorrectParameterException("error creating book");
         }
     }

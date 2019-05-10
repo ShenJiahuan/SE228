@@ -1,5 +1,7 @@
 package com.shenjiahuan.eBook.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,11 +23,13 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonIgnore
     @Column(name = "order_id")
     public int getOrderId() {
         return orderId;
     }
 
+    @JsonIgnore
     @Column(name = "uid")
     public int getUid() {
         return uid;
@@ -50,7 +54,7 @@ public class Order {
 
     private List<OrderItem> items;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "order")
     public List<OrderItem> getItems() {
         return items;
     }

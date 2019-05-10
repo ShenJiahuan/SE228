@@ -6,7 +6,7 @@ import com.shenjiahuan.eBook.entity.OrderItem;
 import java.util.List;
 
 public interface OrderDao {
-    List<Order> findOrderByUserId(int userId);
+    List<Object> findOrderByUserId(int userId);
 
     boolean createOrder(Order order);
 }
