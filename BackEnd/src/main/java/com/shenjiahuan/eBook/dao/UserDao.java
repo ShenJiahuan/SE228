@@ -4,7 +4,7 @@ import com.shenjiahuan.eBook.entity.User;
 
 import java.util.List;
 
-public interface UserDetailsDao {
+public interface UserDao {
     boolean save(User user);
 
     User findUserByEmail(String email);
