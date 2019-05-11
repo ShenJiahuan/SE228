@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -24,10 +25,10 @@ public class BookService {
     }
 
     public List<Book> findRelatedBookList(String keyword) {
-        return findRelatedBookList(keyword);
+        return bookDao.findRelatedBookList(keyword);
     }
 
-    public boolean createBook(Book book) {
-        return createBook(book);
+    public boolean createBook(Book book) throws IOException {
+        return bookDao.createBook(book);
     }
 }
