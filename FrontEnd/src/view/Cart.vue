@@ -187,7 +187,7 @@
                         count: book.count
                     });
                 }
-                Api.UpdateOrder(data, true).then(
+                Api.CartToOrder(data).then(
                     response => {
                         this.$notify({
                             title: "成功",
@@ -218,21 +218,22 @@
                 );
             },
             getCart() {
-                Api.GetOrder(false).then(
+                Api.GetCart().then(
                     response => {
                         let dateFormat = require('dateformat');
                         let result = response.data;
                         this.tableData = [];
                         if (result != null) {
+                            console.log(result);
                             for (let item of result) {
-                                let time = new Date(item[0].purchaseTime * 1000);
+                                let time = new Date(item.addTime * 1000);
                                 this.tableData.push({
-                                    id: item[1].bookId,
+                                    id: item.book.bookId,
                                     choose: false,
-                                    img: this.$store.state.config.backend + "images/" + item[1].img,
-                                    title: item[1].title,
-                                    price: item[1].price,
-                                    count: item[0].count,
+                                    img: this.$store.state.config.backend + "images/" + item.book.img,
+                                    title: item.book.title,
+                                    price: item.book.price,
+                                    count: item.count,
                                     time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
                                 })
                             }

@@ -71,20 +71,32 @@ export default {
         return axios.get("/user");
     },
 
-    GetOrder(paid) {
-        return axios.get("/orders", {params: {paid: paid}});
+    GetOrder() {
+        return axios.get("/orders");
     },
 
-    CreateOrder(order, paid) {
-        return axios.post("/orders", order, {params: {paid: paid}});
+    CreateOrder(order) {
+        return axios.post("/orders", order);
     },
 
-    UpdateOrder(order, paid) {
-        return axios.put("/orders", order, {params: {paid: paid}});
+    CartToOrder(order) {
+        return axios.put("/orders", order);
     },
 
-    DeleteOrder(order) {
-        return axios.delete("/orders", {data: order});
+    GetCart() {
+        return axios.get("/cart");
+    },
+
+    CreateCart(order) {
+        return axios.post("/cart", order);
+    },
+
+    UpdateCart(order) {
+        return axios.put("/cart", order);
+    },
+
+    DeleteCart(order) {
+        return axios.delete("/cart");
     },
 
     GetAllUser() {

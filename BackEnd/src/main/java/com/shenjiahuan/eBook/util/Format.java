@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.shenjiahuan.eBook.entity.CartItem;
 import com.shenjiahuan.eBook.entity.Order;
 import com.shenjiahuan.eBook.entity.OrderItem;
 
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CreateOrder {
-    public static Order fromJsonStr(String str, int uid) {
+public class Format {
+    public static Order orderFromJsonStr(String str, int uid) {
         BigDecimal payTime = new BigDecimal(new Date().getTime() / 1000.0);
         JsonParser parser = new JsonParser();
         JsonArray orderItemJson = parser.parse(str).getAsJsonObject().getAsJsonArray("orders");
@@ -30,5 +31,14 @@ public class CreateOrder {
         }
         order.setItems(orderItemList);
         return order;
+    }
+
+    public static CartItem cartItemFromJsonStr(String str, int uid) {
+        BigDecimal addTime = new BigDecimal(new Date().getTime() / 1000.0);
+        JsonParser parser = new JsonParser();
+        JsonObject cartItemJson = parser.parse(str).getAsJsonObject().getAsJsonObject("cartItem");
+        int bookId = cartItemJson.get("id").getAsInt();
+        int count = cartItemJson.get("count").getAsInt();
+        return new CartItem(bookId, count, uid, addTime);
     }
 }

@@ -28,7 +28,7 @@ public class BookService {
         return bookDao.findRelatedBookList(keyword);
     }
 
-    public boolean createBook(Book book) throws IOException {
-        return bookDao.createBook(book);
+    public void createBook(Book book) throws IOException {
+        bookDao.createBook(book);
     }
 }

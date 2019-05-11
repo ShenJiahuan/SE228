@@ -33,7 +33,8 @@ public class OrderDaoImp implements OrderDao {
 
     public boolean createOrder(Order order) {
         boolean success = true;
-        HibernateUtil.getSessionFactory().getCurrentSession().save(order);
+        Session session = sessionFactory.getCurrentSession();
+        session.save(order);
         return success;
     }
 }

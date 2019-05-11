@@ -76,4 +76,10 @@ public class BookDaoImp implements BookDao {
         return success;
     }
 
+    public boolean updateBook(Book book) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(book);
+        return true;
+    }
+
 }

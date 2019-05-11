@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -90,9 +91,7 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void uploadBook(@RequestBody Book book) {
-        if (!bookService.createBook(book)) {
-            throw new IncorrectParameterException("error creating book");
-        }
+    public void uploadBook(@RequestBody Book book) throws IOException {
+        bookService.createBook(book);
     }
 }

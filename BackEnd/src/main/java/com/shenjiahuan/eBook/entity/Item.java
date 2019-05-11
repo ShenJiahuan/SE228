@@ -52,7 +52,7 @@ public class Item {
 
     private Book book;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "book_id", insertable = false, updatable = false)
     public Book getBook() {
         return book;

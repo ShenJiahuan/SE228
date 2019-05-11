@@ -43,9 +43,10 @@ public class UserController {
     @PostMapping("/user/register")
     public void registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
-        if (bindingResult.hasErrors() || !userService.save(userForm)) {
+        if (bindingResult.hasErrors()) {
             throw new IncorrectParameterException("register form incorrect");
         }
+        userService.save(userForm);
 
         //roleDao.addRoleToUser(userDao.findUserByEmail(userForm.getEmail()).getUid(), "USER");
 

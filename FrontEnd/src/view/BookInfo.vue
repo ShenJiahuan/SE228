@@ -120,15 +120,28 @@
                     });
                     this.$router.push({path: '/login', query: {redirect: this.$route.fullPath}});
                 } else {
-                    let data = {
-                        orders: [
-                            {
+                    let api = null;
+                    let data = null;
+                    if (paid) {
+                        api = Api.CreateOrder;
+                        data = {
+                            orders: [
+                                {
+                                    id: parseInt(this.bookID),
+                                    count: this.input,
+                                }
+                            ]
+                        };
+                    } else {
+                        api = Api.CreateCart;
+                        data = {
+                            cartItem: {
                                 id: parseInt(this.bookID),
                                 count: this.input,
                             }
-                        ]
-                    };
-                    Api.CreateOrder(data, paid).then(
+                        };
+                    }
+                    api(data).then(
                         response => {
                             let message = paid ? "购买成功" : "加入购物车成功";
                             this.$notify({

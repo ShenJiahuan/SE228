@@ -40,15 +40,13 @@
         if (this.bookId != null) {
           console.log(this.bookId);
           let data = {
-            orders: [
-              {
-                id: this.bookId,
-                count: value,
-              }
-            ]
+            cartItem:{
+              id: this.bookId,
+              count: value,
+            }
           };
           console.log(data);
-          Api.UpdateOrder(data, false).then(
+          Api.UpdateCart(data).then(
             response => {
               this.$notify({
                 title: "成功",

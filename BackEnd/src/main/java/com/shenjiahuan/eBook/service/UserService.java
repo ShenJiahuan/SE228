@@ -15,8 +15,8 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
-    public boolean save(User user) {
-        return userDao.save(user);
+    public void save(User user) {
+        userDao.save(user);
     }
 
     public User findUserByEmail(String email) {
@@ -31,11 +31,11 @@ public class UserService {
         return userDao.findAllUsers();
     }
 
-    public boolean banUser(int uid, boolean banned) {
-        return userDao.banUser(uid, banned);
+    public void banUser(int uid, boolean banned) {
+        userDao.banUser(uid, banned);
     }
 
-    public boolean adminUser(int uid, boolean admin) {
-        return userDao.adminUser(uid, admin);
+    public void adminUser(int uid, boolean admin) {
+        userDao.adminUser(uid, admin);
     }
 }

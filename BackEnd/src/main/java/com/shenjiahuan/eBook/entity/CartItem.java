@@ -15,6 +15,14 @@ public class CartItem extends Item {
 
     private BigDecimal addTime;
 
+    public CartItem() {}
+
+    public CartItem(int bookId, int count, int uid, BigDecimal addTime) {
+        super(bookId, count);
+        this.uid = uid;
+        this.addTime = addTime;
+    }
+
     @Column(name = "uid")
     public int getUid() {
         return uid;
