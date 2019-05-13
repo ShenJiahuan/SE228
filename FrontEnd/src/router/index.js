@@ -10,6 +10,7 @@ import Cart from "@/view/Cart";
 import Purchased from "@/view/Purchased";
 import UserManagement from "@/view/UserManagement";
 import CreateBook from "@/view/CreateBook";
+import EditBook from "@/view/EditBook";
 
 Vue.use(Router);
 
@@ -93,6 +94,14 @@ var router = new Router({
       component: CreateBook,
       meta: {
         title: "e-Book 在线书店 - 添加书籍"
+      }
+    },
+    {
+      path: "/book/edit/:id",
+      name: "EditBook",
+      component: EditBook,
+      meta: {
+        title: "e-Book 在线书店 - 编辑书籍"
       }
     },
     {

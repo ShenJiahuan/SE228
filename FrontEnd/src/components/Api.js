@@ -48,6 +48,10 @@ export default {
         return axios.post("/books", info);
     },
 
+    UpdateBook(info) {
+        return axios.put("/books", info);
+    },
+
     Login(email, password) {
         var params = new URLSearchParams();
         params.append("email", email);

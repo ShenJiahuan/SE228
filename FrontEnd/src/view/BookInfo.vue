@@ -1,8 +1,12 @@
 <template>
     <div v-if="book != null">
         <h1 class="title">
-            {{book.title}}
+            <div class="title-name">{{book.title}}</div>
+            <router-link v-bind:to="'/book/edit/' + book.bookId" v-if="this.$store.state.user.admin">
+                <el-button class="title-edit" type="primary" icon="el-icon-edit" circle></el-button>
+            </router-link>
         </h1>
+
         <el-row class="top-content">
             <el-col :span="8">
                 <div class="book-img">
@@ -223,6 +227,17 @@
 <style scoped>
     .title, .top-content {
         border-bottom: 1px #E4E7ED solid;
+    }
+
+    .title {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .title-edit {
+        height: 40px;
+        width: 40px;
     }
 
     h1 {

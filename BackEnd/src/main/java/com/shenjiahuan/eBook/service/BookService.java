@@ -31,4 +31,9 @@ public class BookService {
     public void createBook(Book book) throws IOException {
         bookDao.createBook(book);
     }
+
+    public void updateBook(Book book) {
+        bookDao.updateBook(book);
+    }
+
 }

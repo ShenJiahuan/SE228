@@ -64,8 +64,6 @@ public class BookDaoImp implements BookDao {
     public boolean createBook(Book book) throws IOException {
         boolean success = true;
         Session session = sessionFactory.getCurrentSession();
-        int bookId = (int) session.createQuery("select max(bookId) from Book").list().get(0) + 1;
-        book.setBookId(bookId);
         session.save(book);
         String srcdir = System.getProperty("java.io.tmpdir");
         System.out.println(srcdir);

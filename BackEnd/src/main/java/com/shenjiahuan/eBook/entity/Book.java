@@ -1,9 +1,6 @@
 package com.shenjiahuan.eBook.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +22,7 @@ public class Book {
     private int remain;
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "book_id")
     public int getBookId() {
         return bookId;

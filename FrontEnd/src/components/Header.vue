@@ -88,6 +88,8 @@
                     case "用户管理":
                     case "添加书籍":
                         return this.admin;
+                    case "编辑书籍":
+                        return this.admin && this.$route.path.split("/")[2] === "edit";
                     case "注册":
                     case "登录":
                         return false;

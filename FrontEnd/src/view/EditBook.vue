@@ -34,7 +34,7 @@
                 <el-form-item label="详情" prop="bookDesc">
                     <el-input type="textarea" v-model="form.bookDesc" class="entry"></el-input>
                 </el-form-item>
-                <el-form-item label="库存" prop="remain">
+                <el-form-item label="库存" prop="remain" required>
                     <el-input v-model="form.remain" class="entry"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -54,7 +54,7 @@
         </div>
 
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">添加</el-button>
+            <el-button type="primary" @click="onSubmit">更新</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -63,10 +63,11 @@
     import Api from "@/components/Api.js";
 
     export default {
-        name: "CreateBook",
+        name: "UpdateBook",
         data() {
             return {
                 form: {
+                    bookId: null,
                     title: null,
                     author: null,
                     publisher: null,
@@ -86,6 +87,9 @@
         computed: {
             username() {
                 return this.$store.state.user.username;
+            },
+            bookId() {
+                return this.$route.params.id;
             }
         },
         methods: {
@@ -116,11 +120,11 @@
                 return isJPG;
             },
             onSubmit() {
-                Api.CreateBook(this.form).then(
+                Api.UpdateBook(this.form).then(
                     response => {
                         this.$notify({
                             title: "成功",
-                            message: "创建书籍成功",
+                            message: "更新书籍成功",
                             type: "success"
                         });
                         this.$router.push("/");
@@ -144,17 +148,7 @@
                     }
                 );
             },
-            waitUsername() {
-                console.log("wait");
-                if (this.$store.state.user.username == null) {
-                    let start = Date.now(),
-                        now = start;
-                    while (now - start < 10) {
-                        now = Date.now();
-                    }
-                }
-            },
-            validate() {
+            getbook() {
                 if (this.username == null) {
                     return;
                 }
@@ -165,17 +159,57 @@
                     });
                     this.$router.push("/");
                 }
+
+                Api.GetBookInfo(this.bookId)
+                    .then(response => {
+                        this.form = {
+                            bookId: this.bookId,
+                            title: response.data.title,
+                            author: response.data.author,
+                            publisher: response.data.publisher,
+                            publishDate: response.data.publishDate,
+                            pages: response.data.pages,
+                            price: response.data.price,
+                            decoration: response.data.decoration,
+                            isbn: response.data.isbn,
+                            score: response.data.score,
+                            bookDesc: response.data.bookDesc,
+                            remain: response.data.remain,
+                            img: response.data.img,
+                        };
+                        this.localImg = this.$store.state.config.backend + 'images/' + response.data.img;
+                    }, error => {
+                        switch (error.response.data.status) {
+                            case 404:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "书籍不存在",
+                                    type: "error"
+                                });
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
+                        this.$router.push("/");
+                    });
             }
         },
         watch: {
             username() {
-                this.validate();
+                this.getbook();
             },
-
+            bookId() {
+                this.getbook();
+            }
         },
         mounted() {
-            this.validate();
-        }
+            this.getbook();
+        },
     }
 </script>
 

@@ -18,8 +18,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 public class BookController {
@@ -93,5 +92,11 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void uploadBook(@RequestBody Book book) throws IOException {
         bookService.createBook(book);
+    }
+
+    @RequestMapping(value = "/books", method = PUT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateBook(@RequestBody Book book) {
+        bookService.updateBook(book);
     }
 }

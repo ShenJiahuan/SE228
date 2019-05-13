@@ -61,5 +61,12 @@
     "sub_name": "CreateBook",
     "require": ["login", "admin"],
     "url": "/book/create"
+  },
+  {
+    "id": "9",
+    "name": "编辑书籍",
+    "sub_name": "EditBook",
+    "require": ["login", "admin", "edit"],
+    "url": "/book/edit"
   }
 ]
