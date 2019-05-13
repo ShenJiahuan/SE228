@@ -31,8 +31,9 @@ public class CartDaoImp implements CartDao {
     public CartItem findCartItemByUserIdAndBookId(int userId, int bookId) {
         List<CartItem> cartItems;
         Session session = sessionFactory.getCurrentSession();
-        cartItems =  session.createQuery("from CartItem where uid = :uid order by addTime desc")
+        cartItems =  session.createQuery("from CartItem where uid = :uid and bookId = :bookId order by addTime desc")
                 .setParameter("uid", userId)
+                .setParameter("bookId", bookId)
                 .list();
 
         return cartItems.size() != 0 ? cartItems.get(0) : null;
