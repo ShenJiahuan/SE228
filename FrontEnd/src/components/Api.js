@@ -100,7 +100,7 @@ export default {
     },
 
     DeleteCart(order) {
-        return axios.delete("/cart", order);
+        return axios.delete("/cart", {data: order});
     },
 
     GetAllUser() {

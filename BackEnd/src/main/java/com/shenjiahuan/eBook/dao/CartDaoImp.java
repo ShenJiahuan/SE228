@@ -41,6 +41,9 @@ public class CartDaoImp implements CartDao {
 
     public void deleteCart(CartItem item) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(item);
+        session.createQuery("delete from CartItem where uid = :uid and bookId = :bookId")
+                .setParameter("uid", item.getUid())
+                .setParameter("bookId", item.getBookId())
+                .executeUpdate();
     }
 }
