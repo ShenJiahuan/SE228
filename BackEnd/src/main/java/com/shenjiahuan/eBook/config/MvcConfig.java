@@ -23,7 +23,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         ApplicationHome home = new ApplicationHome(getClass());
         File jarFile = home.getDir();
-        String path = jarFile.getParentFile().toString();
+        String path = jarFile.toString();
         registry
                 .addResourceHandler("/images/**")
                 .addResourceLocations("file:" + path + "/static/images/");

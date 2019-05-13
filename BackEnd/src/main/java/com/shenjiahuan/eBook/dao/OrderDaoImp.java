@@ -1,18 +1,11 @@
 package com.shenjiahuan.eBook.dao;
 
-import com.shenjiahuan.eBook.entity.Item;
 import com.shenjiahuan.eBook.entity.Order;
-import com.shenjiahuan.eBook.entity.OrderItem;
-import com.shenjiahuan.eBook.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository

@@ -1,7 +1,6 @@
 package com.shenjiahuan.eBook.dao;
 
 import com.shenjiahuan.eBook.entity.User;
-import com.shenjiahuan.eBook.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

@@ -1,7 +1,6 @@
 package com.shenjiahuan.eBook.controller;
 
 import com.google.gson.*;
-import com.shenjiahuan.eBook.util.HibernateUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 public class BookControllerTest {
-
-    @Before
-    public void init() {
-        HibernateUtil.initialize();
-    }
 
     @Autowired
     @Lazy
