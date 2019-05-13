@@ -27,7 +27,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/images/**")
                 .addResourceLocations("file:" + path + "/static/images/");
-        System.out.println(path);
+        //System.out.println(path);
     }
 
 }
