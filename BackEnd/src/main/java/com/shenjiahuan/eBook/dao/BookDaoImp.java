@@ -66,7 +66,7 @@ public class BookDaoImp implements BookDao {
         session.save(book);
         String srcdir = System.getProperty("java.io.tmpdir");
         System.out.println(srcdir);
-        AppqlicationHome home = new ApplicationHome(getClass());
+        ApplicationHome home = new ApplicationHome(getClass());
         File jarFile = home.getSource();
         String destdir = jarFile.getParentFile().toString() + "/static/images/";
         Files.move(Paths.get(srcdir + "/" + book.getImg()), Paths.get(destdir + book.getImg()));
