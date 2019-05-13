@@ -118,16 +118,14 @@
                 for (let i = 0; i < this.tableData.length; ++i) {
                     if (this.tableData[i].id === id) {
                         let data = {
-                            orders: [
-                                {
-                                    id: id,
-                                    count: 0,
-                                }
-                            ]
+                            cartItem: {
+                                id: id,
+                                count: 0,
+                            }
                         };
                         console.log(data);
                         if (del) {
-                            Api.DeleteOrder(data).then(
+                            Api.DeleteCart(data).then(
                                 response => {
                                     this.$notify({
                                         title: "成功",

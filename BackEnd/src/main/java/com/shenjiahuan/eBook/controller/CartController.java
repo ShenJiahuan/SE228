@@ -54,7 +54,7 @@ public class CartController {
         cartService.updateCart(item);
     }
 
-    @RequestMapping(value = "/orders", method = DELETE)
+    @RequestMapping(value = "/cart", method = DELETE)
     @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
     public void deleteCart(Principal principal, @RequestBody String body) {
