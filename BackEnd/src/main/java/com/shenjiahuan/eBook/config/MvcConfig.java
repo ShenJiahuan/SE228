@@ -22,11 +22,11 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         ApplicationHome home = new ApplicationHome(getClass());
-        File jarFile = home.getDir();
-        String path = jarFile.toString();
+        File jarFile = home.getSource();
+        String destDir = jarFile.getParentFile().toString() + "/static/images/";
         registry
                 .addResourceHandler("/images/**")
-                .addResourceLocations("file:" + path + "/static/images/");
+                .addResourceLocations("file:" + destDir);
         //System.out.println(path);
     }
 

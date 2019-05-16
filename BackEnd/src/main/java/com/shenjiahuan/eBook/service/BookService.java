@@ -28,12 +28,8 @@ public class BookService {
         return bookDao.findRelatedBookList(keyword);
     }
 
-    public void createBook(Book book) throws IOException {
-        bookDao.createBook(book);
-    }
-
-    public void updateBook(Book book) {
-        bookDao.updateBook(book);
+    public void createOrUpdateBook(Book book) throws IOException {
+        bookDao.createOrUpdateBook(book);
     }
 
 }

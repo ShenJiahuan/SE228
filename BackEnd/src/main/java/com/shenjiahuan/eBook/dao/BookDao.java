@@ -12,7 +12,5 @@ public interface BookDao {
 
     List<Book> findRelatedBookList(String keyword);
 
-    boolean createBook(Book book) throws IOException;
-
-    boolean updateBook(Book book);
+    void createOrUpdateBook(Book book) throws IOException;
 }

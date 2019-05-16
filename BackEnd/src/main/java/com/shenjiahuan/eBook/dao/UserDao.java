@@ -5,7 +5,7 @@ import com.shenjiahuan.eBook.entity.User;
 import java.util.List;
 
 public interface UserDao {
-    boolean save(User user);
+    void save(User user);
 
     User findUserByEmail(String email);
 
@@ -13,7 +13,7 @@ public interface UserDao {
 
     List<User> findAllUsers();
 
-    boolean banUser(int uid, boolean banned);
+    void banUser(int uid, boolean banned);
 
-    boolean adminUser(int uid, boolean admin);
+    void adminUser(int uid, boolean admin);
 }

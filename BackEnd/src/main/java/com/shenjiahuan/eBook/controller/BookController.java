@@ -88,15 +88,9 @@ public class BookController {
         return filename;
     }
 
-    @RequestMapping(value = "/books", method = POST)
+    @RequestMapping(value = "/books", method = {POST, PUT})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void uploadBook(@RequestBody Book book) throws IOException {
-        bookService.createBook(book);
-    }
-
-    @RequestMapping(value = "/books", method = PUT)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void updateBook(@RequestBody Book book) {
-        bookService.updateBook(book);
+    public void uploadOrUpdateBook(@RequestBody Book book) throws IOException {
+        bookService.createOrUpdateBook(book);
     }
 }

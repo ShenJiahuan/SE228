@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -27,11 +28,11 @@ public class OrderService {
     @Autowired
     BookDao bookDao;
 
-    public List<Object> findOrderByUserId(int userId) {
+    public List<Order> findOrderByUserId(int userId) {
         return orderDao.findOrderByUserId(userId);
     }
 
-    public void createOrder(Order order) {
+    public void createOrder(Order order) throws IOException {
         orderDao.createOrder(order);
         for (OrderItem item : order.getItems()) {
             Book book = bookDao.findBookById(item.getBookId());
@@ -39,11 +40,11 @@ public class OrderService {
                 throw new IncorrectParameterException("books not enough");
             }
             book.setRemain(book.getRemain() - item.getCount());
-            bookDao.updateBook(book);
+            bookDao.createOrUpdateBook(book);
         }
     }
 
-    public void cartToOrder(Order order) {
+    public void cartToOrder(Order order) throws IOException {
         createOrder(order);
         for (OrderItem item : order.getItems()) {
             CartItem cartItem = cartDao.findCartItemByUserIdAndBookId(order.getUid(), item.getBookId());

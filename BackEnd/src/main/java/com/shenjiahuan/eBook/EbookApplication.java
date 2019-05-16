@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@SpringBootApplication(exclude= {UserDetailsServiceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@SpringBootApplication(exclude= {UserDetailsServiceAutoConfiguration.class})
 @EnableConfigurationProperties({FileStorageProperties.class})
 public class EbookApplication {
 

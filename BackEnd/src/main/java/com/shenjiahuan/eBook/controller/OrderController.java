@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -28,17 +29,16 @@ public class OrderController {
 
     @RequestMapping(value = "/orders", method = GET)
     @PreAuthorize("hasRole('ROLE_NORMAL')")
-    public List<Object> getOrderList(Principal principal) {
+    public List<Order> getOrderList(Principal principal) {
         String username = principal.getName();
         User user = userService.findUserByUsername(username);
-        List<Object> orders = orderService.findOrderByUserId(user.getUid());
-        return orders;
+        return orderService.findOrderByUserId(user.getUid());
     }
 
     @RequestMapping(value = "/orders", method = POST)
     @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
-    public void createOrder( Principal principal, @RequestBody String body) {
+    public void createOrder( Principal principal, @RequestBody String body) throws IOException {
         String username = principal.getName();
         User user = userService.findUserByUsername(username);
         int uid = user.getUid();
@@ -49,7 +49,7 @@ public class OrderController {
     @RequestMapping(value = "/orders", method = PUT)
     @PreAuthorize("hasRole('ROLE_NORMAL')")
     @ResponseBody
-    public void cartToOrder(Principal principal, @RequestBody String body) {
+    public void cartToOrder(Principal principal, @RequestBody String body) throws IOException {
         String username = principal.getName();
         User user = userService.findUserByUsername(username);
         int uid = user.getUid();
