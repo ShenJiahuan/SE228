@@ -1,0 +1,4 @@
+language: java
+scripts:
+    - cd BackEnd
+    - mvn clean package
