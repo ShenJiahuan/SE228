@@ -10,6 +10,6 @@ service:
 before_script:
     - sh -c "mysql -e 'CREATE DATABASE IF NOT EXISTS ebook;' -uroot; fi"
     - sh -c "mysql -e 'USE ebook; source data.sql;' -uroot; fi"
-    - sh -c "mysql -e 'USE ebook; select count(*) from book where title like `%人%`; -uroot; fi"
+    - sh -c "mysql -e 'USE ebook; select count(*) from book where title like `%人%`;' -uroot; fi"
     - cd BackEnd
     - mvn test -B -Dspring.datasource.username=root -Dspring.datasource.password=
