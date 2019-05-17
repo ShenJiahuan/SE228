@@ -13,3 +13,6 @@ before_script:
     - sh -c "mysql -e \"USE ebook; select count(*) from book where title like '%人%';\" -uroot;"
     - cd BackEnd
     - mvn test -B -Dspring.datasource.username=root -Dspring.datasource.password=
+
+script: 
+    - mvn clean package -DskipTests=true
