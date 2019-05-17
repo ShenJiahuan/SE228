@@ -1,4 +1,14 @@
 language: java
+
+jdk:
+    - openjdk11
+
+service:
+    - mysql
+
+before_script:
+    - sh -c "mysql -e 'CREATE DATABASE IF NOT EXISTS ebook;' -uroot; fi"
+    - sh -c "mysql -e 'USE ebook; source data.sql;' -uroot; fi"
 scripts:
     - cd BackEnd
     - mvn clean package
