@@ -8,6 +8,7 @@ service:
     - mysql
 
 before_script:
+    - sh -c "mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci;"
     - sh -c "mysql -e 'CREATE DATABASE ebook CHARACTER SET utf8 COLLATE utf8_general_ci;;' -uroot; fi"
     - sh -c "mysql -e 'USE ebook; source data.sql;' -uroot; fi"
     - sh -c "mysql -e \"USE ebook; select count(*) from book where title like '%人%';\" -uroot;"
