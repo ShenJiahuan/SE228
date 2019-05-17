@@ -68,7 +68,7 @@ CREATE TABLE `cart_item` (
   KEY `cart_user_uid_fk` (`uid`),
   CONSTRAINT `cart_item_item_id_fk` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`),
   CONSTRAINT `cart_user_uid_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `item` (
   PRIMARY KEY (`item_id`),
   KEY `item_book_book_id_fk` (`book_id`),
   CONSTRAINT `item_book_book_id_fk` FOREIGN KEY (`book_id`) REFERENCES `book` (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_id`),
   KEY `order_user_uid_fk` (`uid`),
   CONSTRAINT `order_user_uid_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `order_item` (
   KEY `order_item_order_order_id_fk` (`order_id`),
   CONSTRAINT `order_item_order_order_id_fk` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
   CONSTRAINT `paid_item_item_item_id_fk` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
