@@ -24,23 +24,23 @@ DROP TABLE IF EXISTS `book`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `book` (
   `book_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(64) NOT NULL,
-  `author` varchar(64) DEFAULT NULL,
-  `publisher` varchar(64) DEFAULT NULL,
-  `publish_date` varchar(64) DEFAULT NULL,
+  `title` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `author` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `publisher` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `publish_date` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `pages` int(11) DEFAULT NULL,
   `price` double NOT NULL,
-  `decoration` varchar(64) DEFAULT NULL,
-  `ISBN` varchar(20) NOT NULL,
-  `img` varchar(64) NOT NULL,
+  `decoration` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `ISBN` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `img` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `hot` double DEFAULT NULL,
   `score` double DEFAULT NULL,
-  `book_desc` varchar(4096) DEFAULT NULL,
-  `original_name` varchar(64) DEFAULT NULL,
+  `book_desc` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `original_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `remain` int(11) NOT NULL,
   PRIMARY KEY (`book_id`),
   UNIQUE KEY `book_book_id_uindex` (`book_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=636 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=636 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-17 19:49:11
+-- Dump completed on 2019-05-17 22:05:08

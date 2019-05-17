@@ -59,7 +59,7 @@ public class BookControllerTest {
     @Test
     public void getBookListSuccess() throws Exception {
         this.mockMvc.perform(get("/books/")
-                .param("keyword", "人"))
+                .param("keyword", "1"))
                 .andExpect(status().isOk());
     }
 
