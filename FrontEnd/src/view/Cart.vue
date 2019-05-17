@@ -228,7 +228,7 @@
                                 this.tableData.push({
                                     id: item.book.bookId,
                                     choose: false,
-                                    img: this.$store.state.config.backend + "images/" + item.book.img,
+                                    img: this.$store.state.config.staticServer + "images/" + item.book.img,
                                     title: item.book.title,
                                     price: item.book.price,
                                     count: item.count,

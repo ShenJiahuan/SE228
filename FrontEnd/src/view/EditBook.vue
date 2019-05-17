@@ -40,7 +40,7 @@
                 <el-form-item>
                     <el-upload
                             class="image-uploader"
-                            :action="this.$store.state.config.backend + 'upload/image'"
+                            :action="this.$store.state.config.backendServer + 'upload/image'"
                             :show-file-list="false"
                             :with-credentials="true"
                             :on-success="handleSuccess"
@@ -177,7 +177,7 @@
                             remain: response.data.remain,
                             img: response.data.img,
                         };
-                        this.localImg = this.$store.state.config.backend + 'images/' + response.data.img;
+                        this.localImg = this.$store.state.config.staticServer + 'images/' + response.data.img;
                     }, error => {
                         switch (error.response.data.status) {
                             case 404:

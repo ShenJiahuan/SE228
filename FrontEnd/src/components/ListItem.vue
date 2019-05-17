@@ -1,7 +1,7 @@
 <template>
     <el-card shadow="hover" class="item">
         <div class="item-img">
-            <img :src="this.$store.state.config.backend + 'images/' + book.img" />
+            <img :src="this.$store.state.config.staticServer + 'images/' + book.img" />
         </div>
         <div class="item-desc">
             <h3 class="item-title">

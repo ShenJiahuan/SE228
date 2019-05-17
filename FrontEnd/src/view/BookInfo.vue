@@ -10,7 +10,7 @@
         <el-row class="top-content">
             <el-col :span="8">
                 <div class="book-img">
-                    <img :src="this.$store.state.config.backend + 'images/' + book.img" />
+                    <img :src="this.$store.state.config.staticServer + 'images/' + book.img" />
                 </div>
             </el-col>
             <el-col :span="8">

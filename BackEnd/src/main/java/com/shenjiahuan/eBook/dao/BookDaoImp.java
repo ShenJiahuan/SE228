@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.system.ApplicationHome;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Properties;
 
 @Repository
 public class BookDaoImp implements BookDao {
@@ -25,8 +27,11 @@ public class BookDaoImp implements BookDao {
     @Autowired
     BookRepository bookRepository;
 
+    @Value("${image-dir}")
+    String imageDir;
+
     public Book findBookById(int bookId) {
-        return bookRepository.getOne(bookId);
+        return bookRepository.findById(bookId).orElse(null);
     }
 
     public List<Book> findTopBookList(String type, int limit) {
@@ -46,13 +51,10 @@ public class BookDaoImp implements BookDao {
 
     public void createOrUpdateBook(Book book) throws IOException {
         String srcDir = System.getProperty("java.io.tmpdir");
-        ApplicationHome home = new ApplicationHome(getClass());
-        File jarFile = home.getSource();
-        String destDir = jarFile.getParentFile().toString() + "/static/images/";
-        if (!new File(destDir, book.getImg()).exists()) {
-            Files.move(Paths.get(srcDir + "/" + book.getImg()), Paths.get(destDir + book.getImg()));
+        if (!new File(imageDir, book.getImg()).exists()) {
+            Files.move(Paths.get(srcDir + "/" + book.getImg()), Paths.get(imageDir + book.getImg()));
         }
         bookRepository.save(book);
-        System.out.println(destDir);
+        System.out.println(imageDir);
     }
 }

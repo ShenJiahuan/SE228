@@ -27,11 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BookControllerTest {
 
     @Autowired
-    @Lazy
     BookController bookController;
 
     @Autowired
-    @Lazy
     private MockMvc mockMvc;
 
     @Test

@@ -10,9 +10,11 @@ import com.shenjiahuan.eBook.service.BookService;
 import com.shenjiahuan.eBook.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -34,7 +36,7 @@ public class BookController {
     public Book getBookInfo(@PathVariable("id") int id) {
         Book book = bookService.findBookById(id);
         if (book == null) {
-            throw new NotFoundException("book not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
         }
         return book;
     }
@@ -42,8 +44,8 @@ public class BookController {
     @RequestMapping(value = "/books", method = GET)
     public List<Book> getBookList(@RequestParam(value="keyword") String keyword) {
         List<Book> books = bookService.findRelatedBookList(keyword);
-        if (books == null) {
-            throw new NotFoundException("book not found");
+        if (books.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Related Books Found");
         }
         return books;
     }

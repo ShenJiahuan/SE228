@@ -20,16 +20,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class OrderItemControllerTest {
 
     @Autowired
-    @Lazy
-    BookController bookController;
+    OrderController orderController;
 
     @Autowired
-    @Lazy
     private MockMvc mockMvc;
 
     @Test
     public void contextLoads() throws Exception {
-        assertThat(bookController).isNotNull();
+        assertThat(orderController).isNotNull();
     }
 
     @Test

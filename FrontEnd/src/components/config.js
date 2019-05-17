@@ -1,5 +1,6 @@
 export default {
     state: {
-        backend: "http://localhost:8080/"
+        backendServer: "http://localhost:8080/",
+        staticServer: "http://localhost:8082/"
     }
 };

@@ -2,7 +2,7 @@ import axios from "axios";
 import { Loading } from "element-ui";
 import store from "../store";
 
-axios.defaults.baseURL = store.state.config.backend;
+axios.defaults.baseURL = store.state.config.backendServer;
 axios.defaults.withCredentials = true;
 
 let loadingInstance = null;

@@ -40,7 +40,7 @@
                 <el-form-item>
                     <el-upload
                             class="image-uploader"
-                            :action="this.$store.state.config.backend + 'upload/image'"
+                            :action="this.$store.state.config.backendServer + 'upload/image'"
                             :show-file-list="false"
                             :with-credentials="true"
                             :on-success="handleSuccess"
