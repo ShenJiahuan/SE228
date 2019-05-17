@@ -8,7 +8,7 @@ service:
     - mysql
 
 before_script:
-    - sh -c "mysql -e 'CREATE DATABASE IF NOT EXISTS ebook;' -uroot; fi"
+    - sh -c "mysql -e 'CREATE DATABASE ebook CHARACTER SET utf8 COLLATE utf8_general_ci;;' -uroot; fi"
     - sh -c "mysql -e 'USE ebook; source data.sql;' -uroot; fi"
     - sh -c "mysql -e \"USE ebook; select count(*) from book where title like '%人%';\" -uroot;"
     - cd BackEnd
