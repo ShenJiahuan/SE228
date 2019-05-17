@@ -8,6 +8,7 @@ service:
     - mysql
 
 before_script:
+    - sh -c "mysql -e 'SET NAMES utf8mb4;' -uroot;"
     - sh -c "mysql -e \"SHOW VARIABLES LIKE 'character_set_%';\" -uroot;"
     - sh -c "mysql -e \"SHOW VARIABLES LIKE 'collation_%';\" -uroot;"
     - sh -c "mysql -e 'CREATE DATABASE ebook CHARACTER SET utf8 COLLATE utf8_general_ci;;' -uroot; fi"
