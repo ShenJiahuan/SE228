@@ -1,3 +1,7 @@
+![Language](https://img.shields.io/badge/Language-Java-green.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+[![Build Status](https://travis-ci.com/ShenJiahuan/SE228.svg?token=hcmob6QewZpKr9F3oQHK&branch=dev)](https://travis-ci.com/ShenJiahuan/SE228)
+
 # 上海交通大学 SE228 Web开发技术大作业 eBook在线书店
 ## 技术栈
 ### 前端
