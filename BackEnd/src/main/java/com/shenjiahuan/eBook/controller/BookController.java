@@ -36,7 +36,7 @@ public class BookController {
     public Book getBookInfo(@PathVariable("id") int id) {
         Book book = bookService.findBookById(id);
         if (book == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
         }
         return book;
     }
@@ -45,35 +45,24 @@ public class BookController {
     public List<Book> getBookList(@RequestParam(value="keyword") String keyword) {
         List<Book> books = bookService.findRelatedBookList(keyword);
         if (books.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Related Books Found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No related books found");
         }
         return books;
     }
 
-    @RequestMapping(value = "/books/hot", method = GET)
-    public List<Book> getHotBookList(@RequestParam(value="limit") int limit) {
+    @RequestMapping(value = "/books/top/{option}", method = GET)
+    public List<Book> getTopBookList(@PathVariable(value="option") String option, @RequestParam(value="limit") int limit) {
         if (limit <= 0) {
-            throw new IncorrectParameterException("limit must be positive");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Limit must be positive");
         }
-        List<Book> books = bookService.findTopBookList("hot", limit);
+        if (!option.equals("hot") && !option.equals("recommend")) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URL not found");
+        }
+        List<Book> books = bookService.findTopBookList(option, limit);
         if (books == null) {
-            throw new NotFoundException("book not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
         } else if (books.size() < limit) {
-            throw new IncorrectParameterException("limit too large");
-        }
-        return books;
-    }
-
-    @RequestMapping(value = "/books/recommend", method = GET)
-    public List<Book> getRecommendBookList(@RequestParam(value="limit") int limit) {
-        if (limit <= 0) {
-            throw new IncorrectParameterException("limit must be positive");
-        }
-        List<Book> books = bookService.findTopBookList("score", limit);
-        if (books == null) {
-            throw new NotFoundException("book not found");
-        } else if (books.size() < limit) {
-            throw new IncorrectParameterException("limit too large");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Limit too large");
         }
         return books;
     }

@@ -78,7 +78,7 @@ public class BookControllerTest {
 
     @Test
     public void getHotBookListSuccess() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/books/hot")
+        MvcResult result = this.mockMvc.perform(get("/books/top/hot")
                 .param("limit", "10"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -90,27 +90,27 @@ public class BookControllerTest {
 
     @Test
     public void getHotBookListNegativeLimit() throws Exception {
-        this.mockMvc.perform(get("/books/hot")
+        this.mockMvc.perform(get("/books/top/hot")
                 .param("limit", "-10"))
                 .andExpect(status().is(400));
     }
 
     @Test
     public void getHotBookListWithoutLimit() throws Exception {
-        this.mockMvc.perform(get("/books/hot"))
+        this.mockMvc.perform(get("/books/top/hot"))
                 .andExpect(status().is(400));
     }
 
     @Test
     public void getHotBookListLimitToLarge() throws Exception {
-        this.mockMvc.perform(get("/books/hot")
+        this.mockMvc.perform(get("/books/top/hot")
                 .param("limit", "100000"))
                 .andExpect(status().is(400));
     }
 
     @Test
     public void getRecommendBookListSuccess() throws Exception {
-        MvcResult result = this.mockMvc.perform(get("/books/recommend")
+        MvcResult result = this.mockMvc.perform(get("/books/top/recommend")
                 .param("limit", "10"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -122,20 +122,20 @@ public class BookControllerTest {
 
     @Test
     public void getRecommendBookListNegativeLimit() throws Exception {
-        this.mockMvc.perform(get("/books/recommend")
+        this.mockMvc.perform(get("/books/top/recommend")
                 .param("limit", "-10"))
                 .andExpect(status().is(400));
     }
 
     @Test
     public void getRecommendBookListWithoutLimit() throws Exception {
-        this.mockMvc.perform(get("/books/recommend"))
+        this.mockMvc.perform(get("/books/top/recommend"))
                 .andExpect(status().is(400));
     }
 
     @Test
     public void getRecommendBookListLimitToLarge() throws Exception {
-        this.mockMvc.perform(get("/books/recommend")
+        this.mockMvc.perform(get("/books/top/recommend")
                 .param("limit", "100000"))
                 .andExpect(status().is(400));
     }

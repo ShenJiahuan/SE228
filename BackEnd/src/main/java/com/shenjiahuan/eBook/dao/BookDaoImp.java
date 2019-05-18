@@ -38,7 +38,7 @@ public class BookDaoImp implements BookDao {
         Pageable pageable = PageRequest.of(0, limit);
         if (type.equals("hot")) {
             return bookRepository.findAllByOrderByHotDesc(pageable);
-        } else if (type.equals("score")) {
+        } else if (type.equals("recommend")) {
             return bookRepository.findAllByOrderByScoreDesc(pageable);
         } else {
             return null;

@@ -37,11 +37,11 @@ export default {
     },
 
     GetRecommendList(limit) {
-        return axios.get("/books/recommend",  {params: {limit: limit}});
+        return axios.get("/books/top/recommend",  {params: {limit: limit}});
     },
 
     GetHotList(limit) {
-        return axios.get("/books/hot", {params: {limit: limit}} );
+        return axios.get("/books/top/hot", {params: {limit: limit}} );
     },
 
     CreateBook(info) {
