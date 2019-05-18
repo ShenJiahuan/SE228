@@ -8,7 +8,9 @@ service:
     - mysql
 
 before_script:
-    - sh -c "mysql -e 'SET NAMES utf8mb4;' -uroot;"
+    - echo -e "[client]\ndefault-character-set=utf8mb4" | sudo tee -a /etc/mysql/my.cnf
+    - echo -e "[mysql]\ndefault-character-set=utf8mb4" | sudo tee -a /etc/mysql/my.cnf
+    - echo -e "[mysqld]\ncollation-server = utf8mb4_general_ci\ninit-connect='SET NAMES utf8mb4'\ncharacter-set-server = utf8mb4" | sudo tee -a /etc/mysql/my.cnf
     - sh -c "mysql -e \"SHOW VARIABLES LIKE 'character_set_%';\" -uroot;"
     - sh -c "mysql -e \"SHOW VARIABLES LIKE 'collation_%';\" -uroot;"
     - sh -c "mysql -e 'CREATE DATABASE ebook CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;' -uroot;"
