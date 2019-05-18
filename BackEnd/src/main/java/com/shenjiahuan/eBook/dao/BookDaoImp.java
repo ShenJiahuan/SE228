@@ -46,10 +46,7 @@ public class BookDaoImp implements BookDao {
     }
 
     public List<Book> findRelatedBookList(String keyword) {
-        logger.debug(keyword);
-        List<Book> books = bookRepository.findBooksByTitleContaining(keyword);
-        logger.debug(books);
-        return books;
+        return bookRepository.findBooksByTitleContaining(keyword);
     }
 
     public void createOrUpdateBook(Book book) throws IOException {
