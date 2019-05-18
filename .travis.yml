@@ -8,7 +8,6 @@ service:
     - mysql
 
 before_script:
-    - pwd
     - cp -r static $HOME
     - echo -e "[client]\ndefault-character-set=utf8mb4" | sudo tee -a /etc/mysql/my.cnf
     - echo -e "[mysql]\ndefault-character-set=utf8mb4" | sudo tee -a /etc/mysql/my.cnf
