@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -81,7 +82,7 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = {POST, PUT})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void uploadOrUpdateBook(@RequestBody Book book) throws IOException {
+    public void uploadOrUpdateBook(@Valid @RequestBody Book book) throws IOException {
         bookService.createOrUpdateBook(book);
     }
 }

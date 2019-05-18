@@ -3,19 +3,24 @@ package com.shenjiahuan.eBook.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class Book {
     private int bookId;
+    @NotBlank(message = "Title is mandatory")
     private String title;
     private String author;
     private String publisher;
     private String publishDate;
     private Integer pages;
-    private double price;
+    @NotNull(message = "Price is mandatory")
+    private Double price;
     private String decoration;
+    @NotBlank(message = "ISBN is mandatory")
     private String isbn;
     private String img;
     private Double hot;
@@ -87,11 +92,11 @@ public class Book {
 
     @Basic
     @Column(name = "price")
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

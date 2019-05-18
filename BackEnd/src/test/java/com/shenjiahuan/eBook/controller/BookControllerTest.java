@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Lazy;
@@ -14,6 +15,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -24,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
+@Transactional
 public class BookControllerTest {
 
     @Autowired
@@ -31,6 +36,9 @@ public class BookControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Value("${image-dir}")
+    String imageDir;
 
     @Test
     public void contextLoads() throws Exception {
@@ -161,9 +169,14 @@ public class BookControllerTest {
     @WithMockUser(roles = {"NORMAL", "ADMIN"})
     public void uploadImageSuccess() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
-        this.mockMvc.perform(multipart("/upload/image")
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/upload/image")
                 .file(file))
-                .andExpect(status().is(200));
+                .andExpect(status().is(200))
+                .andReturn();
+        String filename = mvcResult.getResponse().getContentAsString();
+
+        File imgFile = new File(imageDir + filename);
+        imgFile.delete();
     }
 
     @Test
@@ -183,5 +196,85 @@ public class BookControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
                 .andExpect(status().is(403));
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL", "ADMIN"})
+    public void uploadBookSuccess() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(200))
+                .andReturn();
+        String filename = mvcResult.getResponse().getContentAsString();
+
+        String body = String.format("{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"img\":\"%s\"}", filename);
+        this.mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is(200));
+
+        File imgFile = new File(imageDir + filename);
+        imgFile.delete();
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL", "ADMIN"})
+    public void uploadBookNoTitle() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(200))
+                .andReturn();
+        String filename = mvcResult.getResponse().getContentAsString();
+
+        String body = String.format("{\"title\":null,\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"img\":\"%s\"}", filename);
+        this.mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is(400));
+
+        File imgFile = new File(imageDir + filename);
+        imgFile.delete();
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL", "ADMIN"})
+    public void uploadBookNoPrice() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(200))
+                .andReturn();
+        String filename = mvcResult.getResponse().getContentAsString();
+
+        String body = String.format("{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":null,\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"img\":\"%s\"}", filename);
+        this.mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is(400));
+
+        File imgFile = new File(imageDir + filename);
+        imgFile.delete();
+    }
+
+    @Test
+    @WithMockUser(roles = {"NORMAL", "ADMIN"})
+    public void uploadBookNoISBN() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", new byte[100]);
+        MvcResult mvcResult = this.mockMvc.perform(multipart("/upload/image")
+                .file(file))
+                .andExpect(status().is(200))
+                .andReturn();
+        String filename = mvcResult.getResponse().getContentAsString();
+
+        String body = String.format("{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":null,\"score\":null,\"desc\":null,\"img\":\"%s\"}", filename);
+        this.mockMvc.perform(post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+                .andExpect(status().is(400));
+
+        File imgFile = new File(imageDir + filename);
+        imgFile.delete();
     }
 }
