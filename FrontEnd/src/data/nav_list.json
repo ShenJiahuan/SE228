@@ -68,5 +68,12 @@
     "sub_name": "EditBook",
     "require": ["login", "admin", "edit"],
     "url": "/book/edit"
+  },
+  {
+    "id": "10",
+    "name": "书籍管理",
+    "sub_name": "ManageBook",
+    "require": ["login", "admin"],
+    "url": "/book/manage"
   }
 ]

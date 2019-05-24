@@ -87,6 +87,7 @@
                         return this.loggedIn;
                     case "用户管理":
                     case "添加书籍":
+                    case "书籍管理":
                         return this.admin;
                     case "编辑书籍":
                         return this.admin && this.$route.path.split("/")[2] === "edit";

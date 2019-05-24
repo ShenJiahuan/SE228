@@ -50,6 +50,12 @@ public class BookController {
         return books;
     }
 
+    @RequestMapping(value = "/books/all", method = GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Book> getAllBooks() {
+        return bookService.findAll();
+    }
+
     @RequestMapping(value = "/books/top/{option}", method = GET)
     public List<Book> getTopBookList(@PathVariable(value="option") String option, @RequestParam(value="limit") int limit) {
         if (limit <= 0) {

@@ -31,6 +31,10 @@ public class BookDaoImp implements BookDao {
         return bookRepository.findById(bookId).orElse(null);
     }
 
+    public List<Book> findAll() {
+        return bookRepository.findAll();
+    }
+
     public List<Book> findTopBookList(String type, int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         if (type.equals("hot")) {

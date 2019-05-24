@@ -36,6 +36,10 @@ export default {
         return axios.get("/books/", {params: {keyword: keyword}});
     },
 
+    GetAllBooks() {
+        return axios.get("/books/all");
+    },
+
     GetRecommendList(limit) {
         return axios.get("/books/top/recommend",  {params: {limit: limit}});
     },

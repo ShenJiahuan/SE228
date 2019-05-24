@@ -28,6 +28,10 @@ public class BookService {
         return bookDao.findBookById(bookId);
     }
 
+    public List<Book> findAll() {
+        return bookDao.findAll();
+    }
+
     public List<Book> findTopBookList(String type, int limit) {
         return bookDao.findTopBookList(type, limit);
     }
