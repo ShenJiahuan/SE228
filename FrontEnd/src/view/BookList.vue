@@ -8,7 +8,7 @@
                 <el-tab-pane :label="thirdLabel" name="third"></el-tab-pane>
             </el-tabs>
             <transition-group class="list-group" name="flip-list" tag="div">
-                <list-item v-for="book in bookList" :book="book" :key="book.bookId"></list-item>
+                <list-item v-for="book in bookList" :book="book" :key="book.snapshot.bookId"></list-item>
             </transition-group>
         </div>
         <el-card v-else>
@@ -76,13 +76,13 @@
                 switch (this.sortType) {
                     case 0:
                     case 3:
-                        this.bookList = this.bookList.sort((book1, book2) => book1.bookId < book2.bookId ? -1 : 1);
+                        this.bookList = this.bookList.sort((book1, book2) => book1.snapshot.bookId < book2.snapshot.bookId ? -1 : 1);
                         break;
                     case 1:
-                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.price) < parseFloat(book2.price) ? -1 : 1);
+                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.snapshot.price) < parseFloat(book2.snapshot.price) ? -1 : 1);
                         break;
                     case 2:
-                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.price) > parseFloat(book2.price) ? -1 : 1);
+                        this.bookList = this.bookList.sort((book1, book2) => parseFloat(book1.snapshot.price) > parseFloat(book2.snapshot.price) ? -1 : 1);
                         break;
                 }
             },

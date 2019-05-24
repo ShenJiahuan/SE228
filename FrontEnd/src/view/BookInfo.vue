@@ -1,53 +1,56 @@
 <template>
     <div v-if="book != null">
         <h1 class="title">
-            <div class="title-name">{{book.title}}</div>
-            <router-link v-bind:to="'/book/edit/' + book.bookId" v-if="this.$store.state.user.admin">
-                <el-button class="title-edit" type="primary" icon="el-icon-edit" circle></el-button>
-            </router-link>
-        </h1>
+            <div class="title-name">{{book.snapshot.title}}</div>
+            <div v-if="this.$store.state.user.admin">
+                <router-link v-bind:to="'/book/edit/' + book.snapshot.bookId">
+                    <el-button class="title-edit" type="primary" icon="el-icon-edit" circle></el-button>
+                </router-link>
+                <el-button class="title-edit" type="danger" icon="el-icon-delete" circle v-if="this.$store.state.user.admin" @click="deleteBook"></el-button>
+            </div>
+            </h1>
 
         <el-row class="top-content">
             <el-col :span="8">
                 <div class="book-img">
-                    <img :src="this.$store.state.config.staticServer + 'images/' + book.img" />
+                    <img :src="this.$store.state.config.staticServer + 'images/' + book.snapshot.img" />
                 </div>
             </el-col>
             <el-col :span="8">
                 <div class="book-info">
                     <span>
                         <span>作者：</span>
-                        <span>{{book.author}}</span>
+                        <span>{{book.snapshot.author}}</span>
                     </span>
                     <br>
                     <span>
                         <span>出版社：</span>
-                        <span>{{book.publisher}}</span>
+                        <span>{{book.snapshot.publisher}}</span>
                     </span>
                     <br>
                     <span>
                         <span>出版年：</span>
-                        <span>{{book.publishDate}}</span>
+                        <span>{{book.snapshot.publishDate}}</span>
                     </span>
                     <br>
                     <span>
                         <span>页数：</span>
-                        <span>{{book.pages}}</span>
+                        <span>{{book.snapshot.pages}}</span>
                     </span>
                     <br>
                     <span>
                         <span>装帧：</span>
-                        <span>{{book.decoration}}</span>
+                        <span>{{book.snapshot.decoration}}</span>
                     </span>
                     <br>
                     <span>
                         <span>ISBN：</span>
-                        <span>{{book.isbn}}</span>
+                        <span>{{book.snapshot.isbn}}</span>
                     </span>
                     <br>
                     <span class="key">定价：</span>
                     <span class="value">
-                        <span class="price">¥{{book.price}}</span>
+                        <span class="price">¥{{book.snapshot.price}}</span>
                     </span>
                     <br>
                 </div>
@@ -79,7 +82,7 @@
                         </el-form-item>
                     </el-form>
                     <div class="book-remain">
-                        剩余&nbsp{{book.remain}}件
+                        剩余&nbsp{{book.snapshot.remain}}件
                     </div>
                     <el-button type="primary" class="button" @click.native="order(true)">立即购买</el-button>
                     <el-button type="primary" class="button" @click.native="order(false)">加入购物车</el-button>
@@ -87,8 +90,8 @@
             </el-col>
         </el-row>
         <div class="book-desc">
-            <div v-if="book.bookDesc != null">
-                <div v-for="(para, index) in book.bookDesc.split('\n')" :key="index">
+            <div v-if="book.snapshot.bookDesc != null">
+                <div v-for="(para, index) in book.snapshot.bookDesc.split('\n')" :key="index">
                     <p>{{para}}</p>
                 </div>
             </div>
@@ -186,7 +189,7 @@
                 }
             },
             score(book) {
-                return parseFloat((book.score / 2).toFixed(1));
+                return parseFloat((book.snapshot.score / 2).toFixed(1));
             },
             getBookInfo(bookid) {
                 Api.GetBookInfo(bookid)
@@ -211,6 +214,33 @@
                         }
                         this.$router.push("/");
                     });
+            },
+            deleteBook() {
+                Api.DeleteBook(this.bookID)
+                    .then(response => {
+                        this.$notify.success({
+                            title: "成功",
+                            message: "删除书籍成功"
+                        });
+                        this.$router.push("/");
+                    }, error=> {
+                        switch (error.response.data.status) {
+                            case 404:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "书籍不存在",
+                                    type: "error"
+                                });
+                                break;
+                            default:
+                                this.$notify({
+                                    title: "错误",
+                                    message: "未知错误",
+                                    type: "error"
+                                });
+                                break;
+                        }
+                    });
             }
         },
         created() {
@@ -233,11 +263,13 @@
         display: flex;
         text-align: center;
         justify-content: center;
+        align-items: center;
     }
 
     .title-edit {
         height: 40px;
         width: 40px;
+        margin: 0 5px;
     }
 
     h1 {

@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "order_item")
-@PrimaryKeyJoinColumn(name = "item_id")
+@Table(name = "item")
+@DiscriminatorValue("order")
 public class OrderItem extends Item {
     public OrderItem() {}
 
@@ -17,6 +17,8 @@ public class OrderItem extends Item {
     }
 
     private Order order;
+
+    private BigDecimal snapTime;
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "order_id", nullable = false)
@@ -27,5 +29,29 @@ public class OrderItem extends Item {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Column(name = "snap_time")
+    public BigDecimal getSnapTime() {
+        return snapTime;
+    }
+
+    public void setSnapTime(BigDecimal snapTime) {
+        this.snapTime = snapTime;
+    }
+
+    private BookSnapshot snapshot;
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "book_id", insertable = false, updatable = false),
+            @JoinColumn(name = "snap_time", insertable = false, updatable = false)
+    })
+    public BookSnapshot getSnapshot() {
+        return snapshot;
+    }
+
+    public void setSnapshot(BookSnapshot bookSnapshot) {
+        this.snapshot = bookSnapshot;
     }
 }

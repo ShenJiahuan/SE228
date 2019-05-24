@@ -162,22 +162,23 @@
 
                 Api.GetBookInfo(this.bookId)
                     .then(response => {
+                        console.log(response);
                         this.form = {
                             bookId: this.bookId,
-                            title: response.data.title,
-                            author: response.data.author,
-                            publisher: response.data.publisher,
-                            publishDate: response.data.publishDate,
-                            pages: response.data.pages,
-                            price: response.data.price,
-                            decoration: response.data.decoration,
-                            isbn: response.data.isbn,
-                            score: response.data.score,
-                            bookDesc: response.data.bookDesc,
-                            remain: response.data.remain,
-                            img: response.data.img,
+                            title: response.data.snapshot.title,
+                            author: response.data.snapshot.author,
+                            publisher: response.data.snapshot.publisher,
+                            publishDate: response.data.snapshot.publishDate,
+                            pages: response.data.snapshot.pages,
+                            price: response.data.snapshot.price,
+                            decoration: response.data.snapshot.decoration,
+                            isbn: response.data.snapshot.isbn,
+                            score: response.data.snapshot.score,
+                            bookDesc: response.data.snapshot.bookDesc,
+                            remain: response.data.snapshot.remain,
+                            img: response.data.snapshot.img,
                         };
-                        this.localImg = this.$store.state.config.staticServer + 'images/' + response.data.img;
+                        this.localImg = this.$store.state.config.staticServer + 'images/' + response.data.snapshot.img;
                     }, error => {
                         switch (error.response.data.status) {
                             case 404:

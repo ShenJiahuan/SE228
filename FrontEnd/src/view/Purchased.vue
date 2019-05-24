@@ -114,11 +114,11 @@
                                 let time = new Date(order.payTime * 1000);
                                 for (let item of order.items) {
                                     this.initialData.push({
-                                        id: item.bookId,
+                                        id: item.snapshot.bookId,
                                         choose: false,
-                                        img: this.$store.state.config.staticServer + "images/" + item.book.img,
-                                        title: item.book.title,
-                                        price: item.book.price,
+                                        img: this.$store.state.config.staticServer + "images/" + item.snapshot.img,
+                                        title: item.snapshot.title,
+                                        price: item.snapshot.price,
                                         count: item.count,
                                         time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
                                     });

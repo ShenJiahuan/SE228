@@ -81,9 +81,9 @@
                         for (let book of raw) {
                             let item = {
                                 rank: cnt,
-                                title: book.title,
-                                img: this.$store.state.config.staticServer + "images/" + book.img,
-                                id: book.bookId,
+                                title: book.snapshot.title,
+                                img: this.$store.state.config.staticServer + "images/" + book.snapshot.img,
+                                id: book.snapshot.bookId,
                             };
                             this.topList.push(item);
                             cnt += 1;

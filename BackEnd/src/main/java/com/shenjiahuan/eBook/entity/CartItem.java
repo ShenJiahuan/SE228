@@ -1,34 +1,31 @@
 package com.shenjiahuan.eBook.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "cart_item")
-@PrimaryKeyJoinColumn(name = "item_id")
+@Table(name = "item")
+@DiscriminatorValue("cart")
 public class CartItem extends Item {
 
-    private int uid;
+    private Integer uid;
 
     private BigDecimal addTime;
 
     public CartItem() {}
 
-    public CartItem(int bookId, int count, int uid, BigDecimal addTime) {
+    public CartItem(int bookId, int count, Integer uid, BigDecimal addTime) {
         super(bookId, count);
         this.uid = uid;
         this.addTime = addTime;
     }
 
     @Column(name = "uid")
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 
@@ -39,6 +36,18 @@ public class CartItem extends Item {
 
     public void setAddTime(BigDecimal addTime) {
         this.addTime = addTime;
+    }
+
+    private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id", insertable = false, updatable = false)
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
     }
 
 }

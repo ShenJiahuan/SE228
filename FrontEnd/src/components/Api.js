@@ -52,6 +52,10 @@ export default {
         return axios.put("/books", info);
     },
 
+    DeleteBook(id) {
+        return axios.delete("/books/" + id);
+    },
+
     Login(email, password) {
         var params = new URLSearchParams();
         params.append("email", email);

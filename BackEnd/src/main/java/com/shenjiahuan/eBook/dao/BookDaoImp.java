@@ -1,14 +1,12 @@
 package com.shenjiahuan.eBook.dao;
 
 import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.entity.BookSnapshot;
 import com.shenjiahuan.eBook.repository.BookRepository;
+import com.shenjiahuan.eBook.repository.BookSnapshotRepository;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -18,7 +16,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Properties;
 
 @Repository
 public class BookDaoImp implements BookDao {
@@ -37,24 +34,30 @@ public class BookDaoImp implements BookDao {
     public List<Book> findTopBookList(String type, int limit) {
         Pageable pageable = PageRequest.of(0, limit);
         if (type.equals("hot")) {
-            return bookRepository.findAllByOrderByHotDesc(pageable);
+            return bookRepository.findAllByOrderBySnapshot_HotDesc(pageable);
         } else if (type.equals("recommend")) {
-            return bookRepository.findAllByOrderByScoreDesc(pageable);
+            return bookRepository.findAllByOrderBySnapshot_ScoreDesc(pageable);
         } else {
             return null;
         }
     }
 
     public List<Book> findRelatedBookList(String keyword) {
-        return bookRepository.findBooksByTitleContaining(keyword);
+        return bookRepository.findBooksBySnapshot_TitleContaining(keyword);
     }
 
     public void createOrUpdateBook(Book book) throws IOException {
-        String srcDir = System.getProperty("java.io.tmpdir");
-        if (!new File(imageDir, book.getImg()).exists()) {
-            Files.move(Paths.get(srcDir + "/" + book.getImg()), Paths.get(imageDir + book.getImg()));
+        if (book.getSnapshot() != null) {
+            String srcDir = System.getProperty("java.io.tmpdir");
+            if (!new File(imageDir, book.getSnapshot().getImg()).exists()) {
+                Files.move(Paths.get(srcDir + "/" + book.getSnapshot().getImg()), Paths.get(imageDir + book.getSnapshot().getImg()));
+            }
+            System.out.println(imageDir);
         }
-        bookRepository.save(book);
-        System.out.println(imageDir);
+        bookRepository.saveAndFlush(book);
+    }
+
+    public void deleteBookById(int bookId) {
+        bookRepository.deleteById(bookId);
     }
 }

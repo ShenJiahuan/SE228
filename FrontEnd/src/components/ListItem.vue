@@ -1,24 +1,24 @@
 <template>
     <el-card shadow="hover" class="item">
         <div class="item-img">
-            <img :src="this.$store.state.config.staticServer + 'images/' + book.img" />
+            <img :src="this.$store.state.config.staticServer + 'images/' + book.snapshot.img" />
         </div>
         <div class="item-desc">
             <h3 class="item-title">
-                <router-link v-bind:to="'/info/' + book.bookId">{{book.title}}</router-link>
+                <router-link v-bind:to="'/info/' + book.snapshot.bookId">{{book.snapshot.title}}</router-link>
             </h3>
-            <span class="key" v-if="book.author != null">作者：</span>
-            <span class="value" v-if="book.author != null">{{book.author}}</span>
+            <span class="key" v-if="book.snapshot.author != null">作者：</span>
+            <span class="value" v-if="book.snapshot.author != null">{{book.snapshot.author}}</span>
             <br v-if="book.author != null">
-            <span class="key" v-if="book.publisher != null">出版社：</span>
-            <span class="value" v-if="book.publisher != null">{{book.publisher}}</span>
+            <span class="key" v-if="book.snapshot.publisher != null">出版社：</span>
+            <span class="value" v-if="book.snapshot.publisher != null">{{book.snapshot.publisher}}</span>
             <br v-if="book.publisher != null">
             <span class="key">ISBN：</span>
-            <span class="value">{{book.isbn}}</span>
+            <span class="value">{{book.snapshot.isbn}}</span>
             <br>
             <span class="key">定价：</span>
             <span class="value">
-                <span class="price">¥{{book.price}}</span>
+                <span class="price">¥{{book.snapshot.price}}</span>
             </span>
             <br>
         </div>

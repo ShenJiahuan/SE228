@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "item")
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("item")
 public class Item {
 
     private int itemId;
@@ -48,18 +50,6 @@ public class Item {
 
     public void setCount(int count) {
         this.count = count;
-    }
-
-    private Book book;
-
-    @ManyToOne
-    @JoinColumn(name = "book_id", insertable = false, updatable = false)
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
     }
 
 }

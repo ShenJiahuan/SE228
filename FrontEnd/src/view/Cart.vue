@@ -224,13 +224,14 @@
                         if (result != null) {
                             console.log(result);
                             for (let item of result) {
+                                console.log(item);
                                 let time = new Date(item.addTime * 1000);
                                 this.tableData.push({
-                                    id: item.book.bookId,
+                                    id: item.book.snapshot.bookId,
                                     choose: false,
-                                    img: this.$store.state.config.staticServer + "images/" + item.book.img,
-                                    title: item.book.title,
-                                    price: item.book.price,
+                                    img: this.$store.state.config.staticServer + "images/" + item.book.snapshot.img,
+                                    title: item.book.snapshot.title,
+                                    price: item.book.snapshot.price,
                                     count: item.count,
                                     time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
                                 })

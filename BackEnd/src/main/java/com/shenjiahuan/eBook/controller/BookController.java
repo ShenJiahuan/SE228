@@ -1,15 +1,14 @@
 package com.shenjiahuan.eBook.controller;
 
-import com.shenjiahuan.eBook.dao.BookDao;
 import com.shenjiahuan.eBook.entity.Book;
+import com.shenjiahuan.eBook.entity.BookSnapshot;
 import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
-import com.shenjiahuan.eBook.exception.NotFoundException;
-import com.shenjiahuan.eBook.response.HandlerResponse;
 import com.shenjiahuan.eBook.service.BookService;
 import com.shenjiahuan.eBook.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -80,9 +79,25 @@ public class BookController {
         return filename;
     }
 
-    @RequestMapping(value = "/books", method = {POST, PUT})
+    @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void uploadOrUpdateBook(@Valid @RequestBody Book book) throws IOException {
-        bookService.createOrUpdateBook(book);
+    public void uploadBook(@Valid @RequestBody BookSnapshot bookSnapshot) throws IOException {
+        bookService.createBook(bookSnapshot);
+    }
+
+    @RequestMapping(value = "/books", method = PUT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateBook(@Valid @RequestBody BookSnapshot bookSnapshot) throws IOException {
+        bookService.updateBook(bookSnapshot);
+    }
+
+    @RequestMapping(value = "/books/{id}", method = DELETE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deleteBook(@PathVariable("id") int id) {
+        try {
+            bookService.deleteBookById(id);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
+        }
     }
 }
