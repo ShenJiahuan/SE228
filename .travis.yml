@@ -17,7 +17,6 @@ before_script:
     - sh -c "mysql -e \"SHOW VARIABLES LIKE 'collation_%';\" -uroot;"
     - sh -c "mysql -e 'CREATE DATABASE ebook CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;' -uroot;"
     - sh -c "mysql -e 'USE ebook; source data.sql;' -uroot;"
-    - sh -c "mysql -e \"USE ebook; select count(*) from book where title like '%人%';\" -uroot;"
     - cd BackEnd
 
 script: 
