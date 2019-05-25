@@ -80,7 +80,7 @@ public class BookController {
         try {
             filename = fileStorageService.storeFile(file);
         } catch (FileStorageException ex) {
-            throw new IncorrectParameterException("cannot upload file");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot upload file");
         }
         return filename;
     }

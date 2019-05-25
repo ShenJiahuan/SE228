@@ -1,15 +1,15 @@
 package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.entity.User;
-import com.shenjiahuan.eBook.exception.IncorrectParameterException;
-import com.shenjiahuan.eBook.exception.UnauthorizedException;
 import com.shenjiahuan.eBook.service.UserService;
 import com.shenjiahuan.eBook.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -28,7 +28,7 @@ public class UserController {
     @ResponseBody
     public User currentUserName(Principal principal) {
         if (principal == null) {
-            throw new UnauthorizedException("Not logged in");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
         }
         String username = principal.getName();
         return userService.findUserByUsername(username);
@@ -43,7 +43,7 @@ public class UserController {
     public void registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            throw new IncorrectParameterException("register form incorrect");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "register form incorrect");
         }
         userService.save(userForm);
 
