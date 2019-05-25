@@ -1,11 +1,10 @@
 package com.shenjiahuan.eBook.controller;
 
-import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.exception.UnauthorizedException;
 import com.shenjiahuan.eBook.service.UserService;
-import com.shenjiahuan.eBook.validator.UserValidator;
+import com.shenjiahuan.eBook.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;

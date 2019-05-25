@@ -1,4 +1,4 @@
-package com.shenjiahuan.eBook.validator;
+package com.shenjiahuan.eBook.util;
 
 import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
