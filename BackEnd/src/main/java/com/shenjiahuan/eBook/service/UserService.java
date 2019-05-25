@@ -1,41 +1,19 @@
 package com.shenjiahuan.eBook.service;
 
-import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
-@Transactional
-public class UserService {
+public interface UserService {
+    void save(User user);
 
-    @Autowired
-    UserDao userDao;
+    User findUserByEmail(String email);
 
-    public void save(User user) {
-        userDao.save(user);
-    }
+    User findUserByUsername(String username);
 
-    public User findUserByEmail(String email) {
-        return userDao.findUserByEmail(email);
-    }
+    List<User> findAllUsers();
 
-    public User findUserByUsername(String username) {
-        return userDao.findUserByUsername(username);
-    }
+    void banUser(int uid, boolean banned);
 
-    public List<User> findAllUsers() {
-        return userDao.findAllUsers();
-    }
-
-    public void banUser(int uid, boolean banned) {
-        userDao.banUser(uid, banned);
-    }
-
-    public void adminUser(int uid, boolean admin) {
-        userDao.adminUser(uid, admin);
-    }
+    void adminUser(int uid, boolean admin);
 }

@@ -2,6 +2,7 @@ package com.shenjiahuan.eBook.service;
 
 import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.property.FileStorageProperties;
+import com.shenjiahuan.eBook.service.impl.FileStorageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Date;
 
 @Service
-public class FileStorageService {
+public class FileStorageService implements FileStorageServiceImpl {
 
     private final Path fileStorageLocation;
 

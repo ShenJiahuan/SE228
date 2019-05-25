@@ -1,9 +1,8 @@
-package com.shenjiahuan.eBook.dao;
+package com.shenjiahuan.eBook.dao.impl;
 
+import com.shenjiahuan.eBook.dao.BookDao;
 import com.shenjiahuan.eBook.entity.Book;
-import com.shenjiahuan.eBook.entity.BookSnapshot;
 import com.shenjiahuan.eBook.repository.BookRepository;
-import com.shenjiahuan.eBook.repository.BookSnapshotRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +17,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @Repository
-public class BookDaoImp implements BookDao {
-    private static Logger logger = Logger.getLogger(BookDaoImp.class);
+public class BookDaoImpl implements BookDao {
+    private static Logger logger = Logger.getLogger(BookDaoImpl.class);
 
     @Autowired
     BookRepository bookRepository;

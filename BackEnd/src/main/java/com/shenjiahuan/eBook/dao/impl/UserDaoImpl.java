@@ -1,5 +1,6 @@
-package com.shenjiahuan.eBook.dao;
+package com.shenjiahuan.eBook.dao.impl;
 
+import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
 import com.shenjiahuan.eBook.repository.UserRepository;
 import org.hibernate.Session;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class UserDaoImp implements UserDao {
+public class UserDaoImpl implements UserDao {
 
     @Autowired
     @Lazy

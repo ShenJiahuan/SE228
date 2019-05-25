@@ -1,4 +1,4 @@
-package com.shenjiahuan.eBook.service;
+package com.shenjiahuan.eBook.service.impl;
 
 import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     @Lazy
     private UserDao userDao;
 
-    private Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+    private Logger logger = LoggerFactory.getLogger(CustomUserDetailsServiceImpl.class);
 
     @Transactional(readOnly = true)
     @Override

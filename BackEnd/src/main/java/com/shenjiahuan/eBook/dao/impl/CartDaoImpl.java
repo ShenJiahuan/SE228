@@ -1,5 +1,6 @@
-package com.shenjiahuan.eBook.dao;
+package com.shenjiahuan.eBook.dao.impl;
 
+import com.shenjiahuan.eBook.dao.CartDao;
 import com.shenjiahuan.eBook.entity.CartItem;
 import com.shenjiahuan.eBook.repository.CartRepository;
 import org.hibernate.Session;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CartDaoImp implements CartDao {
+public class CartDaoImpl implements CartDao {
 
     @Autowired
     CartRepository cartRepository;
