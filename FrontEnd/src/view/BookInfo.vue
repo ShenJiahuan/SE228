@@ -157,7 +157,7 @@
                                 type: "success"
                             });
                             if (paid) {
-                                this.book.remain -= this.input;
+                                this.book.snapshot.remain -= this.input;
                             }
                         }, error => {
                             switch (error.response.data.status) {
