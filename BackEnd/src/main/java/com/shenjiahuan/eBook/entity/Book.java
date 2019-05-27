@@ -52,7 +52,7 @@ public class Book {
     public List<CartItem> cartItems;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bookId")
+    @OneToMany(mappedBy = "bookId")
     public List<CartItem> getCartItems() {
         return cartItems;
     }

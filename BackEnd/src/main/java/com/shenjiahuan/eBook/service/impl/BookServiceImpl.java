@@ -2,6 +2,7 @@ package com.shenjiahuan.eBook.service.impl;
 
 import com.shenjiahuan.eBook.dao.BookDao;
 import com.shenjiahuan.eBook.dao.BookSnapshotDao;
+import com.shenjiahuan.eBook.dao.CartDao;
 import com.shenjiahuan.eBook.entity.Book;
 import com.shenjiahuan.eBook.entity.BookSnapshot;
 import com.shenjiahuan.eBook.service.BookService;
@@ -20,6 +21,9 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     BookDao bookDao;
+
+    @Autowired
+    CartDao cartDao;
 
     @Autowired
     BookSnapshotDao bookSnapshotDao;
@@ -68,6 +72,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBookById(int bookId) {
+        cartDao.deleteCartItemByBookId(bookId);
         bookDao.deleteBookById(bookId);
     }
 }

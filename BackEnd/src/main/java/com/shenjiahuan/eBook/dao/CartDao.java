@@ -12,4 +12,6 @@ public interface CartDao {
     CartItem findCartItemByUserIdAndBookId(int userId, int bookId);
 
     void deleteCart(CartItem item);
+
+    void deleteCartItemByBookId(int bookId);
 }

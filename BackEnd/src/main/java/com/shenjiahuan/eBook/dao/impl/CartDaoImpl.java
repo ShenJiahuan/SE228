@@ -32,4 +32,8 @@ public class CartDaoImpl implements CartDao {
     public void deleteCart(CartItem item) {
         cartRepository.deleteCartItemByUidAndBookId(item.getUid(), item.getBookId());
     }
+
+    public void deleteCartItemByBookId(int bookId) {
+        cartRepository.deleteCartItemByBookId(bookId);
+    }
 }
