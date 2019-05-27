@@ -54,4 +54,16 @@ public class OrderItem extends Item {
     public void setSnapshot(BookSnapshot bookSnapshot) {
         this.snapshot = bookSnapshot;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

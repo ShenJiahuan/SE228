@@ -197,26 +197,11 @@ public class BookSnapshot {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BookSnapshot bookSnapshot = (BookSnapshot) o;
-        return bookId == bookSnapshot.bookId &&
-                Double.compare(bookSnapshot.price, price) == 0 &&
-                Objects.equals(title, bookSnapshot.title) &&
-                Objects.equals(author, bookSnapshot.author) &&
-                Objects.equals(publisher, bookSnapshot.publisher) &&
-                Objects.equals(publishDate, bookSnapshot.publishDate) &&
-                Objects.equals(pages, bookSnapshot.pages) &&
-                Objects.equals(decoration, bookSnapshot.decoration) &&
-                Objects.equals(isbn, bookSnapshot.isbn) &&
-                Objects.equals(img, bookSnapshot.img) &&
-                Objects.equals(hot, bookSnapshot.hot) &&
-                Objects.equals(score, bookSnapshot.score) &&
-                Objects.equals(bookDesc, bookSnapshot.bookDesc) &&
-                Objects.equals(originalName, bookSnapshot.originalName) &&
-                Objects.equals(remain, bookSnapshot.remain) &&
-                Objects.equals(snapTime, bookSnapshot.snapTime);
+        return bookId == bookSnapshot.bookId && snapTime.equals(bookSnapshot.snapTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, title, author, publisher, publishDate, pages, price, decoration, isbn, img, hot, score, bookDesc, originalName, remain, snapTime);
+        return Objects.hash(bookId, snapTime);
     }
 }

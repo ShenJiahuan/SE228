@@ -91,17 +91,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return uid == user.uid &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(admin, user.admin) &&
-                Objects.equals(root, user.root) &&
-                Objects.equals(banned, user.banned);
+        return uid == user.uid;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, email, password, username, admin, root, banned);
+        return Objects.hash(uid);
     }
 }
