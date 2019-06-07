@@ -8,7 +8,6 @@ service:
     - mysql
 
 before_script:
-    - cp -r static $HOME
     - echo -e "[client]\ndefault-character-set=utf8mb4" | sudo tee -a /etc/mysql/my.cnf
     - echo -e "[mysql]\ndefault-character-set=utf8mb4" | sudo tee -a /etc/mysql/my.cnf
     - echo -e "[mysqld]\ncollation-server = utf8mb4_general_ci\ninit-connect='SET NAMES utf8mb4'\ncharacter-set-server = utf8mb4" | sudo tee -a /etc/mysql/my.cnf
