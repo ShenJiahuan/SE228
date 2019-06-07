@@ -6,7 +6,6 @@ import com.shenjiahuan.eBook.entity.Image;
 import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.service.BookService;
-import com.shenjiahuan.eBook.service.FileStorageService;
 import com.shenjiahuan.eBook.service.ImageService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +34,6 @@ public class BookController {
 
     @Autowired
     private ImageService imageService;
-
-    @Autowired
-    @Lazy
-    private FileStorageService fileStorageService;
 
     @RequestMapping(value = "/books/{id}", method = GET)
     public Book getBookInfo(@PathVariable("id") int id) {
