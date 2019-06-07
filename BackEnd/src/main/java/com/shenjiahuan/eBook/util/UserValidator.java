@@ -2,7 +2,6 @@ package com.shenjiahuan.eBook.util;
 
 import com.shenjiahuan.eBook.dao.UserDao;
 import com.shenjiahuan.eBook.entity.User;
-import com.shenjiahuan.eBook.util.UserCheck;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;

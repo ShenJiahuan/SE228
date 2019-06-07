@@ -3,8 +3,6 @@ package com.shenjiahuan.eBook.dao.impl;
 import com.shenjiahuan.eBook.dao.CartDao;
 import com.shenjiahuan.eBook.entity.CartItem;
 import com.shenjiahuan.eBook.repository.CartRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,6 @@
 package com.shenjiahuan.eBook.dao;
 
 import com.shenjiahuan.eBook.entity.Book;
-import com.shenjiahuan.eBook.entity.BookSnapshot;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.shenjiahuan.eBook.repository;
 
 import com.shenjiahuan.eBook.entity.Book;
-import com.shenjiahuan.eBook.entity.BookSnapshot;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -3,8 +3,6 @@ package com.shenjiahuan.eBook.dao.impl;
 import com.shenjiahuan.eBook.dao.OrderDao;
 import com.shenjiahuan.eBook.entity.Order;
 import com.shenjiahuan.eBook.repository.OrderRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

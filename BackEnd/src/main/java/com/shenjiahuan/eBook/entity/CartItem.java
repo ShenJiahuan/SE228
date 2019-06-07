@@ -2,7 +2,6 @@ package com.shenjiahuan.eBook.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Entity
 @Table(name = "item")

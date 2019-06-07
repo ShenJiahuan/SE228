@@ -3,13 +3,9 @@ package com.shenjiahuan.eBook.controller;
 import com.shenjiahuan.eBook.entity.Book;
 import com.shenjiahuan.eBook.entity.BookSnapshot;
 import com.shenjiahuan.eBook.entity.Image;
-import com.shenjiahuan.eBook.exception.FileStorageException;
-import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.service.BookService;
 import com.shenjiahuan.eBook.service.ImageService;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Base64;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
