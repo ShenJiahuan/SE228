@@ -78,7 +78,7 @@
                     score: null,
                     bookDesc: null,
                     remain: null,
-                    img: "",
+                    imgFileName: ""
                 },
                 localImg: "",
             }
@@ -90,16 +90,15 @@
         },
         methods: {
             handleSuccess(res, file) {
-                console.log(res, file);
-                this.form.img = res;
+                console.log(res);
+                this.form.imgFileName = res;
                 this.localImg = URL.createObjectURL(file.raw);
-                console.log(this.form.img);
                 this.$notify.success({
                     title: "成功",
                     message: "上传图片成功"
                 });
             },
-            handleError(err, file) {
+            handleError() {
                 this.$notify.error({
                     title: "错误",
                     message: "无法上传图片"
@@ -116,6 +115,7 @@
                 return isJPG;
             },
             onSubmit() {
+                console.log(this.form);
                 Api.CreateBook(this.form).then(
                     response => {
                         this.$notify({
@@ -143,16 +143,6 @@
                         }
                     }
                 );
-            },
-            waitUsername() {
-                console.log("wait");
-                if (this.$store.state.user.username == null) {
-                    let start = Date.now(),
-                        now = start;
-                    while (now - start < 10) {
-                        now = Date.now();
-                    }
-                }
             },
             validate() {
                 if (this.username == null) {

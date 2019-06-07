@@ -26,13 +26,14 @@ public class BookSnapshot {
     private String decoration;
     @NotBlank(message = "ISBN is mandatory")
     private String isbn;
-    private String img;
     private Double hot;
     private Double score;
     private String bookDesc;
     private String originalName;
     private int remain;
     private BigDecimal snapTime;
+
+    private String imgFileName;
 
     @Id
     public int getBookId() {
@@ -124,16 +125,6 @@ public class BookSnapshot {
     }
 
     @Basic
-    @Column(name = "img")
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    @Basic
     @Column(name = "hot")
     public Double getHot() {
         return hot;
@@ -190,6 +181,15 @@ public class BookSnapshot {
 
     public void setSnapTime(BigDecimal snapTime) {
         this.snapTime = snapTime;
+    }
+
+    @Transient
+    public String getImgFileName() {
+        return imgFileName;
+    }
+
+    public void setImgFileName(String imgFileName) {
+        this.imgFileName = imgFileName;
     }
 
     @Override

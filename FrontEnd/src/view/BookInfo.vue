@@ -13,7 +13,7 @@
         <el-row class="top-content">
             <el-col :span="8">
                 <div class="book-img">
-                    <img :src="this.$store.state.config.staticServer + 'images/' + book.snapshot.img" />
+                    <img :src="img_src" />
                 </div>
             </el-col>
             <el-col :span="8">
@@ -111,6 +111,7 @@
             return {
                 input: 1,
                 book: null,
+                img_src: null,
             }
         },
         computed: {
@@ -214,6 +215,11 @@
                         }
                         this.$router.push("/");
                     });
+
+                Api.GetBookImage(bookid)
+                    .then(response => {
+                        this.img_src = response.data;
+                    })
             },
             deleteBook() {
                 Api.DeleteBook(this.bookID)

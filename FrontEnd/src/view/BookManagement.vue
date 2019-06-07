@@ -134,14 +134,19 @@
                     let rawData = response.data;
                     this.tableData = [];
                     for (let book of rawData) {
-                        this.tableData.push({
+                        let item = {
                             id: book.snapshot.bookId,
                             title: book.snapshot.title,
                             author: book.snapshot.author,
                             isbn: book.snapshot.isbn,
-                            remain: book.snapshot.remain,
-                            img: this.$store.state.config.staticServer + 'images/' + book.snapshot.img,
-                        });
+                            remain: book.snapshot.remain
+                        };
+                        Api.GetBookImage(book.snapshot.bookId).then(
+                            response => {
+                                item.img = response.data;
+                            }
+                        );
+                        this.tableData.push(item);
                     }
                 }, error => {
                     switch (error.response.data.status) {

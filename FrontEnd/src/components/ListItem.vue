@@ -1,7 +1,7 @@
 <template>
     <el-card shadow="hover" class="item">
         <div class="item-img">
-            <img :src="this.$store.state.config.staticServer + 'images/' + book.snapshot.img" />
+            <img :src="img_src" />
         </div>
         <div class="item-desc">
             <h3 class="item-title">
@@ -26,11 +26,25 @@
 </template>
 
 <script>
+    import Api from "@/components/Api.js";
+
     export default {
         name: "ListItem",
         props: [
             "book",
-        ]
+        ],
+        data() {
+            return {
+                img_src: null,
+            }
+        },
+        mounted() {
+            Api.GetBookImage(this.book.bookId).then(
+                response => {
+                    this.img_src = response.data;
+                }
+            )
+        }
     }
 </script>
 

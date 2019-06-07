@@ -82,9 +82,13 @@
                             let item = {
                                 rank: cnt,
                                 title: book.snapshot.title,
-                                img: this.$store.state.config.staticServer + "images/" + book.snapshot.img,
                                 id: book.snapshot.bookId,
                             };
+                            Api.GetBookImage(book.snapshot.bookId).then(
+                                response => {
+                                    item.img = response.data;
+                                }
+                            );
                             this.topList.push(item);
                             cnt += 1;
                         }

@@ -40,6 +40,10 @@ export default {
         return axios.get("/books/all");
     },
 
+    GetBookImage(id) {
+        return axios.get("/books/" + id + "/image")
+    },
+
     GetRecommendList(limit) {
         return axios.get("/books/top/recommend",  {params: {limit: limit}});
     },

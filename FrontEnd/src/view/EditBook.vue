@@ -79,7 +79,7 @@
                     score: null,
                     bookDesc: null,
                     remain: null,
-                    img: "",
+                    imgFileName: "",
                 },
                 localImg: "",
             }
@@ -94,10 +94,9 @@
         },
         methods: {
             handleSuccess(res, file) {
-                console.log(res, file);
-                this.form.img = res;
+                console.log(res);
+                this.form.imgFileName = res;
                 this.localImg = URL.createObjectURL(file.raw);
-                console.log(this.form.img);
                 this.$notify.success({
                     title: "成功",
                     message: "上传图片成功"
@@ -176,9 +175,12 @@
                             score: response.data.snapshot.score,
                             bookDesc: response.data.snapshot.bookDesc,
                             remain: response.data.snapshot.remain,
-                            img: response.data.snapshot.img,
                         };
-                        this.localImg = this.$store.state.config.staticServer + 'images/' + response.data.snapshot.img;
+                        Api.GetBookImage(this.bookId).then(
+                            response => {
+                                this.localImg = response.data;
+                            }
+                        );
                     }, error => {
                         switch (error.response.data.status) {
                             case 404:

@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/books/{id}", "/books/*", "/books/top/hot", "/books/top/recommend").permitAll()
+                .antMatchers("/books/{id}/**", "/books/*", "/books/top/hot", "/books/top/recommend").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .anyRequest().authenticated()

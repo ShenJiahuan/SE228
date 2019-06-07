@@ -2,10 +2,13 @@ package com.shenjiahuan.eBook.controller;
 
 import com.shenjiahuan.eBook.entity.Book;
 import com.shenjiahuan.eBook.entity.BookSnapshot;
+import com.shenjiahuan.eBook.entity.Image;
 import com.shenjiahuan.eBook.exception.FileStorageException;
 import com.shenjiahuan.eBook.exception.IncorrectParameterException;
 import com.shenjiahuan.eBook.service.BookService;
 import com.shenjiahuan.eBook.service.FileStorageService;
+import com.shenjiahuan.eBook.service.ImageService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
@@ -27,6 +32,9 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     @Lazy
@@ -76,25 +84,27 @@ public class BookController {
     @RequestMapping(value = "/upload/image", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String uploadImage(@RequestParam("file") MultipartFile file, Principal principal) {
-        String filename = null;
         try {
-            filename = fileStorageService.storeFile(file);
-        } catch (FileStorageException ex) {
+            return imageService.createImage(file);
+        } catch (IOException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot upload file");
         }
-        return filename;
     }
 
     @RequestMapping(value = "/books", method = POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void uploadBook(@Valid @RequestBody BookSnapshot bookSnapshot) throws IOException {
         bookService.createBook(bookSnapshot);
+        imageService.updateImage(bookSnapshot);
     }
 
     @RequestMapping(value = "/books", method = PUT)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateBook(@Valid @RequestBody BookSnapshot bookSnapshot) throws IOException {
         bookService.updateBook(bookSnapshot);
+        if (bookSnapshot.getImgFileName() != null) {
+            imageService.updateImage(bookSnapshot);
+        }
     }
 
     @RequestMapping(value = "/books/{id}", method = DELETE)
@@ -104,6 +114,16 @@ public class BookController {
             bookService.deleteBookById(id);
         } catch (EmptyResultDataAccessException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book not found");
+        }
+    }
+
+    @RequestMapping(value = "/books/{id}/image", method = GET)
+    public String getImage(@PathVariable("id") int id) {
+        try {
+            Image image = imageService.findByBookId(id);
+            return "data:image/jpeg;base64," + image.getImgBase64();
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
         }
     }
 }

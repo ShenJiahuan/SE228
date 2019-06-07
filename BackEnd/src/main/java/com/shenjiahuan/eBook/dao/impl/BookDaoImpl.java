@@ -50,13 +50,13 @@ public class BookDaoImpl implements BookDao {
     }
 
     public void createOrUpdateBook(Book book) throws IOException {
-        if (book.getSnapshot() != null) {
-            String srcDir = System.getProperty("java.io.tmpdir");
-            if (!new File(imageDir, book.getSnapshot().getImg()).exists()) {
-                Files.move(Paths.get(srcDir + "/" + book.getSnapshot().getImg()), Paths.get(imageDir + book.getSnapshot().getImg()));
-            }
-            System.out.println(imageDir);
-        }
+//        if (book.getSnapshot() != null) {
+//            String srcDir = System.getProperty("java.io.tmpdir");
+//            if (!new File(imageDir, book.getSnapshot().getImg()).exists()) {
+//                Files.move(Paths.get(srcDir + "/" + book.getSnapshot().getImg()), Paths.get(imageDir + book.getSnapshot().getImg()));
+//            }
+//            System.out.println(imageDir);
+//        }
         bookRepository.saveAndFlush(book);
     }
 

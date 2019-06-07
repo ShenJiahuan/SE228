@@ -113,15 +113,20 @@
                             for (let order of result) {
                                 let time = new Date(order.payTime * 1000);
                                 for (let item of order.items) {
-                                    this.initialData.push({
+                                    let parsed_item = {
                                         id: item.snapshot.bookId,
                                         choose: false,
-                                        img: this.$store.state.config.staticServer + "images/" + item.snapshot.img,
                                         title: item.snapshot.title,
                                         price: item.snapshot.price,
                                         count: item.count,
                                         time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
-                                    });
+                                    };
+                                    Api.GetBookImage(item.snapshot.bookId).then(
+                                        response => {
+                                            parsed_item.img = response.data;
+                                        }
+                                    );
+                                    this.initialData.push(parsed_item);
                                 }
                             }
                         }
