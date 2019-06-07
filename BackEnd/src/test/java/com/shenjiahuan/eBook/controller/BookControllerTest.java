@@ -208,7 +208,7 @@ public class BookControllerTest {
                 .andReturn();
         String filename = mvcResult.getResponse().getContentAsString();
 
-        String body = String.format("{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"img\":\"%s\"}", filename);
+        String body = String.format("{\"title\":\"111\",\"author\":null,\"publisher\":null,\"publishDate\":null,\"pages\":null,\"price\":\"222\",\"decoration\":null,\"isbn\":\"333\",\"score\":null,\"desc\":null,\"imgFileName\":\"%s\"}", filename);
         this.mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
