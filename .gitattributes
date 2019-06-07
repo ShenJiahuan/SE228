@@ -1,2 +1,2 @@
-image.json linguist-vendored=false
-data.sql linguist-vendored=false
+image.json linguist-vendored
+data.sql linguist-vendored
