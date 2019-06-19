@@ -41,7 +41,7 @@ export default {
     },
 
     GetBookImage(id) {
-        return axios.get("/books/" + id + "/image")
+        return axios.get("/books/" + id + "/imageBase64")
     },
 
     GetRecommendList(limit) {

@@ -9,10 +9,10 @@
             </h3>
             <span class="key" v-if="book.snapshot.author != null">作者：</span>
             <span class="value" v-if="book.snapshot.author != null">{{book.snapshot.author}}</span>
-            <br v-if="book.author != null">
+            <br v-if="book.snapshot.author != null">
             <span class="key" v-if="book.snapshot.publisher != null">出版社：</span>
             <span class="value" v-if="book.snapshot.publisher != null">{{book.snapshot.publisher}}</span>
-            <br v-if="book.publisher != null">
+            <br v-if="book.snapshot.publisher != null">
             <span class="key">ISBN：</span>
             <span class="value">{{book.snapshot.isbn}}</span>
             <br>
@@ -39,11 +39,7 @@
             }
         },
         mounted() {
-            Api.GetBookImage(this.book.bookId).then(
-                response => {
-                    this.img_src = response.data;
-                }
-            )
+            this.img_src = this.$store.state.config.backendServer + "books/" + this.book.bookId + "/image";
         }
     }
 </script>

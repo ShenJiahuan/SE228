@@ -5,6 +5,7 @@ import com.shenjiahuan.eBook.entity.BookSnapshot;
 import com.shenjiahuan.eBook.entity.Image;
 import com.shenjiahuan.eBook.service.BookService;
 import com.shenjiahuan.eBook.service.ImageService;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -106,11 +107,22 @@ public class BookController {
         }
     }
 
-    @RequestMapping(value = "/books/{id}/image", method = GET)
-    public String getImage(@PathVariable("id") int id) {
+    @RequestMapping(value = "/books/{id}/imageBase64", method = GET)
+    public String getImageBase64(@PathVariable("id") int id) {
         try {
             Image image = imageService.findByBookId(id);
             return "data:image/jpeg;base64," + image.getImgBase64();
+        } catch (EmptyResultDataAccessException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/books/{id}/image", method = GET, produces = "image/jpeg")
+    public byte[] getImage(@PathVariable("id") int id) {
+        try {
+            Image image = imageService.findByBookId(id);
+            return Base64.decodeBase64(image.getImgBase64());
         } catch (EmptyResultDataAccessException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
         }

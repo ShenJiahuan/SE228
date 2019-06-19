@@ -176,11 +176,7 @@
                             bookDesc: response.data.snapshot.bookDesc,
                             remain: response.data.snapshot.remain,
                         };
-                        Api.GetBookImage(this.bookId).then(
-                            response => {
-                                this.localImg = response.data;
-                            }
-                        );
+                        this.localImg = this.$store.state.config.backendServer + "books/" + this.bookId + "/image";
                     }, error => {
                         switch (error.response.data.status) {
                             case 404:

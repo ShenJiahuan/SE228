@@ -216,10 +216,7 @@
                         this.$router.push("/");
                     });
 
-                Api.GetBookImage(bookid)
-                    .then(response => {
-                        this.img_src = response.data;
-                    })
+                this.img_src = this.$store.state.config.backendServer + "books/" + bookid + "/image";
             },
             deleteBook() {
                 Api.DeleteBook(this.bookID)

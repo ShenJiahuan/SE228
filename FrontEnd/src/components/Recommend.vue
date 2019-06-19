@@ -84,11 +84,7 @@
                                 title: book.snapshot.title,
                                 id: book.snapshot.bookId,
                             };
-                            Api.GetBookImage(book.snapshot.bookId).then(
-                                response => {
-                                    item.img = response.data;
-                                }
-                            );
+                            item.img = this.$store.state.config.backendServer + "books/" + book.snapshot.bookId + "/image";
                             this.topList.push(item);
                             cnt += 1;
                         }

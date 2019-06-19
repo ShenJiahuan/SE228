@@ -1,5 +1,11 @@
 <template>
     <div>
+        <el-input
+                placeholder="请输入书名"
+                prefix-icon="el-icon-search"
+                v-model="keyword"
+                class="search-bar">
+        </el-input>
         <el-table
                 :data="pageTableData"
                 style="width: 100%">
@@ -67,6 +73,7 @@
                 tableData: null,
                 currentPage: 1,
                 pageSize: 10,
+                keyword: "",
             }
         },
         computed: {
@@ -74,16 +81,29 @@
                 if (this.tableData == null) {
                     return 0;
                 } else {
-                    return this.tableData.length;
+                    return this.filteredTableData.length;
                 }
+            },
+            filteredTableData() {
+                let result = [];
+                if (this.tableData == null) {
+                    return result;
+                }
+                for (let book of this.tableData) {
+                    if (this.keyword === "" || book.title.includes(this.keyword)) {
+                        result.push(book);
+                    }
+                }
+                return result;
             },
             pageTableData() {
                 let result = [];
-                let begin = (this.currentPage - 1) * this.pageSize;
+                let begin = Math.min((this.currentPage - 1) * this.pageSize, this.count - (this.count % this.pageSize));
                 let end = Math.min(begin + this.pageSize, this.count);
                 for (let i = begin; i < end; i++) {
-                    result.push(this.tableData[i]);
+                    result.push(this.filteredTableData[i]);
                 }
+                console.log(this.filteredTableData, begin, end);
                 return result;
             }
         },
@@ -141,11 +161,7 @@
                             isbn: book.snapshot.isbn,
                             remain: book.snapshot.remain
                         };
-                        Api.GetBookImage(book.snapshot.bookId).then(
-                            response => {
-                                item.img = response.data;
-                            }
-                        );
+                        item.img = this.$store.state.config.backendServer + "books/" + book.snapshot.bookId + "/image";
                         this.tableData.push(item);
                     }
                 }, error => {
@@ -187,5 +203,10 @@
 
     .button-group {
         display: flex;
+    }
+
+    .search-bar {
+        width: 400px;
+        margin: 20px auto;
     }
 </style>

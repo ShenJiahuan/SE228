@@ -234,11 +234,7 @@
                                     count: item.count,
                                     time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
                                 };
-                                Api.GetBookImage(item.book.snapshot.bookId).then(
-                                    response => {
-                                        parsed_item.img = response.data;
-                                    }
-                                );
+                                parsed_item.img = this.$store.state.config.backendServer + "books/" + item.book.snapshot.bookId + "/image";;
                                 this.tableData.push(parsed_item);
                             }
                         }
