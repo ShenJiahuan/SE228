@@ -40,10 +40,6 @@ export default {
         return axios.get("/books/all");
     },
 
-    GetBookImage(id) {
-        return axios.get("/books/" + id + "/imageBase64")
-    },
-
     GetRecommendList(limit) {
         return axios.get("/books/top/recommend",  {params: {limit: limit}});
     },
@@ -97,6 +93,10 @@ export default {
 
     CartToOrder(order) {
         return axios.put("/orders", order);
+    },
+
+    GetOrderStatus(from, to) {
+        return axios.get("/order_stat", {params: {from: from, to: to}});
     },
 
     GetCart() {

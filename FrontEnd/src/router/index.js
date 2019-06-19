@@ -12,6 +12,7 @@ import UserManagement from "@/view/UserManagement";
 import CreateBook from "@/view/CreateBook";
 import EditBook from "@/view/EditBook";
 import BookManagement from "@/view/BookManagement";
+import OrderStatus from "@/view/OrderStatus";
 
 Vue.use(Router);
 
@@ -111,6 +112,14 @@ var router = new Router({
       component: BookManagement,
       meta: {
         title: "e-Book 在线书店 - 书籍管理"
+      }
+    },
+    {
+      path: "/order/manage",
+      name: "OrderStatus",
+      component: OrderStatus,
+      meta: {
+        title: "e-Book 在线书店 - 销量管理"
       }
     },
     {

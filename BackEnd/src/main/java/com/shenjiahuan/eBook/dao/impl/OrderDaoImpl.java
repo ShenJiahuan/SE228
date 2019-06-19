@@ -6,6 +6,7 @@ import com.shenjiahuan.eBook.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -20,5 +21,9 @@ public class OrderDaoImpl implements OrderDao {
 
     public void createOrder(Order order) {
         orderRepository.save(order);
+    }
+
+    public List<Object> getStatus(BigDecimal from, BigDecimal to) {
+        return orderRepository.getStatus(from, to);
     }
 }

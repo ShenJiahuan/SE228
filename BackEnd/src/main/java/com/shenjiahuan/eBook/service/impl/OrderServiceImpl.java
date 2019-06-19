@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -55,5 +56,10 @@ public class OrderServiceImpl implements OrderService {
             CartItem cartItem = cartDao.findCartItemByUserIdAndBookId(order.getUid(), item.getBookId());
             cartDao.deleteCart(cartItem);
         }
+    }
+
+    @Override
+    public List<Object> getStatus(BigDecimal from, BigDecimal to) {
+        return orderDao.getStatus(from, to);
     }
 }

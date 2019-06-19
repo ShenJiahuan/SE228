@@ -75,5 +75,12 @@
     "sub_name": "ManageBook",
     "require": ["login", "admin"],
     "url": "/book/manage"
+  },
+  {
+    "id": "11",
+    "name": "销量管理",
+    "sub_name": "OrderStatus",
+    "require": ["login", "admin"],
+    "url": "/order/manage"
   }
 ]
