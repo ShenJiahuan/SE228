@@ -24,7 +24,6 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @JsonIgnore
     @Column(name = "order_id")
     public int getOrderId() {
         return orderId;

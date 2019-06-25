@@ -6,7 +6,7 @@
                 style="width: 100%" v-if="tableData != null && tableData.length > 0">
             <el-table-column
                     label="图片"
-                    min-width="15%"
+                    min-width="13%"
                     align="center">
                 <template slot-scope="scope">
                     <img :src="scope.row.img" class="cart-img"/>
@@ -15,12 +15,12 @@
             <el-table-column
                     prop="title"
                     label="标题"
-                    min-width="25%"
+                    min-width="20%"
                     align="left">
             </el-table-column>
             <el-table-column
                     label="单价"
-                    min-width="10%"
+                    min-width="13%"
                     align="center">
                 <template slot-scope="scope">
                     <div>¥{{scope.row.price.toFixed(2)}}</div>
@@ -29,12 +29,12 @@
             <el-table-column
                     prop="count"
                     label="数量"
-                    min-width="15%"
+                    min-width="8%"
                     align="center">
             </el-table-column>
             <el-table-column
                     label="金额"
-                    min-width="10%"
+                    min-width="13%"
                     align="center">
                 <template slot-scope="scope">
                     <div>¥{{(scope.row.price * scope.row.count).toFixed(2)}}</div>
@@ -43,7 +43,13 @@
             <el-table-column
                     prop="time"
                     label="购买时间"
-                    min-width="25%"
+                    min-width="22%"
+                    align="center">
+            </el-table-column>
+            <el-table-column
+                    prop="orderId"
+                    label="订单编号"
+                    min-width="11%"
                     align="center">
             </el-table-column>
         </el-table>
@@ -120,6 +126,7 @@
                                         price: item.snapshot.price,
                                         count: item.count,
                                         time: dateFormat(time, "yyyy-mm-dd HH:MM:ss"),
+                                        orderId: order.orderId,
                                     };
                                     parsed_item.img = this.$store.state.config.backendServer + "books/" + item.snapshot.bookId + "/image";
                                     this.initialData.push(parsed_item);

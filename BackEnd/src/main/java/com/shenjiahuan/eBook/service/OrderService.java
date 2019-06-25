@@ -14,4 +14,6 @@ public interface OrderService {
     void cartToOrder(Order order) throws IOException;
 
     List<Object> getStatus(BigDecimal from, BigDecimal to);
+
+    List<Object> getUserPurchase(BigDecimal from, BigDecimal to);
 }

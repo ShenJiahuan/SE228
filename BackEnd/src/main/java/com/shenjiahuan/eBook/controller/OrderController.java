@@ -63,4 +63,11 @@ public class OrderController {
     public List<Object> getOrderStatus(@RequestParam(value = "from") BigDecimal from, @RequestParam(value = "to") BigDecimal to) {
         return orderService.getStatus(from, to);
     }
+
+    @RequestMapping(value = "/purchase_stat", method = GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
+    public List<Object> getUserPurchase(@RequestParam(value = "from") BigDecimal from, @RequestParam(value = "to") BigDecimal to) {
+        return orderService.getUserPurchase(from, to);
+    }
 }

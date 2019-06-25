@@ -99,6 +99,10 @@ export default {
         return axios.get("/order_stat", {params: {from: from, to: to}});
     },
 
+    GetUserPurchase(from, to) {
+        return axios.get("/purchase_stat", {params: {from: from, to: to}});
+    },
+
     GetCart() {
         return axios.get("/cart");
     },

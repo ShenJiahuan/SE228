@@ -8,7 +8,7 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y curl\
     && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-    && apt-get install -y nodejs nginx mariadb-server openjdk-11-jdk\
+    && apt-get install -y nodejs nginx mariadb-server openjdk-11-jdk mongodb-org\
     && npm install --prefix ../FrontEnd \
     && npm run build --prefix ../FrontEnd \
     && ln -sf /dev/stdout /var/log/nginx/access.log \

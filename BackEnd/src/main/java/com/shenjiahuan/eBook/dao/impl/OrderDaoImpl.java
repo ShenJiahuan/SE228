@@ -26,4 +26,8 @@ public class OrderDaoImpl implements OrderDao {
     public List<Object> getStatus(BigDecimal from, BigDecimal to) {
         return orderRepository.getStatus(from, to);
     }
+
+    public List<Object> getUserPurchase(BigDecimal from, BigDecimal to) {
+        return orderRepository.getUserPurchase(from, to);
+    }
 }
