@@ -13,4 +13,6 @@ public interface OrderDao {
     List<Object> getStatus(BigDecimal from, BigDecimal to);
 
     List<Object> getUserPurchase(BigDecimal from, BigDecimal to);
+
+    List<Order> findAllOrders();
 }

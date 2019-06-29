@@ -82,5 +82,12 @@
     "sub_name": "OrderStatus",
     "require": ["login", "admin"],
     "url": "/order/manage"
+  },
+  {
+    "id": "12",
+    "name": "订单管理",
+    "sub_name": "OrderManagement",
+    "require": ["login", "admin"],
+    "url": "/allorders"
   }
 ]

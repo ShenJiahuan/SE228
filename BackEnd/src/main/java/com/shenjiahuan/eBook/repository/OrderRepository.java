@@ -24,4 +24,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
            "where o.payTime > ?1 and o.payTime < ?2 " +
            "group by u.uid")
     List<Object> getUserPurchase(BigDecimal from, BigDecimal to);
+
+    List<Order> findAllByOrderByPayTimeDesc();
 }

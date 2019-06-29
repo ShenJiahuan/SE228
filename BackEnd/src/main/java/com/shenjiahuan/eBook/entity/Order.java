@@ -29,7 +29,6 @@ public class Order {
         return orderId;
     }
 
-    @JsonIgnore
     @Column(name = "uid")
     public int getUid() {
         return uid;

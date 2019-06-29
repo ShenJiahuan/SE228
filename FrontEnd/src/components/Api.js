@@ -103,6 +103,10 @@ export default {
         return axios.get("/purchase_stat", {params: {from: from, to: to}});
     },
 
+    GetAllOrders() {
+        return axios.get("/orders/all");
+    },
+
     GetCart() {
         return axios.get("/cart");
     },

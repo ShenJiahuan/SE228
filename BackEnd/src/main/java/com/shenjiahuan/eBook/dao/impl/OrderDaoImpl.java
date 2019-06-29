@@ -30,4 +30,8 @@ public class OrderDaoImpl implements OrderDao {
     public List<Object> getUserPurchase(BigDecimal from, BigDecimal to) {
         return orderRepository.getUserPurchase(from, to);
     }
+
+    public List<Order> findAllOrders() {
+        return orderRepository.findAllByOrderByPayTimeDesc();
+    }
 }

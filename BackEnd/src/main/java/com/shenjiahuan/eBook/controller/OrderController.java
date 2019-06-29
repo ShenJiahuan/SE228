@@ -70,4 +70,10 @@ public class OrderController {
     public List<Object> getUserPurchase(@RequestParam(value = "from") BigDecimal from, @RequestParam(value = "to") BigDecimal to) {
         return orderService.getUserPurchase(from, to);
     }
+
+    @RequestMapping(value = "/orders/all", method = GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Order> getAllOrders() {
+        return orderService.findAllOrders();
+    }
 }

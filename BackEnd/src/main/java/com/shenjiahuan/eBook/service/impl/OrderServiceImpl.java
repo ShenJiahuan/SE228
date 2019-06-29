@@ -67,4 +67,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Object> getUserPurchase(BigDecimal from, BigDecimal to) {
         return orderDao.getUserPurchase(from, to);
     }
+
+    @Override
+    public List<Order> findAllOrders() {
+        return orderDao.findAllOrders();
+    }
 }

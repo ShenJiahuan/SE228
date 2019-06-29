@@ -89,6 +89,7 @@
                     case "添加书籍":
                     case "书籍管理":
                     case "销量管理":
+                    case "订单管理":
                         return this.admin;
                     case "编辑书籍":
                         return this.admin && this.$route.path.split("/")[2] === "edit";
