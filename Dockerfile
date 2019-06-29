@@ -2,6 +2,7 @@ FROM ubuntu:latest
 WORKDIR /usr/src/app
 COPY . .
 WORKDIR /usr/src/app/BackEnd
+ARG BACKEND=localhost:8080
 RUN apt-get update \
     && apt-get install -y software-properties-common \
     && add-apt-repository ppa:openjdk-r/ppa \
@@ -9,6 +10,7 @@ RUN apt-get update \
     && apt-get install -y curl\
     && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs nginx mariadb-server openjdk-11-jdk mongodb\
+    && sed -i "s/localhost:8080/$BACKEND/" ../FrontEnd/src/components/config.js \ 
     && npm install --prefix ../FrontEnd \
     && npm run build --prefix ../FrontEnd \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
