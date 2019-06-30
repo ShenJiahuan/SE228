@@ -71,6 +71,15 @@
                 Api.GetUsername().then(
                     response => {
                         console.log(response);
+                        if (response.data.banned === 1) {
+                            Api.Logout();
+                            this.$notify({
+                                title: "登录失败",
+                                message: "您的账户已被禁用",
+                                type: "error"
+                            });
+                            return;
+                        }
                         let username = response.data.username;
                         let admin = response.data.admin === 1;
                         let root = response.data.root === 1;
