@@ -88,7 +88,10 @@
                         });
                         this.$router.push({path: "/login", query: {redirect: this.$route.query.redirect}});
                     }, error => {
-                        let message = "该邮箱已存在";
+                        let message = "未知错误";
+                        if (response.data.result === "Email address exists") {
+                            message = "该邮箱已存在";
+                        }
                         this.$notify({
                             title: "注册失败",
                             message: message,
